@@ -1,9 +1,12 @@
-import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { appEvents } from '@/lib/events'
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   const encoder = new TextEncoder()
+
+  // Keep handles in the same closure so start/cancel can share them
+  let keepAlive: ReturnType<typeof setInterval> | undefined
+  let onUpdate: (() => Promise<void>) | undefined
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -13,27 +16,26 @@ export async function GET(_request: NextRequest) {
 
       const sendCurrentTotal = async () => {
         const result = await prisma.duroodEntry.aggregate({ _sum: { count: true } })
-        send({ total: result._sum.count || 0 })
+        send({ total: result._sum.count ?? 0 })
       }
 
       await sendCurrentTotal()
 
-      const onUpdate = async () => {
+      onUpdate = async () => {
         await sendCurrentTotal()
       }
-
       appEvents.on('totalUpdated', onUpdate)
 
-      const keepAlive = setInterval(() => {
+      // SSE retry + keep-alive comments
+      controller.enqueue(encoder.encode(`retry: 2000\n\n`))
+      keepAlive = setInterval(() => {
         controller.enqueue(encoder.encode(`: keep-alive\n\n`))
-      }, 15000)
+      }, 15_000)
+    },
 
-      controller.enqueue(encoder.encode(`retry: 2000\n`))
-
-      controller.closed.finally(() => {
-        clearInterval(keepAlive)
-        appEvents.off('totalUpdated', onUpdate)
-      })
+    cancel() {
+      if (keepAlive !== undefined) clearInterval(keepAlive)
+      if (onUpdate) appEvents.off('totalUpdated', onUpdate)
     }
   })
 
@@ -46,5 +48,3 @@ export async function GET(_request: NextRequest) {
     },
   })
 }
-
-

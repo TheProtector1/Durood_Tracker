@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 
+type SignupBody = {
+  email: string
+  username: string
+  password: string
+  displayName?: string
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { email, username, password, displayName } = await request.json()
+    const { email, username, password, displayName }: SignupBody = await request.json()
 
     // Validation
     if (!email || !username || !password) {
@@ -23,12 +30,8 @@ export async function POST(request: NextRequest) {
 
     // Check if user already exists
     const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email },
-          { username }
-        ]
-      }
+      where: { OR: [{ email }, { username }] },
+      select: { id: true } // minimal select for existence check
     })
 
     if (existingUser) {
@@ -41,25 +44,30 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // Create user
+    // Create user (do not return password)
     const user = await prisma.user.create({
       data: {
         email,
         username,
         password: hashedPassword,
         displayName: displayName || username
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        displayName: true,
+        createdAt: true,
+        updatedAt: true
       }
     })
 
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user
-
     return NextResponse.json(
-      { message: 'User created successfully', user: userWithoutPassword },
+      { message: 'User created successfully', user },
       { status: 201 }
     )
-  } catch (error) {
-    console.error('Signup error:', error)
+  } catch (err: unknown) {
+    console.error('Signup error:', err)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
