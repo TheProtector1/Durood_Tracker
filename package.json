@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
-    "vercel-build": "prisma generate && prisma db push && next build",
+    
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+
     "postinstall": "prisma generate"
   },
   "dependencies": {
