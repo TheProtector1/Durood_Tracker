@@ -44,6 +44,8 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+  secret: process.env.NEXTAUTH_SECRET,   // 👈 THIS IS MANDATORY IN PROD
+
   session: {
     strategy: "jwt"
   },
