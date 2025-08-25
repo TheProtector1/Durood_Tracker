@@ -33,6 +33,7 @@ export default function Home() {
   const [publicTotalLive, setPublicTotalLive] = useState<number | null>(null)
 
   // Load entries from API when authenticated
+  //  adding comment
   useEffect(() => {
     if (session?.user?.id) {
       fetchEntries()
