@@ -50,6 +50,8 @@ function Button({
   return (
     <Comp
       data-slot="button"
+      // if it's a real <button>, default to type="button" unless explicitly provided
+      {...(!asChild ? { type: (props as React.ComponentProps<"button">).type ?? "button" } : {})}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
