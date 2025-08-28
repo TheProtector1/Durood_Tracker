@@ -390,11 +390,11 @@ export default function Home() {
                   <div className="text-6xl md:text-7xl font-extrabold text-emerald-700 drop-shadow-sm select-none">
                     {todayCount.toLocaleString()}
                   </div>
-                  {pendingCount > 0 && (
+                  {/* {pendingCount > 0 && (
                     <div className="mt-2 text-sm text-emerald-600 font-medium">
                       +{pendingCount} pending sync
                     </div>
-                  )}
+                  )} */}
                   <div className="mt-4 flex flex-wrap gap-2 justify-center">
                     {[1,2,3,4,5,6,7,8,9,10,15,30,50,100].map((n) => (
                       <button
