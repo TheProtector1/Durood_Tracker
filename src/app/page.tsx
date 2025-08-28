@@ -184,7 +184,7 @@ export default function Home() {
       syncWithDatabase(totalPending)
       pendingCountRef.current = 0
       setPendingCount(0)
-    }, 1000) // 1 second debounce
+    }, 500) // 1 second debounce
     
     setDebounceTimer(timer)
   }, [todayCount, debounceTimer, syncWithDatabase, getTotalPendingCount])
