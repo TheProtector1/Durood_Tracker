@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -18,8 +18,6 @@ interface DuroodEntry {
   count: number
 }
 
-
-
 export default function Home() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -31,6 +29,22 @@ export default function Home() {
   const [publicTotal, setPublicTotal] = useState<number | null>(null)
   const [publicTotalLoading, setPublicTotalLoading] = useState(true)
   const [publicTotalLive, setPublicTotalLive] = useState<number | null>(null)
+  const [currentCount, setCurrentCount] = useState(0)
+  const [pendingCount, setPendingCount] = useState(0)
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
+  const pendingCountRef = useRef(0)
+
+  const fetchEntries = useCallback(async () => {
+    try {
+      const response = await fetch('/api/durood')
+      if (response.ok) {
+        const data = await response.json()
+        setEntries(data)
+      }
+    } catch (error) {
+      console.error('Error fetching entries:', error)
+    }
+  }, [])
 
   // Load entries from API when authenticated
   //  adding comment
@@ -38,13 +52,16 @@ export default function Home() {
     if (session?.user?.id) {
       fetchEntries()
     }
-  }, [session])
+  }, [session, fetchEntries])
 
   // Update today's count whenever entries change
   useEffect(() => {
     const today = format(new Date(), 'yyyy-MM-dd')
     const todayEntry = entries.find(entry => entry.date === today)
-    setTodayCount(todayEntry?.count || 0)
+    const actualCount = todayEntry?.count || 0
+    setTodayCount(actualCount)
+    pendingCountRef.current = 0 // Reset pending count when entries are loaded
+    setPendingCount(0) // Reset pending count when entries are loaded
   }, [entries])
 
   // Load community total for unauthenticated landing
@@ -82,44 +99,95 @@ export default function Home() {
     return () => es.close()
   }, [session])
 
-  const fetchEntries = async () => {
-    try {
-      const response = await fetch('/api/durood')
-      if (response.ok) {
-        const data = await response.json()
-        setEntries(data)
-      }
-    } catch (error) {
-      console.error('Error fetching entries:', error)
-    }
-  }
+  // Helper function to get total pending count
+  const getTotalPendingCount = useCallback(() => {
+    return pendingCountRef.current
+  }, [])
 
-  const addDurood = async () => {
-    if (!inputCount || parseInt(inputCount) <= 0) return
-
-    setIsLoading(true)
+  // Debounced function to sync with database
+  const syncWithDatabase = useCallback(async (totalPending: number) => {
     try {
-      const count = parseInt(inputCount)
       const today = format(new Date(), 'yyyy-MM-dd')
-      
       const response = await fetch('/api/durood', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ date: today, count }),
+        body: JSON.stringify({ date: today, count: totalPending }),
       })
 
       if (response.ok) {
-        await fetchEntries() // Refresh entries
-        setInputCount('')
+        // Refresh entries from database to get accurate totals
+        await fetchEntries()
       }
     } catch (error) {
-      console.error('Error adding durood:', error)
-    } finally {
-      setIsLoading(false)
+      console.error('Error syncing with database:', error)
+      // If sync fails, revert to actual count from database
+      await fetchEntries()
     }
+  }, [fetchEntries])
+
+  const addDurood = async () => {
+    if (!inputCount || parseInt(inputCount) <= 0) return
+
+    const count = parseInt(inputCount)
+    const today = format(new Date(), 'yyyy-MM-dd')
+    
+    // Update UI instantly
+    setTodayCount(prev => prev + count)
+    setPendingCount(prev => {
+      const newPending = prev + count
+      pendingCountRef.current = newPending
+      return newPending
+    })
+    
+    // Clear input
+    setInputCount('')
+    
+    // Clear any existing timer
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+    }
+    
+    // Set new debounced timer to sync with database
+    const timer = setTimeout(() => {
+      // Send the total pending count that has accumulated
+      const totalPending = getTotalPendingCount()
+      syncWithDatabase(totalPending)
+      pendingCountRef.current = 0
+      setPendingCount(0)
+    }, 1000) // 1 second debounce
+    
+    setDebounceTimer(timer)
   }
+
+  const incrementCount = useCallback(async (increment: number) => {
+    const newCount = todayCount + increment
+    
+    // Update UI instantly
+    setTodayCount(newCount)
+    setPendingCount(prev => {
+      const newPending = prev + increment
+      pendingCountRef.current = newPending
+      return newPending
+    })
+    
+    // Clear any existing timer
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+    }
+    
+    // Set new debounced timer
+    const timer = setTimeout(() => {
+      // Send the total pending count that has accumulated
+      const totalPending = getTotalPendingCount()
+      syncWithDatabase(totalPending)
+      pendingCountRef.current = 0
+      setPendingCount(0)
+    }, 1000) // 1 second debounce
+    
+    setDebounceTimer(timer)
+  }, [todayCount, debounceTimer, syncWithDatabase, getTotalPendingCount])
 
   const deleteEntry = async (dateString: string) => {
     if (typeof window !== 'undefined') {
@@ -168,6 +236,15 @@ export default function Home() {
   }
 
   const stats = getStats()
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimer) {
+        clearTimeout(debounceTimer)
+      }
+    }
+  }, [debounceTimer])
 
   // Note: Avoid blocking UI on "loading" to prevent stuck spinners in dev
 
@@ -313,23 +390,16 @@ export default function Home() {
                   <div className="text-6xl md:text-7xl font-extrabold text-emerald-700 drop-shadow-sm select-none">
                     {todayCount.toLocaleString()}
                   </div>
+                  {pendingCount > 0 && (
+                    <div className="mt-2 text-sm text-emerald-600 font-medium">
+                      +{pendingCount} pending sync
+                    </div>
+                  )}
                   <div className="mt-4 flex flex-wrap gap-2 justify-center">
                     {[1,2,3,4,5,6,7,8,9,10,15,30,50,100].map((n) => (
                       <button
                         key={n}
-                        onClick={async () => {
-                          setIsLoading(true)
-                          try {
-                            await fetch('/api/durood', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ date: format(new Date(), 'yyyy-MM-dd'), count: n })
-                            })
-                            await fetchEntries()
-                          } finally {
-                            setIsLoading(false)
-                          }
-                        }}
+                        onClick={() => incrementCount(n)}
                         className="px-3 py-1 rounded-full border border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-700 text-sm transition"
                         disabled={isLoading}
                         aria-label={`Add ${n}`}
@@ -340,19 +410,7 @@ export default function Home() {
                   </div>
                   <div className="mt-6">
                     <button
-                      onClick={async () => {
-                        setIsLoading(true)
-                        try {
-                          await fetch('/api/durood', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ date: format(new Date(), 'yyyy-MM-dd'), count: 1 })
-                          })
-                          await fetchEntries()
-                        } finally {
-                          setIsLoading(false)
-                        }
-                      }}
+                      onClick={() => incrementCount(1)}
                       className="w-44 h-44 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 text-white text-3xl md:text-4xl font-bold shadow-lg active:scale-95 transition-transform"
                       disabled={isLoading}
                       aria-label="Add 1"
