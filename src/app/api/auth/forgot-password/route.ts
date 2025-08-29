@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendPasswordResetEmail } from '@/lib/email'
 import crypto from 'crypto'
 
 export async function POST(request: NextRequest) {
@@ -42,18 +43,41 @@ export async function POST(request: NextRequest) {
     // Generate reset URL
     const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/reset-password?token=${resetToken}`
 
-    // For development/testing: return the reset URL directly
-    // In production, you would send this via email
-    console.log('Password reset URL generated:', resetUrl)
-    
-    return NextResponse.json(
-      { 
-        message: 'Password reset instructions have been sent to your email.',
-        // Development only - remove this in production
-        resetUrl: process.env.NODE_ENV === 'development' ? resetUrl : undefined
-      },
-      { status: 200 }
-    )
+    // Try to send email in production, fallback to console in development
+    if (process.env.NODE_ENV === 'production') {
+      try {
+        await sendPasswordResetEmail(email, resetUrl)
+        console.log('Password reset email sent successfully to:', email)
+        
+        return NextResponse.json(
+          { message: 'Password reset instructions have been sent to your email.' },
+          { status: 200 }
+        )
+      } catch (emailError) {
+        console.error('Email sending failed in production:', emailError)
+        
+        // If email fails in production, delete the token and return error
+        await prisma.passwordReset.delete({
+          where: { token: resetToken }
+        })
+        
+        return NextResponse.json(
+          { error: 'Failed to send password reset email. Please try again later.' },
+          { status: 500 }
+        )
+      }
+    } else {
+      // Development mode: log the URL and return it for testing
+      console.log('Password reset URL generated (development):', resetUrl)
+      
+      return NextResponse.json(
+        { 
+          message: 'Password reset instructions have been sent to your email.',
+          resetUrl: resetUrl
+        },
+        { status: 200 }
+      )
+    }
   } catch (error) {
     console.error('Forgot password error:', error)
     return NextResponse.json(
