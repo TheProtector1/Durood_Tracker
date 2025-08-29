@@ -12,12 +12,14 @@ export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [resetUrl, setResetUrl] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
     setSuccess('')
+    setResetUrl('')
 
     try {
       const response = await fetch('/api/auth/forgot-password', {
@@ -35,6 +37,11 @@ export default function ForgotPassword() {
       }
 
       setSuccess('Password reset instructions have been sent to your email. Please check your inbox.')
+      
+      // Show reset URL in development mode
+      if (data.resetUrl) {
+        setResetUrl(data.resetUrl)
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
@@ -86,6 +93,23 @@ export default function ForgotPassword() {
             {success && (
               <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
                 <p className="text-emerald-700 text-sm text-center">{success}</p>
+              </div>
+            )}
+
+            {/* Development mode: Show reset URL */}
+            {resetUrl && (
+              <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-700 text-sm text-center mb-2">
+                  <strong>Development Mode:</strong> Click the link below to test password reset:
+                </p>
+                <a 
+                  href={resetUrl}
+                  className="text-blue-600 hover:text-blue-800 underline break-all"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {resetUrl}
+                </a>
               </div>
             )}
             

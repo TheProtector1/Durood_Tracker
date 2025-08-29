@@ -39,15 +39,19 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    // In a real application, you would send an email here
-    // For now, we'll just return the token (in production, remove this)
+    // Generate reset URL
     const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/reset-password?token=${resetToken}`
 
-    // TODO: Send email with resetUrl
-    console.log('Password reset URL:', resetUrl)
-
+    // For development/testing: return the reset URL directly
+    // In production, you would send this via email
+    console.log('Password reset URL generated:', resetUrl)
+    
     return NextResponse.json(
-      { message: 'Password reset instructions have been sent to your email.' },
+      { 
+        message: 'Password reset instructions have been sent to your email.',
+        // Development only - remove this in production
+        resetUrl: process.env.NODE_ENV === 'development' ? resetUrl : undefined
+      },
       { status: 200 }
     )
   } catch (error) {
