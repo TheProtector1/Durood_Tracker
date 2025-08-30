@@ -379,7 +379,7 @@ export default function Home() {
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl">Today&apos;s Reading</CardTitle>
-            <CardDescription>Click the counter to recite and log Durood. Inspired by <a href="https://tasbih.org/" target="_blank" rel="noreferrer" className="underline decoration-emerald-400 hover:text-emerald-700">tasbih.org</a></CardDescription>
+            <CardDescription>اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</a></CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
