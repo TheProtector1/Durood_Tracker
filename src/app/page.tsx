@@ -463,7 +463,7 @@ export default function Home() {
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl">Today&apos;s Reading</CardTitle>
-            <CardDescription></CardDescription>
+            <CardDescription>اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
