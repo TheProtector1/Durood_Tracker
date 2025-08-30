@@ -208,7 +208,7 @@ export default function Home() {
       syncWithDatabase(totalPending)
       pendingCountRef.current = 0
       setPendingCount(0)
-    }, 500) // 1 second debounce
+    }, 250) // 1 second debounce
     
     setDebounceTimer(timer)
   }, [todayCount, debounceTimer, syncWithDatabase, getTotalPendingCount])
@@ -449,7 +449,7 @@ export default function Home() {
           {/* Streak Display */}
           <div className="flex items-center justify-center gap-2 mb-4">
             <Badge variant="outline" className="text-sm bg-orange-50 text-orange-700 border-orange-200">
-              🔥 Current Streak: {getCurrentStreak()} days
+              🔥 Durood Streak: {getCurrentStreak()} days
             </Badge>
             {getCurrentStreak() > 0 && (
               <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200">
@@ -462,8 +462,8 @@ export default function Home() {
         {/* Tasbih-style Counter + Manual Entry */}
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
-            <CardTitle className="text-2xl">Today&apos;s Reading</CardTitle>
-            <CardDescription>اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</CardDescription>
+            <CardTitle className="text-2xl text-center">Today&apos;s Reading</CardTitle>
+            <CardDescription className='text-2xl text-center'>اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
