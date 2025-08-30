@@ -40,10 +40,12 @@ model DuroodEntry {
   count     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
+  // Ensure only one entry per user per date
+  @@unique([userId, date])
   @@map("durood_entries")
 }
 

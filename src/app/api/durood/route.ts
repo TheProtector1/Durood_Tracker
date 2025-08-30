@@ -4,11 +4,11 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { appEvents } from '@/lib/events'
 
-// Get durood entries for a user (aggregated per date)
+// Get durood entries for a user (one entry per date)
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -21,25 +21,29 @@ export async function GET(request: NextRequest) {
     const userId = session.user.id
 
     if (date) {
-      // Aggregate entries for specific date
-      const result = await prisma.duroodEntry.aggregate({
-        where: { userId, date },
-        _sum: { count: true }
+      // Get single entry for specific date
+      const entry = await prisma.duroodEntry.findFirst({
+        where: {
+          userId,
+          date
+        }
       })
       return NextResponse.json({
         id: date,
         date,
-        count: result._sum.count || 0
+        count: entry?.count || 0
       })
     } else {
-      // Get aggregated entries per day for user
-      const grouped = await prisma.duroodEntry.groupBy({
-        by: ['date'],
+      // Get all entries for user (one per date)
+      const entries = await prisma.duroodEntry.findMany({
         where: { userId },
-        _sum: { count: true },
-        orderBy: { date: 'desc' }
+        orderBy: { date: 'desc' },
+        select: {
+          id: true,
+          date: true,
+          count: true
+        }
       })
-      const entries = grouped.map(g => ({ id: g.date, date: g.date, count: g._sum.count || 0 }))
       return NextResponse.json(entries)
     }
   } catch (error) {
@@ -51,11 +55,11 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Create durood entry (multiple entries per day allowed)
+// Create or update durood entry (one entry per user per day)
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -73,10 +77,36 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create a new entry (allow multiple per day)
-    const entry = await prisma.duroodEntry.create({
-      data: { userId, date, count }
+    // Find existing entry or create/update
+    const existingEntry = await prisma.duroodEntry.findFirst({
+      where: {
+        userId,
+        date
+      }
     })
+
+    let entry
+    if (existingEntry) {
+      // Update existing entry by incrementing count
+      entry = await prisma.duroodEntry.update({
+        where: { id: existingEntry.id },
+        data: {
+          count: {
+            increment: count
+          },
+          updatedAt: new Date()
+        }
+      })
+    } else {
+      // Create new entry
+      entry = await prisma.duroodEntry.create({
+        data: {
+          userId,
+          date,
+          count
+        }
+      })
+    }
 
     // Update daily rankings
     await updateDailyRankings(date)
@@ -97,11 +127,11 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Delete all durood entries for a given date
+// Delete durood entry for a given date (should be only one entry per user per date)
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -121,7 +151,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     await prisma.duroodEntry.deleteMany({
-      where: { userId, date }
+      where: {
+        userId,
+        date
+      }
     })
 
     // Update daily rankings
@@ -143,37 +176,34 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
-// Function to update daily rankings (aggregate multiple entries per user)
+// Function to update daily rankings (one entry per user per date)
 async function updateDailyRankings(date: string) {
   try {
-    // Aggregate entries per user for the date
-    const grouped = await prisma.duroodEntry.groupBy({
-      by: ['userId'],
+    // Get all entries for the date (one per user)
+    const entries = await prisma.duroodEntry.findMany({
       where: { date },
-      _sum: { count: true }
+      include: {
+        user: {
+          select: {
+            username: true,
+            displayName: true
+          }
+        }
+      }
     })
 
-    const userIds = grouped.map(g => g.userId)
-    const users = await prisma.user.findMany({
-      where: { id: { in: userIds } },
-      select: { id: true, username: true, displayName: true }
-    })
-    const userById = new Map(users.map(u => [u.id, u]))
-
-    const rankingsData = grouped
-      .map(g => ({
-        userId: g.userId,
-        count: g._sum.count || 0,
-        username: userById.get(g.userId)?.username || 'user',
-        displayName: userById.get(g.userId)?.displayName || null
+    const rankingsData = entries
+      .map(entry => ({
+        date,
+        userId: entry.userId,
+        username: entry.user.username,
+        displayName: entry.user.displayName,
+        count: entry.count,
+        rank: 0 // Will be set after sorting
       }))
       .sort((a, b) => b.count - a.count)
       .map((entry, index) => ({
-        date,
-        userId: entry.userId,
-        username: entry.username,
-        displayName: entry.displayName,
-        count: entry.count,
+        ...entry,
         rank: index + 1
       }))
 
