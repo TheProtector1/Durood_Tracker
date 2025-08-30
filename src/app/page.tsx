@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
-import { format, startOfMonth, startOfYear, isSameDay } from 'date-fns'
+import { format, startOfMonth, startOfYear, isSameDay, subDays } from 'date-fns'
 
 interface DuroodEntry {
   id: string
@@ -33,6 +33,7 @@ export default function Home() {
   const [pendingCount, setPendingCount] = useState(0)
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
   const pendingCountRef = useRef(0)
+  const [userCount, setUserCount] = useState<number | null>(null)
 
   const fetchEntries = useCallback(async () => {
     try {
@@ -98,6 +99,29 @@ export default function Home() {
     }
     return () => es.close()
   }, [session])
+
+  // Load user count
+  useEffect(() => {
+    const loadUserCount = async () => {
+      try {
+        console.log('Loading user count...')
+        const res = await fetch('/api/users/count')
+        if (res.ok) {
+          const json = await res.json()
+          console.log('User count loaded:', json.count)
+          setUserCount(json.count ?? 0)
+          console.log('User count state set to:', json.count)
+        } else {
+          console.error('Failed to load user count:', res.status)
+        }
+      } catch (error) {
+        console.error('Error loading user count:', error)
+      }
+    }
+    
+    // Load user count for both authenticated and unauthenticated users
+    loadUserCount()
+  }, [])
 
   // Helper function to get total pending count
   const getTotalPendingCount = useCallback(() => {
@@ -235,6 +259,40 @@ export default function Home() {
     return entries.reduce((sum, entry) => sum + entry.count, 0)
   }
 
+  const getCurrentStreak = () => {
+    if (entries.length === 0) return 0
+    
+    // Sort entries by date (newest first)
+    const sortedEntries = [...entries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    
+    let streak = 0
+    let currentDate = new Date()
+    
+    // Check if today has an entry
+    const today = format(currentDate, 'yyyy-MM-dd')
+    const todayEntry = sortedEntries.find(entry => entry.date === today)
+    
+    if (todayEntry && todayEntry.count > 0) {
+      streak = 1
+      currentDate = subDays(currentDate, 1) // Move to yesterday
+    }
+    
+    // Count consecutive days backwards
+    for (let i = 0; i < 365; i++) { // Limit to 1 year to prevent infinite loop
+      const dateStr = format(currentDate, 'yyyy-MM-dd')
+      const entry = sortedEntries.find(e => e.date === dateStr)
+      
+      if (entry && entry.count > 0) {
+        streak++
+        currentDate = subDays(currentDate, 1)
+      } else {
+        break // Streak broken
+      }
+    }
+    
+    return streak
+  }
+
   const stats = getStats()
 
   // Cleanup timer on unmount
@@ -284,7 +342,7 @@ export default function Home() {
           </div>
 
           {/* Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
             <Card>
               <CardHeader>
                 <CardTitle className="text-center">📊 Track Progress</CardTitle>
@@ -298,6 +356,20 @@ export default function Home() {
             
             <Card>
               <CardHeader>
+                <CardTitle className="text-center">👥 Total Users</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-indigo-700">
+                    {userCount !== null ? userCount.toLocaleString() : '...'}
+                  </div>
+                  <div className="text-sm text-gray-600 mt-1">Registered users</div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
                 <CardTitle className="text-center">🌍 Community Total</CardTitle>
               </CardHeader>
               <CardContent>
@@ -305,7 +377,7 @@ export default function Home() {
                   <p className="text-center text-gray-600">Loading...</p>
                 ) : (
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-emerald-700">{(publicTotalLive ?? publicTotal ?? 0).toLocaleString()}</div>
+                    <div className="text-3xl font-bold text-emerald-700">{(publicTotalLive ?? publicTotal ?? 0).toLocaleString()}</div>
                     <div className="text-sm text-gray-600 mt-1">Durood read by the community</div>
                   </div>
                 )}
@@ -373,13 +445,25 @@ export default function Home() {
               </Button>
             </div>
           </div>
+          
+          {/* Streak Display */}
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Badge variant="outline" className="text-sm bg-orange-50 text-orange-700 border-orange-200">
+              🔥 Current Streak: {getCurrentStreak()} days
+            </Badge>
+            {getCurrentStreak() > 0 && (
+              <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200">
+                Keep it up!
+              </Badge>
+            )}
+          </div>
         </div>
 
         {/* Tasbih-style Counter + Manual Entry */}
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl">Today&apos;s Reading</CardTitle>
-            <CardDescription>Click the counter to recite and log Durood. Inspired by <a href="https://tasbih.org/" target="_blank" rel="noreferrer" className="underline decoration-emerald-400 hover:text-emerald-700">tasbih.org</a></CardDescription>
+            <CardDescription></CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
