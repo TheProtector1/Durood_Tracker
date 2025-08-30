@@ -73,6 +73,14 @@ model PasswordReset {
   token     String   @unique
   expires   DateTime
   createdAt DateTime @default(now())
-  
+
   @@map("password_resets")
+}
+
+model TotalCounter {
+  id        String   @id @default(cuid())
+  total     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@map("total_counter")
 }

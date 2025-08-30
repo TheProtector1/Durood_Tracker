@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { appEvents } from '@/lib/events'
+import { updateTotalCounter, getCurrentTotal } from '@/lib/counter'
+import { updateDailyRankingsOptimized } from '@/lib/rankings'
 
 // Get durood entries for a user (one entry per date)
 export async function GET(request: NextRequest) {
@@ -55,7 +57,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Create or update durood entry (one entry per user per day)
+// Create or update durood entry (one entry per user per day) - OPTIMIZED
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -77,45 +79,54 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find existing entry or create/update
-    const existingEntry = await prisma.duroodEntry.findFirst({
-      where: {
-        userId,
-        date
+    let entry
+    let totalDelta = 0
+
+    // Use transaction for atomic operation
+    await prisma.$transaction(async (tx) => {
+      // Find existing entry
+      const existingEntry = await tx.duroodEntry.findFirst({
+        where: {
+          userId,
+          date
+        }
+      })
+
+      if (existingEntry) {
+        // Update existing entry by incrementing count
+        entry = await tx.duroodEntry.update({
+          where: { id: existingEntry.id },
+          data: {
+            count: {
+              increment: count
+            },
+            updatedAt: new Date()
+          }
+        })
+        totalDelta = count // Only increment by the added amount
+      } else {
+        // Create new entry
+        entry = await tx.duroodEntry.create({
+          data: {
+            userId,
+            date,
+            count
+          }
+        })
+        totalDelta = count // Add the full count
       }
     })
 
-    let entry
-    if (existingEntry) {
-      // Update existing entry by incrementing count
-      entry = await prisma.duroodEntry.update({
-        where: { id: existingEntry.id },
-        data: {
-          count: {
-            increment: count
-          },
-          updatedAt: new Date()
-        }
-      })
-    } else {
-      // Create new entry
-      entry = await prisma.duroodEntry.create({
-        data: {
-          userId,
-          date,
-          count
-        }
-      })
-    }
+    // Update total counter efficiently
+    const newTotal = await updateTotalCounter(totalDelta)
 
-    // Update daily rankings
-    await updateDailyRankings(date)
+    // Emit total updated event with the new total
+    appEvents.emit('totalUpdated', newTotal)
 
-    // Emit total updated event
-    try {
-      const result = await prisma.duroodEntry.aggregate({ _sum: { count: true } })
-      appEvents.emit('totalUpdated', result._sum.count || 0)
-    } catch {}
+    // Update daily rankings asynchronously (don't block response)
+    updateDailyRankingsOptimized(date).catch(error => {
+      console.error('Async ranking update error:', error)
+    })
 
     return NextResponse.json(entry)
   } catch (error) {
@@ -127,7 +138,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Delete durood entry for a given date (should be only one entry per user per date)
+// Delete durood entry for a given date (should be only one entry per user per date) - OPTIMIZED
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -150,21 +161,41 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    await prisma.duroodEntry.deleteMany({
-      where: {
-        userId,
-        date
+    let deletedCount = 0
+
+    // Use transaction to get the count before deletion
+    await prisma.$transaction(async (tx) => {
+      // Get the entry to be deleted for count calculation
+      const entryToDelete = await tx.duroodEntry.findFirst({
+        where: {
+          userId,
+          date
+        }
+      })
+
+      if (entryToDelete) {
+        deletedCount = entryToDelete.count
+
+        // Delete the entry
+        await tx.duroodEntry.deleteMany({
+          where: {
+            userId,
+            date
+          }
+        })
       }
     })
 
-    // Update daily rankings
-    await updateDailyRankings(date)
+    // Update total counter if we actually deleted something
+    if (deletedCount > 0) {
+      const newTotal = await updateTotalCounter(-deletedCount)
+      appEvents.emit('totalUpdated', newTotal)
+    }
 
-    // Emit total updated event
-    try {
-      const result = await prisma.duroodEntry.aggregate({ _sum: { count: true } })
-      appEvents.emit('totalUpdated', result._sum.count || 0)
-    } catch {}
+    // Update daily rankings asynchronously (don't block response)
+    updateDailyRankingsOptimized(date).catch(error => {
+      console.error('Async ranking update error:', error)
+    })
 
     return NextResponse.json({ message: 'Entry deleted successfully' })
   } catch (error) {
@@ -176,47 +207,4 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
-// Function to update daily rankings (one entry per user per date)
-async function updateDailyRankings(date: string) {
-  try {
-    // Get all entries for the date (one per user)
-    const entries = await prisma.duroodEntry.findMany({
-      where: { date },
-      include: {
-        user: {
-          select: {
-            username: true,
-            displayName: true
-          }
-        }
-      }
-    })
 
-    const rankingsData = entries
-      .map(entry => ({
-        date,
-        userId: entry.userId,
-        username: entry.user.username,
-        displayName: entry.user.displayName,
-        count: entry.count,
-        rank: 0 // Will be set after sorting
-      }))
-      .sort((a, b) => b.count - a.count)
-      .map((entry, index) => ({
-        ...entry,
-        rank: index + 1
-      }))
-
-    // Delete existing rankings for the date
-    await prisma.dailyRanking.deleteMany({
-      where: { date }
-    })
-
-    // Create new rankings
-    if (rankingsData.length > 0) {
-      await prisma.dailyRanking.createMany({ data: rankingsData })
-    }
-  } catch (error) {
-    console.error('Update daily rankings error:', error)
-  }
-}

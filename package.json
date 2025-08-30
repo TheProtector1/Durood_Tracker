@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "init-counter": "tsx scripts/init-counter.ts",
+    "vercel-build": "prisma generate && prisma migrate deploy && npm run init-counter && next build",
     "postinstall": "prisma generate"
   },
   "dependencies": {
