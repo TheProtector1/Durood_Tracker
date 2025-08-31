@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Calculate completion rate based on 5 prayers per day
-    const allPrayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']
+    const totalPossiblePrayersPerDay = 5
 
     Object.values(groupedByDate).forEach(dayPrayers => {
       stats.totalPossiblePrayers += 5 // 5 prayers per day

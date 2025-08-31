@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
+
 
 interface UserProfile {
   id: string
@@ -96,7 +96,13 @@ export default function ProfilePage() {
         return
       }
 
-      const updateData: any = {}
+      const updateData: {
+        username?: string;
+        email?: string;
+        password?: string;
+        currentPassword?: string;
+        newPassword?: string;
+      } = {}
 
       // Only include fields that have changed
       if (formData.username !== user?.username) {

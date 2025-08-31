@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -22,6 +22,9 @@ interface PrayerStats {
   totalPrayers: number
   completedPrayers: number
   averageCompletionRate: number
+  perfectDays: number
+  totalPossiblePrayers: number
+  actualCompletedPrayers: number
 }
 
 export default function PrayersPage() {
@@ -34,8 +37,17 @@ export default function PrayersPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [currentDate, setCurrentDate] = useState<string>('')
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
+  const [loadStartTime, setLoadStartTime] = useState<Date | null>(null)
 
-  const loadPrayerHistory = async (showRefreshing = false) => {
+  console.log('🕌 PrayersPage render:', {
+    session: !!session,
+    sessionUser: session?.user?.id,
+    status,
+    isLoading,
+    error
+  })
+
+  const loadPrayerHistory = useCallback(async (showRefreshing = false) => {
     if (!session?.user?.id) return
 
     try {
@@ -44,29 +56,46 @@ export default function PrayersPage() {
         console.log('Prayer history: Force refreshing data')
       } else {
         setIsLoading(true)
+        setLoadStartTime(new Date())
         console.log('Prayer history: Loading data for date:', currentDate)
       }
       setError('')
 
-      const response = await fetch('/api/prayers/history')
+      // Add timeout to prevent infinite loading
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
+      const response = await fetch('/api/prayers/history', {
+        signal: controller.signal
+      })
+
+      clearTimeout(timeoutId)
+
       if (response.ok) {
         const data = await response.json()
         setHistory(data.history)
         setStats(data.stats)
+        setLoadStartTime(null)
         console.log('Prayer history: Data loaded successfully, stats:', data.stats)
         setLastUpdate(new Date())
       } else {
         console.error('Prayer history: Failed to load data, status:', response.status)
         setError('Failed to load prayer history')
+        setLoadStartTime(null)
       }
     } catch (error) {
       console.error('Prayer history: Error loading data:', error)
-      setError('Failed to load prayer history')
+      if (error.name === 'AbortError') {
+        setError('Request timeout - please try again')
+      } else {
+        setError('Failed to load prayer history')
+      }
+      setLoadStartTime(null)
     } finally {
       setIsLoading(false)
       setIsRefreshing(false)
     }
-  }
+  }, [session, currentDate])
 
   // Update current date
   useEffect(() => {
@@ -86,7 +115,7 @@ export default function PrayersPage() {
     if (currentDate) {
       loadPrayerHistory()
     }
-  }, [session, currentDate])
+  }, [currentDate, loadPrayerHistory])
 
   // Handle page visibility changes to reload prayer history when user comes back
   useEffect(() => {
@@ -99,15 +128,17 @@ export default function PrayersPage() {
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
-  }, [session])
+  }, [session?.user?.id, loadPrayerHistory])
 
-  if (status === 'loading' || isLoading) {
+  // Handle different loading states
+  if (status === 'loading') {
+    console.log('🕌 Authentication loading...')
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600 font-medium">Loading prayer history...</p>
+            <p className="mt-4 text-gray-600 font-medium">Authenticating...</p>
           </div>
         </div>
       </div>
@@ -115,8 +146,46 @@ export default function PrayersPage() {
   }
 
   if (!session) {
+    console.log('🕌 No session found, redirecting to signin')
     router.push('/auth/signin')
     return null
+  }
+
+  console.log('🕌 Session found, proceeding with prayer page')
+
+  // Check prayer data loading with timeout fallback
+  if (isLoading) {
+    console.log('🕌 Prayer data loading...')
+
+    // Show fallback content if loading takes too long (more than 3 seconds)
+    const loadingTime = loadStartTime ? Date.now() - loadStartTime.getTime() : 0
+    if (loadingTime > 3000) {
+      console.log('🕌 Loading taking too long, showing fallback')
+    }
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600 font-medium">Loading prayer history...</p>
+            <p className="mt-2 text-sm text-gray-500">Please wait while we fetch your prayer data</p>
+            {loadingTime > 3000 && (
+              <div className="mt-4">
+                <p className="text-sm text-amber-600 mb-2">Taking longer than expected...</p>
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                  size="sm"
+                >
+                  Reload Page
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
   }
 
   const getPrayerDisplayName = (prayerName: string) => {
@@ -188,6 +257,16 @@ export default function PrayersPage() {
         {error && (
           <div className="mb-6 p-4 bg-red-100 border border-red-200 rounded-lg">
             <p className="text-red-800 text-sm">{error}</p>
+            <div className="mt-2">
+              <Button
+                onClick={() => loadPrayerHistory(true)}
+                variant="outline"
+                size="sm"
+                className="text-red-600 border-red-300"
+              >
+                Try Again
+              </Button>
+            </div>
           </div>
         )}
 

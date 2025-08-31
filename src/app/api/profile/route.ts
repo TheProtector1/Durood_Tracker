@@ -30,7 +30,12 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const updates: any = {}
+    const updates: {
+      username?: string;
+      email?: string;
+      password?: string;
+      updatedAt: Date;
+    } = { updatedAt: new Date() }
 
     // Validate and update username if provided
     if (username !== undefined) {
@@ -158,7 +163,7 @@ export async function PUT(request: NextRequest) {
 }
 
 // GET current user profile
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 

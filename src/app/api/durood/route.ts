@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { appEvents } from '@/lib/events'
-import { updateTotalCounter, getCurrentTotal } from '@/lib/counter'
+import { updateTotalCounter } from '@/lib/counter'
 import { updateDailyRankingsOptimized } from '@/lib/rankings'
 
 // Get durood entries for a user (one entry per date)

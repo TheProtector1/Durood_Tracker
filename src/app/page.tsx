@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,17 +19,16 @@ interface DuroodEntry {
 }
 
 export default function Home() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
+  const { data: session } = useSession()
   const [entries, setEntries] = useState<DuroodEntry[]>([])
   const [todayCount, setTodayCount] = useState(0)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [inputCount, setInputCount] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+
   const [publicTotal, setPublicTotal] = useState<number | null>(null)
   const [publicTotalLoading, setPublicTotalLoading] = useState(true)
   const [publicTotalLive, setPublicTotalLive] = useState<number | null>(null)
-  const [currentCount, setCurrentCount] = useState(0)
+
   const [pendingCount, setPendingCount] = useState(0)
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
   const pendingCountRef = useRef(0)
@@ -156,8 +155,11 @@ export default function Home() {
             console.log('📥 Prayer API response:', data)
 
             const completedPrayerNames = Object.entries(data.prayers || {})
-              .filter(([_, status]: [string, any]) => status?.completed === true)
-              .map(([prayerName, _]) => prayerName.toLowerCase())
+              .filter(([_, status]: [string, unknown]) => {
+                const prayerStatus = status as { completed?: boolean; completedAt?: string };
+                return prayerStatus?.completed === true;
+              })
+              .map(([prayerName]) => prayerName.toLowerCase())
 
             console.log('✅ Completed prayers found:', completedPrayerNames)
             setCompletedPrayers(new Set(completedPrayerNames))
@@ -198,9 +200,12 @@ export default function Home() {
             const response = await fetch(`/api/prayers?date=${currentDate}`)
             if (response.ok) {
               const data = await response.json()
-              const completedPrayerNames = Object.entries(data.prayers)
-                .filter(([_, status]: [string, any]) => status.completed)
-                .map(([prayerName, _]) => prayerName)
+              const completedPrayerNames = Object.entries(data.prayers || {})
+                .filter(([_, status]: [string, unknown]) => {
+                  const prayerStatus = status as { completed?: boolean; completedAt?: string };
+                  return prayerStatus?.completed === true;
+                })
+                .map(([prayerName]) => prayerName.toLowerCase())
 
                           console.log('Reloaded completed prayers on visibility change:', completedPrayerNames)
             setCompletedPrayers(new Set(completedPrayerNames))
@@ -233,9 +238,12 @@ export default function Home() {
 
           if (response.ok) {
             const data = await response.json()
-            const completedPrayerNames = Object.entries(data.prayers)
-              .filter(([_, status]: [string, any]) => status.completed)
-              .map(([prayerName, _]) => prayerName)
+            const completedPrayerNames = Object.entries(data.prayers || {})
+              .filter(([_, status]: [string, unknown]) => {
+                const prayerStatus = status as { completed?: boolean; completedAt?: string };
+                return prayerStatus?.completed === true;
+              })
+              .map(([prayerName]) => prayerName.toLowerCase())
 
             console.log('Loaded completed prayers on mount:', completedPrayerNames)
             setCompletedPrayers(new Set(completedPrayerNames))
@@ -744,7 +752,6 @@ export default function Home() {
                         key={n}
                         onClick={() => incrementCount(n)}
                         className="px-3 py-1 rounded-full border border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-700 text-sm transition"
-                        disabled={isLoading}
                         aria-label={`Add ${n}`}
                       >
                         +{n}
@@ -755,7 +762,6 @@ export default function Home() {
                     <button
                       onClick={() => incrementCount(1)}
                       className="w-44 h-44 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 text-white text-3xl md:text-4xl font-bold shadow-lg active:scale-95 transition-transform"
-                      disabled={isLoading}
                       aria-label="Add 1"
                     >
                       +1
@@ -782,9 +788,8 @@ export default function Home() {
                       placeholder="Enter count"
                       value={inputCount}
                       onChange={(e) => setInputCount(e.target.value)}
-                      disabled={isLoading}
                     />
-                    <Button onClick={addDurood} disabled={isLoading}>
+                    <Button onClick={addDurood}>
                       Add
                     </Button>
                   </div>
