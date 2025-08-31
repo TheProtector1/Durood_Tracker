@@ -62,14 +62,38 @@ export default function PrayersPage() {
       setError('')
 
       // Add timeout to prevent infinite loading
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+      let controller: AbortController | null = null
+      let timeoutId: NodeJS.Timeout | null = null
 
-      const response = await fetch('/api/prayers/history', {
-        signal: controller.signal
-      })
+      let response: Response
 
-      clearTimeout(timeoutId)
+      try {
+        // Check if AbortController is available (compatibility with different environments)
+        if (typeof AbortController !== 'undefined') {
+          controller = new AbortController()
+          timeoutId = setTimeout(() => {
+            if (controller) {
+              controller.abort()
+            }
+          }, 10000) // 10 second timeout
+        }
+
+        const fetchOptions: RequestInit = {}
+        if (controller?.signal) {
+          fetchOptions.signal = controller.signal
+        }
+
+        response = await fetch('/api/prayers/history', fetchOptions)
+
+        if (timeoutId) {
+          clearTimeout(timeoutId)
+        }
+      } catch (fetchError) {
+        if (timeoutId) {
+          clearTimeout(timeoutId)
+        }
+        throw fetchError
+      }
 
       if (response.ok) {
         const data = await response.json()
@@ -83,9 +107,14 @@ export default function PrayersPage() {
         setError('Failed to load prayer history')
         setLoadStartTime(null)
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Prayer history: Error loading data:', error)
-      if (error.name === 'AbortError') {
+
+      // Check for abort error in a way that works across different environments
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      const errorName = error instanceof Error ? error.name : ''
+
+      if (errorName === 'AbortError' || errorMessage.includes('aborted') || errorMessage.includes('timeout')) {
         setError('Request timeout - please try again')
       } else {
         setError('Failed to load prayer history')
