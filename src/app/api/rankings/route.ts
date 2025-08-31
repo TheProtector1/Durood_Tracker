@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { differenceInDays, parseISO, format, subDays } from 'date-fns'
+import { getPakistanDate, getPakistanDateRange, isUTCDateOnPakistanDate } from '@/lib/timezone'
 
 // Calculate streak for a user
 async function calculateUserStreak(userId: string, referenceDate: string): Promise<number> {
@@ -65,17 +66,20 @@ async function calculateUserStreak(userId: string, referenceDate: string): Promi
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const date = searchParams.get('date') || new Date().toISOString().split('T')[0]
+    const dateParam = searchParams.get('date')
     const limit = parseInt(searchParams.get('limit') || '20')
 
-    // Get rankings for the specified date
+    // Use Pakistan date for business logic
+    const pakistanDate = dateParam || getPakistanDate()
+
+    // Get rankings for the specified Pakistan date
     const rankings = await prisma.dailyRanking.findMany({
-      where: { date },
+      where: { date: pakistanDate },
       orderBy: { rank: 'asc' },
       take: limit
     })
 
-    let finalDate = date
+    let finalDate = pakistanDate
     let finalRankings = rankings
     let note: string | undefined
 
