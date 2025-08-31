@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
+import { getPakistanDate, formatPakistanDate } from '@/lib/timezone'
 
 interface PrayerHistory {
   [date: string]: Array<{
@@ -126,15 +127,16 @@ export default function PrayersPage() {
     }
   }, [session, currentDate])
 
-  // Update current date
+  // Update current Pakistan date
   useEffect(() => {
     const updateDate = () => {
-      const today = new Date().toISOString().split('T')[0]
+      const today = getPakistanDate()
       setCurrentDate(today)
+      console.log('Prayer history: Pakistan date updated to:', today)
     }
 
     updateDate()
-    // Update date every minute to catch date changes
+    // Update date every minute to catch date changes in Pakistan timezone
     const interval = setInterval(updateDate, 60000)
     return () => clearInterval(interval)
   }, [])
@@ -361,8 +363,8 @@ export default function PrayersPage() {
               <Card key={date} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-200">
                   <CardTitle className="flex items-center justify-between">
-                    <span className="text-lg text-gray-800">{format(new Date(date), 'EEEE, MMMM d, yyyy')}</span>
-                    {date === new Date().toISOString().split('T')[0] && (
+                    <span className="text-lg text-gray-800">{formatPakistanDate(date)}</span>
+                    {date === getPakistanDate() && (
                       <Badge variant="outline" className="bg-emerald-100 text-emerald-700 border-emerald-300 font-semibold">
                         🕌 Today
                       </Badge>

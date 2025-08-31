@@ -14,6 +14,7 @@
     "test-streak-scenarios": "tsx scripts/test-streak-scenarios.ts",
     "test-profile-update": "tsx scripts/test-profile-update.ts",
     "delete-user": "tsx scripts/delete-user.ts",
+    "test-timezone": "tsx scripts/test-timezone.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && npm run init-counter && next build",
     "postinstall": "prisma generate"
   },

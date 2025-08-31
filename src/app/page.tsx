@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
 import { format, startOfMonth, startOfYear, isSameDay, subDays } from 'date-fns'
+import { getPakistanDate, getPakistanDateTime, isNewDayInPakistan } from '@/lib/timezone'
 
 interface DuroodEntry {
   id: string
@@ -126,16 +127,16 @@ export default function Home() {
     loadUserCount()
   }, [])
 
-  // Initialize date immediately and update periodically
+  // Initialize Pakistan date immediately and update periodically
   useEffect(() => {
     const updateDate = () => {
-      const today = new Date().toISOString().split('T')[0]
+      const today = getPakistanDate()
       setCurrentDate(today)
-      console.log('Current date set to:', today)
+      console.log('Pakistan date set to:', today)
     }
 
     updateDate()
-    // Update date every minute to catch date changes
+    // Update date every minute to catch date changes in Pakistan timezone
     const interval = setInterval(updateDate, 60000)
     return () => clearInterval(interval)
   }, [])
@@ -270,7 +271,7 @@ export default function Home() {
     if (!session?.user?.id) return
 
     try {
-      const today = new Date().toISOString().split('T')[0]
+      const today = getPakistanDate()
       await fetch('/api/prayers', {
         method: 'POST',
         headers: {
@@ -479,7 +480,7 @@ export default function Home() {
     // Save to database (async, doesn't block UI)
     if (session?.user?.id && currentDate) {
       try {
-        console.log('Saving prayer completion:', prayerName, 'for date:', currentDate)
+        console.log('Saving prayer completion:', prayerName, 'for Pakistan date:', currentDate)
         await fetch('/api/prayers', {
           method: 'POST',
           headers: {
@@ -491,8 +492,8 @@ export default function Home() {
             completed: newCompleted
           }),
         })
-        console.log('Prayer completion saved successfully')
-        setLastPrayerUpdate(new Date())
+        console.log('Prayer completion saved successfully for Pakistan timezone')
+        setLastPrayerUpdate(getPakistanDateTime())
       } catch (error) {
         console.error('Error saving prayer completion:', error)
         // Revert local state on error
@@ -509,7 +510,7 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       const confirmed = window.confirm('Reset all prayers for today? This will clear your prayer completions for today.')
       if (confirmed) {
-        const today = new Date().toISOString().split('T')[0]
+        const today = getPakistanDate()
 
         // Reset local state
         setCompletedPrayers(new Set())
