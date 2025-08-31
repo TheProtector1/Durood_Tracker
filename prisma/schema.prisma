@@ -26,9 +26,12 @@ model User {
   
   // Durood entries
   duroodEntries DuroodEntry[]
-  
+
   // Daily rankings
   dailyRankings DailyRanking[]
+
+  // Prayer completions
+  prayerCompletions PrayerCompletion[]
   
   @@map("users")
 }
@@ -83,4 +86,22 @@ model TotalCounter {
   updatedAt DateTime @updatedAt
 
   @@map("total_counter")
+}
+
+model PrayerCompletion {
+  id        String   @id @default(cuid())
+  userId    String
+  date      String   // Format: YYYY-MM-DD
+  prayerName String  // fajr, dhuhr, asr, maghrib, isha
+  completed Boolean  @default(false)
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Ensure only one completion record per user per prayer per date
+  @@unique([userId, date, prayerName])
+  @@map("prayer_completions")
 }

@@ -34,6 +34,10 @@ export default function Home() {
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
   const pendingCountRef = useRef(0)
   const [userCount, setUserCount] = useState<number | null>(null)
+  const [completedPrayers, setCompletedPrayers] = useState<Set<string>>(new Set())
+  const [prayersLoaded, setPrayersLoaded] = useState(false)
+  const [currentDate, setCurrentDate] = useState<string>('')
+  const [lastPrayerUpdate, setLastPrayerUpdate] = useState<Date | null>(null)
 
   const fetchEntries = useCallback(async () => {
     try {
@@ -118,10 +122,162 @@ export default function Home() {
         console.error('Error loading user count:', error)
       }
     }
-    
+
     // Load user count for both authenticated and unauthenticated users
     loadUserCount()
   }, [])
+
+  // Initialize date immediately and update periodically
+  useEffect(() => {
+    const updateDate = () => {
+      const today = new Date().toISOString().split('T')[0]
+      setCurrentDate(today)
+      console.log('Current date set to:', today)
+    }
+
+    updateDate()
+    // Update date every minute to catch date changes
+    const interval = setInterval(updateDate, 60000)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Load prayer completion state - runs when session and date are ready
+  useEffect(() => {
+    const loadPrayerCompletions = async () => {
+      if (session?.user?.id && currentDate) {
+        console.log('🔄 Loading prayer completions for user:', session.user.id, 'on date:', currentDate)
+        setPrayersLoaded(false)
+
+        try {
+          const response = await fetch(`/api/prayers?date=${currentDate}`)
+
+          if (response.ok) {
+            const data = await response.json()
+            console.log('📥 Prayer API response:', data)
+
+            const completedPrayerNames = Object.entries(data.prayers || {})
+              .filter(([_, status]: [string, any]) => status?.completed === true)
+              .map(([prayerName, _]) => prayerName.toLowerCase())
+
+            console.log('✅ Completed prayers found:', completedPrayerNames)
+            setCompletedPrayers(new Set(completedPrayerNames))
+            setPrayersLoaded(true)
+            setLastPrayerUpdate(new Date())
+          } else {
+            console.error('❌ Failed to fetch prayer completions, status:', response.status)
+            const errorText = await response.text()
+            console.error('Error response:', errorText)
+            setPrayersLoaded(true)
+          }
+        } catch (error) {
+          console.error('💥 Error loading prayer completions:', error)
+          setPrayersLoaded(true)
+        }
+      } else {
+        console.log('⏳ Waiting for session/date:', {
+          hasSession: !!session?.user?.id,
+          hasDate: !!currentDate,
+          sessionId: session?.user?.id,
+          currentDate
+        })
+      }
+    }
+
+    loadPrayerCompletions()
+  }, [session, currentDate])
+
+  // Handle page visibility changes to reload prayer data when user comes back
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && session?.user?.id && currentDate) {
+        console.log('Page became visible, reloading prayer data')
+        // Force reload prayer data when page becomes visible again
+        const loadPrayerCompletions = async () => {
+          setPrayersLoaded(false)
+          try {
+            const response = await fetch(`/api/prayers?date=${currentDate}`)
+            if (response.ok) {
+              const data = await response.json()
+              const completedPrayerNames = Object.entries(data.prayers)
+                .filter(([_, status]: [string, any]) => status.completed)
+                .map(([prayerName, _]) => prayerName)
+
+                          console.log('Reloaded completed prayers on visibility change:', completedPrayerNames)
+            setCompletedPrayers(new Set(completedPrayerNames))
+            setPrayersLoaded(true)
+            setLastPrayerUpdate(new Date())
+            } else {
+              setPrayersLoaded(true)
+            }
+          } catch (error) {
+            console.error('Error reloading prayer completions on visibility change:', error)
+            setPrayersLoaded(true)
+          }
+        }
+        loadPrayerCompletions()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [session, currentDate])
+
+  // Also load prayer completions when the component mounts (navigation back to page)
+  useEffect(() => {
+    const loadPrayerCompletionsOnMount = async () => {
+      if (session?.user?.id && currentDate) {
+        setPrayersLoaded(false) // Reset loading state
+        try {
+          console.log('Loading prayer completions on component mount for date:', currentDate)
+          const response = await fetch(`/api/prayers?date=${currentDate}`)
+
+          if (response.ok) {
+            const data = await response.json()
+            const completedPrayerNames = Object.entries(data.prayers)
+              .filter(([_, status]: [string, any]) => status.completed)
+              .map(([prayerName, _]) => prayerName)
+
+            console.log('Loaded completed prayers on mount:', completedPrayerNames)
+            setCompletedPrayers(new Set(completedPrayerNames))
+            setPrayersLoaded(true)
+            setLastPrayerUpdate(new Date())
+          } else {
+            console.error('Failed to fetch prayer completions on mount:', response.status)
+            setPrayersLoaded(true) // Still mark as loaded even on error
+          }
+        } catch (error) {
+          console.error('Error loading prayer completions on mount:', error)
+          setPrayersLoaded(true) // Still mark as loaded even on error
+        }
+      }
+    }
+
+    // Small delay to ensure session and date are fully loaded
+    const timer = setTimeout(loadPrayerCompletionsOnMount, 200)
+    return () => clearTimeout(timer)
+  }, [session, currentDate]) // Added currentDate dependency
+
+  // Save prayer completion state to database
+  const savePrayerCompletion = async (prayerName: string, completed: boolean) => {
+    if (!session?.user?.id) return
+
+    try {
+      const today = new Date().toISOString().split('T')[0]
+      await fetch('/api/prayers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: today,
+          prayerName,
+          completed
+        }),
+      })
+    } catch (error) {
+      console.error('Error saving prayer completion:', error)
+    }
+  }
 
   // Helper function to get total pending count
   const getTotalPendingCount = useCallback(() => {
@@ -261,27 +417,27 @@ export default function Home() {
 
   const getCurrentStreak = () => {
     if (entries.length === 0) return 0
-    
+
     // Sort entries by date (newest first)
     const sortedEntries = [...entries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    
+
     let streak = 0
     let currentDate = new Date()
-    
+
     // Check if today has an entry
     const today = format(currentDate, 'yyyy-MM-dd')
     const todayEntry = sortedEntries.find(entry => entry.date === today)
-    
+
     if (todayEntry && todayEntry.count > 0) {
       streak = 1
       currentDate = subDays(currentDate, 1) // Move to yesterday
     }
-    
+
     // Count consecutive days backwards
     for (let i = 0; i < 365; i++) { // Limit to 1 year to prevent infinite loop
       const dateStr = format(currentDate, 'yyyy-MM-dd')
       const entry = sortedEntries.find(e => e.date === dateStr)
-      
+
       if (entry && entry.count > 0) {
         streak++
         currentDate = subDays(currentDate, 1)
@@ -289,8 +445,90 @@ export default function Home() {
         break // Streak broken
       }
     }
-    
+
     return streak
+  }
+
+  const togglePrayer = async (prayerName: string) => {
+    const isAlreadyCompleted = completedPrayers.has(prayerName)
+
+    // If prayer is already completed, don't allow toggling it back
+    // This prevents accidental unmarking and maintains data integrity
+    if (isAlreadyCompleted) {
+      return // Do nothing if already completed
+    }
+
+    // Only allow marking as completed (not unmarking)
+    const newCompleted = true
+
+    // Update local state immediately for instant UI feedback
+    setCompletedPrayers(prev => {
+      const newSet = new Set(prev)
+      newSet.add(prayerName) // Only add, don't remove
+      return newSet
+    })
+
+    // Save to database (async, doesn't block UI)
+    if (session?.user?.id && currentDate) {
+      try {
+        console.log('Saving prayer completion:', prayerName, 'for date:', currentDate)
+        await fetch('/api/prayers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            date: currentDate,
+            prayerName,
+            completed: newCompleted
+          }),
+        })
+        console.log('Prayer completion saved successfully')
+        setLastPrayerUpdate(new Date())
+      } catch (error) {
+        console.error('Error saving prayer completion:', error)
+        // Revert local state on error
+        setCompletedPrayers(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(prayerName)
+          return newSet
+        })
+      }
+    }
+  }
+
+  const resetPrayers = async () => {
+    if (typeof window !== 'undefined') {
+      const confirmed = window.confirm('Reset all prayers for today? This will clear your prayer completions for today.')
+      if (confirmed) {
+        const today = new Date().toISOString().split('T')[0]
+
+        // Reset local state
+        setCompletedPrayers(new Set())
+
+        // Reset in database for all prayers
+        if (session?.user?.id) {
+          try {
+            const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']
+            await Promise.all(prayers.map(prayer =>
+              fetch('/api/prayers', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  date: today,
+                  prayerName: prayer,
+                  completed: false
+                }),
+              })
+            ))
+          } catch (error) {
+            console.error('Error resetting prayers in database:', error)
+          }
+        }
+      }
+    }
   }
 
   const stats = getStats()
@@ -422,27 +660,48 @@ export default function Home() {
           <p className="text-gray-600 mb-4">Track your daily Durood readings</p>
           
           {/* User Info and Navigation */}
-          <div className="flex items-center justify-center gap-4 mb-6">
+          <div className="flex flex-col items-center gap-4 mb-8">
+            {/* Welcome Message */}
             <div className="flex items-center gap-2">
               <span className="text-gray-700">Welcome,</span>
               <Badge variant="secondary" className="text-sm bg-emerald-100 text-emerald-800 border-emerald-200">
                 {session.user.displayName || session.user.username}
               </Badge>
             </div>
-            <div className="flex gap-2">
-              <Link href="/rankings">
-                <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50">
-                  View Rankings
+
+            {/* Main Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              {/* Prayer History - Featured Button */}
+              <Link href="/prayers">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-8 py-3"
+                >
+                  🕌 Prayer History
                 </Button>
               </Link>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => signOut({ callbackUrl: '/' })}
-                className="border-gray-300 text-gray-600 hover:bg-gray-50"
-              >
-                Sign Out
-              </Button>
+
+              {/* Secondary Buttons */}
+              <div className="flex gap-2">
+                <Link href="/profile">
+                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                    👤 Profile
+                  </Button>
+                </Link>
+                <Link href="/rankings">
+                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                    🏆 Rankings
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
+                >
+                  🚪 Sign Out
+                </Button>
+              </div>
             </div>
           </div>
           
@@ -536,6 +795,139 @@ export default function Home() {
                   )}
                 </div>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+                      {/* Prayer Completion Tracker */}
+        <Card className="mt-8 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 border-2 border-emerald-200 shadow-xl">
+          <CardHeader className="text-center pb-4">
+            <div className="mx-auto mb-2 w-16 h-16 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-2xl">🕌</span>
+            </div>
+            <CardTitle className="text-2xl font-bold text-gray-800 mb-2">Daily Prayer Tracker</CardTitle>
+            <CardDescription className="text-emerald-700 font-medium">
+              Complete your five daily prayers and earn spiritual rewards
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="px-6 pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+              {[
+                { name: 'Fajr', label: 'Dawn' },
+                { name: 'Dhuhr', label: 'Noon' },
+                { name: 'Asr', label: 'Afternoon' },
+                { name: 'Maghrib', label: 'Sunset' },
+                { name: 'Isha', label: 'Night' }
+              ].map((prayer) => (
+                <button
+                  key={prayer.name}
+                  onClick={() => togglePrayer(prayer.name)}
+                  disabled={completedPrayers.has(prayer.name) || !prayersLoaded}
+                  className={`
+                    relative group p-6 rounded-2xl border-2 transition-all duration-500 select-none min-h-[120px]
+                    ${!prayersLoaded
+                      ? 'bg-gradient-to-br from-gray-100 to-gray-200 border-gray-300 text-gray-500 cursor-wait opacity-70 shadow-md'
+                      : completedPrayers.has(prayer.name)
+                      ? 'bg-gradient-to-br from-emerald-500 to-teal-500 border-emerald-400 text-white shadow-xl cursor-not-allowed transform scale-105'
+                      : 'bg-gradient-to-br from-white to-gray-50 border-gray-300 text-gray-700 hover:border-emerald-400 hover:shadow-xl hover:scale-110 cursor-pointer active:scale-95'
+                    }
+                  `}
+                >
+                  <div className="text-center">
+                    <div className={`text-4xl mb-2 transition-transform duration-300 ${
+                      !prayersLoaded
+                        ? 'text-gray-500'
+                        : completedPrayers.has(prayer.name)
+                        ? 'text-white'
+                        : 'text-gray-600'
+                    }`}>
+                      {!prayersLoaded ? '⏳' : completedPrayers.has(prayer.name) ? '✅' : '🕌'}
+                    </div>
+                    <div className={`font-bold text-lg ${
+                      !prayersLoaded
+                        ? 'text-gray-500'
+                        : completedPrayers.has(prayer.name)
+                        ? 'text-white'
+                        : 'text-gray-800'
+                    }`}>
+                      {prayer.name}
+                    </div>
+                    <div className={`text-sm font-medium ${
+                      !prayersLoaded
+                        ? 'text-gray-400'
+                        : completedPrayers.has(prayer.name)
+                        ? 'text-emerald-100'
+                        : 'text-gray-500'
+                    }`}>
+                      {!prayersLoaded ? 'Loading...' : prayer.label}
+                    </div>
+                  </div>
+                  {completedPrayers.has(prayer.name) && (
+                    <div className="absolute top-2 right-2">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30 backdrop-blur-sm">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                        </svg>
+                        Done
+                      </span>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+            <div className="mt-6 text-center space-y-3">
+              <div className="inline-flex items-center space-x-2">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <div
+                    key={i}
+                    className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                      !prayersLoaded
+                        ? 'bg-gray-300 animate-pulse'
+                        : i < completedPrayers.size
+                        ? 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg'
+                        : 'bg-gray-200'
+                    }`}
+                  />
+                ))}
+              </div>
+              <Badge
+                variant="outline"
+                className={`text-sm font-semibold px-4 py-2 ${
+                  !prayersLoaded
+                    ? 'bg-gray-50 text-gray-600 border-gray-200'
+                    : completedPrayers.size === 5
+                    ? 'bg-gradient-to-r from-emerald-50 to-green-50 text-green-700 border-green-300 shadow-md'
+                    : 'bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 border-emerald-300'
+                }`}
+              >
+                {!prayersLoaded ? '⏳ Loading prayers...' : (
+                  <>
+                    {completedPrayers.size}/5 prayers completed today
+                    {completedPrayers.size === 5 && ' 🌟 Perfect Day!'}
+                  </>
+                )}
+              </Badge>
+
+              <div className="text-xs text-gray-500">
+                {!prayersLoaded
+                  ? '🔄 Loading prayer data...'
+                  : lastPrayerUpdate
+                  ? `💾 Synced ${lastPrayerUpdate.toLocaleTimeString()}`
+                  : '💾 Synced with Prayer History'
+                }
+              </div>
+
+
+              {completedPrayers.size > 0 && (
+                <Button
+                  onClick={resetPrayers}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs border-red-300 text-red-600 hover:bg-red-50"
+                >
+                  Reset Prayers
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>

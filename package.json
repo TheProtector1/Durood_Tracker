@@ -12,6 +12,7 @@
     "test-streaks": "tsx scripts/test-streaks.ts",
     "test-streak-break": "tsx scripts/test-streak-break.ts",
     "test-streak-scenarios": "tsx scripts/test-streak-scenarios.ts",
+    "test-profile-update": "tsx scripts/test-profile-update.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && npm run init-counter && next build",
     "postinstall": "prisma generate"
   },

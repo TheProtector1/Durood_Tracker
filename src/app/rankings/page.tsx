@@ -98,12 +98,33 @@ export default function RankingsPage() {
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <Link href="/">
-              <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
-                ← Back to Home
-              </Button>
-            </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+            {/* Navigation Buttons */}
+            <div className="flex gap-2">
+              <Link href="/">
+                <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                  ← Back to Home
+                </Button>
+              </Link>
+              <Link href="/profile">
+                <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50">
+                  👤 Profile
+                </Button>
+              </Link>
+            </div>
+
+            {/* Prayer History - Featured Button */}
+            <div className="flex justify-center">
+              <Link href="/prayers">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-8 py-3"
+                >
+                  🕌 Prayer History
+                </Button>
+              </Link>
+            </div>
+
             <div className="flex-1"></div>
           </div>
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Daily Rankings</h1>
