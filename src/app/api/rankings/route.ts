@@ -3,10 +3,11 @@ import { prisma } from '@/lib/prisma'
 import { differenceInDays, parseISO, format, subDays } from 'date-fns'
 import { getPakistanDate, getPakistanDateRange, isUTCDateOnPakistanDate } from '@/lib/timezone'
 
-// Calculate streak for a user
-async function calculateUserStreak(userId: string, referenceDate: string): Promise<number> {
+// Calculate streak for a user using Pakistan timezone
+async function calculateUserStreak(userId: string, referencePakistanDate: string): Promise<number> {
   try {
     // Get all durood entries for the user, ordered by date descending
+    // Note: dates in database are already in Pakistan timezone format (YYYY-MM-DD)
     const entries = await prisma.duroodEntry.findMany({
       where: { userId },
       select: { date: true },
@@ -15,39 +16,48 @@ async function calculateUserStreak(userId: string, referenceDate: string): Promi
 
     if (entries.length === 0) return 0
 
-    // Convert dates to Date objects and sort ascending for streak calculation
-    const entryDates = entries
-      .map(entry => parseISO(entry.date))
-      .sort((a, b) => a.getTime() - b.getTime())
+    // Parse the reference Pakistan date
+    const referenceDate = parseISO(referencePakistanDate)
 
-    const referenceDateObj = parseISO(referenceDate)
-    const today = new Date()
+    // Get current Pakistan date for comparison
+    const currentPakistanDate = getPakistanDate()
+    const currentDate = parseISO(currentPakistanDate)
 
-    // If the reference date is in the future, use today's date
-    const effectiveDate = referenceDateObj > today ? today : referenceDateObj
+    // Use the reference date, but don't go beyond today
+    const effectiveDate = referenceDate > currentDate ? currentDate : referenceDate
 
-    // Find the most recent entry that is on or before the effective date
-    const validEntries = entryDates.filter(date => date <= effectiveDate)
+    // Find entries that are on or before the effective date
+    // Since dates are stored as Pakistan dates, we can compare them directly
+    const validEntries = entries
+      .filter(entry => {
+        const entryDate = parseISO(entry.date)
+        return entryDate <= effectiveDate
+      })
+      .map(entry => entry.date) // Keep as string format for easier comparison
 
     if (validEntries.length === 0) return 0
 
     // Calculate streak from the most recent valid entry backwards
     let streak = 0
-    let currentDate = validEntries[validEntries.length - 1]
+    const currentEntryDate = validEntries[0] // Most recent entry date
 
-    // Check if the most recent entry is within the last day from effective date
-    if (differenceInDays(effectiveDate, currentDate) <= 1) {
+    // Check if the most recent entry is for today or yesterday
+    const mostRecentDate = parseISO(currentEntryDate)
+    const daysDifference = differenceInDays(effectiveDate, mostRecentDate)
+
+    // If the most recent entry is today or yesterday, start streak at 1
+    if (daysDifference <= 1) {
       streak = 1
 
       // Count consecutive days backwards
-      for (let i = validEntries.length - 2; i >= 0; i--) {
-        const prevDate = validEntries[i]
+      for (let i = 1; i < validEntries.length; i++) {
+        const currentDate = parseISO(validEntries[i - 1])
+        const prevDate = parseISO(validEntries[i])
         const expectedPrevDate = subDays(currentDate, 1)
 
         // Check if this date is exactly one day before the current date
         if (differenceInDays(expectedPrevDate, prevDate) === 0) {
           streak++
-          currentDate = prevDate
         } else {
           // Gap found, break
           break

@@ -10,8 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
-import { format, startOfMonth, startOfYear, isSameDay, subDays } from 'date-fns'
-import { getPakistanDate, getPakistanDateTime, isNewDayInPakistan } from '@/lib/timezone'
+import { format, startOfMonth, startOfYear, isSameDay, subDays, parseISO } from 'date-fns'
+import { getPakistanDate, getCurrentPakistanDate, getPakistanDateTime, isNewDayInPakistan } from '@/lib/timezone'
 import TimezoneDisplay from '@/components/TimezoneDisplay'
 
 interface DuroodEntry {
@@ -432,25 +432,38 @@ export default function Home() {
     const sortedEntries = [...entries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     let streak = 0
-    let currentDate = new Date()
+    let currentPakistanDate = getCurrentPakistanDate()
 
-    // Check if today has an entry
-    const today = format(currentDate, 'yyyy-MM-dd')
-    const todayEntry = sortedEntries.find(entry => entry.date === today)
+    // Check if today has an entry (in Pakistan timezone)
+    const todayEntry = sortedEntries.find(entry => entry.date === currentPakistanDate)
 
     if (todayEntry && todayEntry.count > 0) {
       streak = 1
-      currentDate = subDays(currentDate, 1) // Move to yesterday
+      // Move to yesterday in Pakistan timezone
+      const yesterdayUTC = subDays(parseISO(currentPakistanDate), 1)
+      currentPakistanDate = format(yesterdayUTC, 'yyyy-MM-dd')
+    } else {
+      // If no entry for today, check yesterday
+      const yesterdayUTC = subDays(parseISO(currentPakistanDate), 1)
+      const yesterdayPakistanDate = format(yesterdayUTC, 'yyyy-MM-dd')
+      const yesterdayEntry = sortedEntries.find(entry => entry.date === yesterdayPakistanDate)
+
+      if (yesterdayEntry && yesterdayEntry.count > 0) {
+        streak = 1
+        currentPakistanDate = yesterdayPakistanDate
+      }
     }
 
-    // Count consecutive days backwards
+    // Count consecutive days backwards using Pakistan dates
     for (let i = 0; i < 365; i++) { // Limit to 1 year to prevent infinite loop
-      const dateStr = format(currentDate, 'yyyy-MM-dd')
-      const entry = sortedEntries.find(e => e.date === dateStr)
+      const entry = sortedEntries.find(e => e.date === currentPakistanDate)
 
       if (entry && entry.count > 0) {
         streak++
-        currentDate = subDays(currentDate, 1)
+        // Move to previous day in Pakistan timezone
+        const currentUTC = parseISO(currentPakistanDate)
+        const prevUTC = subDays(currentUTC, 1)
+        currentPakistanDate = format(prevUTC, 'yyyy-MM-dd')
       } else {
         break // Streak broken
       }

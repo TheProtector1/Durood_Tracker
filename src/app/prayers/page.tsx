@@ -237,10 +237,336 @@ export default function PrayersPage() {
 
   const sortedDates = history ? Object.keys(history).sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) : []
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
+        {/* Islamic decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl"></div>
+        </div>
+
+        {/* Timezone Display - Absolute Top Right Corner */}
+        <div className="fixed top-4 right-4 z-50">
+          <TimezoneDisplay variant="compact" />
+        </div>
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <Link href="/">
+                <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                  ← Back to Home
+                </Button>
+              </Link>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => loadPrayerHistory(true)}
+                disabled={isRefreshing}
+                className="border-blue-600 text-blue-600 hover:bg-blue-50"
+              >
+                {isRefreshing ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                    Refreshing...
+                  </>
+                ) : (
+                  <>
+                    🔄 Refresh
+                  </>
+                )}
+              </Button>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">🕌 Prayer History</h1>
+            <p className="text-gray-600">Track your daily prayer completion history</p>
+            <div className="text-xs text-blue-600 mt-2 space-y-1">
+              <div>🔄 Refreshes automatically when you complete prayers on the home page</div>
+              {lastUpdate && (
+                <div className="text-green-600">
+                  ✅ Last updated: {lastUpdate.toLocaleTimeString('en-PK', { timeZone: 'Asia/Karachi' })}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600 font-medium">Loading prayer history...</p>
+            <p className="mt-2 text-sm text-gray-500">Please wait while we fetch your prayer data</p>
+            {loadStartTime && (
+              <div className="mt-4">
+                <p className="text-sm text-amber-600 mb-2">Taking longer than expected...</p>
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                  size="sm"
+                >
+                  Reload Page
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
+        {/* Islamic decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl"></div>
+        </div>
+
+        {/* Timezone Display - Absolute Top Right Corner */}
+        <div className="fixed top-4 right-4 z-50">
+          <TimezoneDisplay variant="compact" />
+        </div>
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <Link href="/">
+                <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                  ← Back to Home
+                </Button>
+              </Link>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => loadPrayerHistory(true)}
+                disabled={isRefreshing}
+                className="border-blue-600 text-blue-600 hover:bg-blue-50"
+              >
+                🔄 Refresh
+              </Button>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">🕌 Prayer History</h1>
+            <p className="text-gray-600">Track your daily prayer completion history</p>
+          </div>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-center text-red-600">{error}</div>
+              <div className="mt-4 text-center">
+                <Button
+                  onClick={() => loadPrayerHistory(true)}
+                  variant="outline"
+                  className="border-red-300 text-red-600 hover:bg-red-50"
+                >
+                  Try Again
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
+
+
   return (
-    <div>
-      <h1>Prayer History</h1>
-      <p>Track your daily prayer completions</p>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
+      {/* Islamic decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Timezone Display - Absolute Top Right Corner */}
+      <div className="fixed top-4 right-4 z-50">
+        <TimezoneDisplay variant="compact" />
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <Link href="/">
+              <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                ← Back to Home
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => loadPrayerHistory(true)}
+              disabled={isRefreshing}
+              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+            >
+              {isRefreshing ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                  Refreshing...
+                </>
+              ) : (
+                <>
+                  🔄 Refresh
+                </>
+              )}
+            </Button>
+          </div>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">🕌 Prayer History</h1>
+          <p className="text-gray-600">Track your daily prayer completion history</p>
+          <div className="text-xs text-blue-600 mt-2 space-y-1">
+            <div>🔄 Refreshes automatically when you complete prayers on the home page</div>
+            {lastUpdate && (
+              <div className="text-green-600">
+                ✅ Last updated: {lastUpdate.toLocaleTimeString('en-PK', { timeZone: 'Asia/Karachi' })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-100 border border-red-200 rounded-lg">
+            <p className="text-red-800 text-sm">{error}</p>
+            <div className="mt-2">
+              <Button
+                onClick={() => loadPrayerHistory(true)}
+                variant="outline"
+                size="sm"
+                className="text-red-600 border-red-300"
+              >
+                Try Again
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Statistics */}
+        {stats && (
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+            <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-emerald-800">Days Tracked</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-emerald-600">{stats.totalDays}</div>
+                <div className="text-xs text-emerald-600 mt-1">Total days recorded</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-blue-800">Total Possible</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-blue-600">{stats.totalPossiblePrayers}</div>
+                <div className="text-xs text-blue-600 mt-1">Prayers available</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-green-800">Actually Completed</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-green-600">{stats.actualCompletedPrayers}</div>
+                <div className="text-xs text-green-600 mt-1">Prayers performed</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-purple-800">Perfect Days</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-purple-600">{stats.perfectDays}</div>
+                <div className="text-xs text-purple-600 mt-1">All 5 prayers completed</div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-orange-800">Completion Rate</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-4xl font-bold text-orange-600">{stats.averageCompletionRate}%</div>
+                <div className="text-xs text-orange-600 mt-1">Average daily completion</div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Prayer History */}
+        {history && sortedDates.length > 0 ? (
+          <div className="space-y-4">
+            {sortedDates.map(date => (
+              <Card key={date} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-200">
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="text-lg text-gray-800">{format(new Date(date), 'EEEE, MMMM d, yyyy')}</span>
+                    <Badge variant="outline" className="bg-white/80">
+                      {history[date].filter(p => p.completed).length}/5 prayers
+                    </Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                    {['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'].map(prayerName => {
+                      const prayerData = history[date].find(p => p.prayerName === prayerName)
+                      const completed = prayerData?.completed || false
+                      const completedAt = prayerData?.completedAt
+
+                      return (
+                        <div
+                          key={prayerName}
+                          className={`p-4 rounded-lg border-2 transition-all duration-300 ${
+                            completed
+                              ? 'bg-gradient-to-br from-emerald-100 to-teal-100 border-emerald-300'
+                              : 'bg-gray-50 border-gray-200'
+                          }`}
+                        >
+                          <div className="text-center">
+                            <div className="text-2xl mb-2">
+                              {completed ? '✅' : '❌'}
+                            </div>
+                            <div className={`font-semibold text-lg ${
+                              completed ? 'text-emerald-700' : 'text-gray-500'
+                            }`}>
+                              {getPrayerDisplayName(prayerName)}
+                            </div>
+                            {completed && completedAt && (
+                              <div className="text-xs text-emerald-600 mt-2">
+                                {new Date(completedAt).toLocaleTimeString('en-PK', {
+                                  timeZone: 'Asia/Karachi',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">🕌</div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">No Prayer History Yet</h3>
+                <p className="text-gray-600 mb-4">Start tracking your daily prayers to see your history here</p>
+                <Link href="/">
+                  <Button className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
+                    🏠 Go to Home & Start Tracking
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   )
 }
