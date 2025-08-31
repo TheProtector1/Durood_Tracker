@@ -14,6 +14,7 @@ interface Ranking {
   displayName: string
   count: number
   rank: number
+  streak: number
 }
 
 interface RankingsResponse {
@@ -107,6 +108,20 @@ export default function RankingsPage() {
           </div>
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Daily Rankings</h1>
           <p className="text-gray-600">Top 20 Durood Reciters</p>
+          <div className="mt-4 flex items-center justify-center gap-6 text-sm">
+            <div className="flex items-center gap-1">
+              <span className="text-lg">🔥</span>
+              <span className="text-gray-600">7+ day streak</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="text-lg">⚡</span>
+              <span className="text-gray-600">3+ day streak</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="text-lg">✨</span>
+              <span className="text-gray-600">1+ day streak</span>
+            </div>
+          </div>
         </div>
 
         {/* Date Selector */}
@@ -154,7 +169,7 @@ export default function RankingsPage() {
                   Rankings for {format(new Date(rankings.date), 'MMMM d, yyyy')}
                 </CardTitle>
                 <CardDescription>
-                  {rankings.total} participants • Updated daily
+                  {rankings.total} participants • Updated daily • 🔥 Streak tracking included
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -182,11 +197,30 @@ export default function RankingsPage() {
                             <p className="text-sm text-gray-600">@{ranking.username}</p>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-emerald-600">
-                            {ranking.count.toLocaleString()}
+                        <div className="text-right flex items-center gap-4">
+                          <div>
+                            <div className="text-2xl font-bold text-emerald-600">
+                              {ranking.count.toLocaleString()}
+                            </div>
+                            <div className="text-sm text-gray-600">Durood</div>
                           </div>
-                          <div className="text-sm text-gray-600">Durood</div>
+
+                          {/* Streak indicator */}
+                          <div className="text-center">
+                            <div className="flex items-center gap-1">
+                              <div className="text-lg">
+                                {ranking.streak >= 7 ? '🔥' :
+                                 ranking.streak >= 3 ? '⚡' :
+                                 ranking.streak >= 1 ? '✨' : '📅'}
+                              </div>
+                              <div className="text-sm font-medium text-orange-600">
+                                {ranking.streak}
+                              </div>
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {ranking.streak === 1 ? 'day' : 'days'}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -194,6 +228,104 @@ export default function RankingsPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Streak Leaderboard */}
+            {rankings.rankings.length > 0 && (
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    🔥 Streak Champions
+                  </CardTitle>
+                  <CardDescription>
+                    Users with the longest current streaks
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {rankings.rankings
+                      .filter(ranking => ranking.streak > 0)
+                      .sort((a, b) => b.streak - a.streak)
+                      .slice(0, 10)
+                      .map((ranking, index) => (
+                        <div
+                          key={`streak-${ranking.id}`}
+                          className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200"
+                        >
+                          <div className="flex items-center gap-3">
+                            <Badge className="bg-gradient-to-r from-orange-500 to-red-500">
+                              #{index + 1}
+                            </Badge>
+                            <div>
+                              <h4 className="font-medium">
+                                {ranking.displayName || ranking.username}
+                              </h4>
+                              <p className="text-sm text-gray-600">@{ranking.username}</p>
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="flex items-center gap-1">
+                              <div className="text-xl">
+                                {ranking.streak >= 30 ? '🏆' :
+                                 ranking.streak >= 14 ? '🔥' :
+                                 ranking.streak >= 7 ? '⚡' : '✨'}
+                              </div>
+                              <div className="text-lg font-bold text-orange-600">
+                                {ranking.streak}
+                              </div>
+                            </div>
+                            <div className="text-xs text-gray-500">day streak</div>
+                          </div>
+                        </div>
+                      ))}
+
+                    {rankings.rankings.filter(ranking => ranking.streak > 0).length === 0 && (
+                      <div className="text-center py-4 text-gray-500">
+                        No active streaks yet. Start your journey today! ✨
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Streak Milestones */}
+            {rankings.rankings.length > 0 && rankings.rankings.some(r => r.streak >= 7) && (
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    🏆 Streak Milestones
+                  </CardTitle>
+                  <CardDescription>
+                    Congratulations to users who reached significant streak milestones!
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      { milestone: 100, label: 'Century Club', icon: '💯' },
+                      { milestone: 50, label: 'Golden Streak', icon: '🥇' },
+                      { milestone: 30, label: 'Month Master', icon: '🏆' },
+                      { milestone: 14, label: 'Fortnight Hero', icon: '🔥' },
+                      { milestone: 7, label: 'Week Warrior', icon: '⚡' }
+                    ].map(({ milestone, label, icon }) => {
+                      const achievers = rankings.rankings.filter(r => r.streak >= milestone)
+                      if (achievers.length === 0) return null
+
+                      return (
+                        <div key={milestone} className="text-center p-4 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
+                          <div className="text-2xl mb-2">{icon}</div>
+                          <div className="text-lg font-bold text-yellow-800">{milestone}+ days</div>
+                          <div className="text-sm text-gray-600 mb-2">{label}</div>
+                          <div className="text-xs text-gray-500">
+                            {achievers.length} {achievers.length === 1 ? 'user' : 'users'}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </>
         ) : null}
       </div>

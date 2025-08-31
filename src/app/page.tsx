@@ -447,16 +447,16 @@ export default function Home() {
           </div>
           
           {/* Streak Display */}
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Badge variant="outline" className="text-sm bg-orange-50 text-orange-700 border-orange-200">
-              🔥 Durood Streak: {getCurrentStreak()} days
-            </Badge>
-            {getCurrentStreak() > 0 && (
+          {getCurrentStreak() > 0 && (
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Badge variant="outline" className="text-sm bg-orange-50 text-orange-700 border-orange-200">
+                🔥 {getCurrentStreak()} day{getCurrentStreak() !== 1 ? 's' : ''} streak
+              </Badge>
               <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200">
                 Keep it up!
               </Badge>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Tasbih-style Counter + Manual Entry */}
@@ -541,7 +541,7 @@ export default function Home() {
         </Card>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">Today</CardTitle>
@@ -575,6 +575,25 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{getTotalCount()}</div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">Current Streak</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-2">
+                <div className="text-2xl font-bold text-red-600">{getCurrentStreak()}</div>
+                <div className="text-sm text-gray-600">
+                  {getCurrentStreak() === 1 ? 'day' : 'days'}
+                </div>
+              </div>
+              {getCurrentStreak() > 0 && (
+                <div className="mt-1 text-xs text-green-600">
+                  Keep it up! 🔥
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -675,7 +694,7 @@ function PublicRankingsAndTotal() {
   const [total, setTotal] = useState<number | null>(null)
   const [rankings, setRankings] = useState<{
     date: string
-    rankings: { id: string; displayName: string | null; username: string; count: number; rank: number }[]
+    rankings: { id: string; displayName: string | null; username: string; count: number; rank: number; streak: number }[]
     total: number
     note?: string
   } | null>(null)
@@ -744,34 +763,41 @@ function PublicRankingsAndTotal() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200">
         <CardHeader>
-          <CardTitle className="text-center">Today&apos;s Top Rankings</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-center text-emerald-800">Today&apos;s Top Rankings</CardTitle>
+          <CardDescription className="text-center text-emerald-600">
             See who&apos;s leading today&apos;s Durood recitation
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="text-center text-gray-600">Loading...</div>
+            <div className="text-center text-emerald-700">Loading...</div>
           ) : error ? (
             <div className="text-center text-red-600">{error}</div>
           ) : !rankings || rankings.rankings.length === 0 ? (
-            <div className="text-center text-gray-500">No rankings available</div>
+            <div className="text-center text-emerald-600">No rankings available</div>
           ) : (
             <div className="space-y-2">
               {rankings.rankings.map((r) => (
-                <div key={r.id} className="flex items-center justify-between p-3 rounded-lg bg-white border">
+                <div key={r.id} className="flex items-center justify-between p-3 rounded-lg bg-white/80 backdrop-blur-sm border border-emerald-100 shadow-sm">
                   <div className="flex items-center gap-3">
-                    <Badge>#{r.rank}</Badge>
-                    <span className="font-medium">{r.displayName || r.username}</span>
+                    <Badge className="bg-emerald-600 hover:bg-emerald-700">#{r.rank}</Badge>
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-800">{r.displayName || r.username}</span>
+                      {r.streak > 0 && (
+                        <Badge variant="outline" className="text-xs bg-orange-50 text-orange-700 border-orange-200 w-fit mt-1">
+                          🔥 {r.streak} day{r.streak !== 1 ? 's' : ''}
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                   <div className="text-emerald-700 font-semibold">{r.count.toLocaleString()}</div>
                 </div>
               ))}
               <div className="text-center pt-2">
                 <Link href="/rankings">
-                  <Button variant="outline">View full rankings</Button>
+                  <Button variant="outline" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50">View full rankings</Button>
                 </Link>
               </div>
             </div>
