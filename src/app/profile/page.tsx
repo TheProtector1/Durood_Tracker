@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import TimezoneDisplay from '@/components/TimezoneDisplay'
 
 
 interface UserProfile {
@@ -185,7 +186,12 @@ export default function ProfilePage() {
       </div>
 
       <div className="max-w-2xl mx-auto relative z-10">
-        {/* Header */}
+        {/* Timezone Display - Absolute Top Right Corner */}
+        <div className="fixed top-4 right-4 z-50">
+          <TimezoneDisplay variant="compact" />
+        </div>
+
+        {/* Main Header Content */}
         <div className="text-center mb-8">
           <Link href="/">
             <Button variant="outline" size="sm" className="mb-4 text-gray-600 border-gray-300 hover:bg-gray-50">
