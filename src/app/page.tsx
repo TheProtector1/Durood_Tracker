@@ -698,36 +698,54 @@ export default function Home() {
             </div>
 
             {/* Main Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
               {/* Prayer History - Featured Button */}
-              <Link href="/prayers">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-8 py-3"
-                >
-                  🕌 Prayer History
-                </Button>
-              </Link>
+              <div className="w-full sm:w-auto">
+                <Link href="/prayers" className="block">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 px-8 py-3"
+                  >
+                    🕌 Prayer History
+                  </Button>
+                </Link>
+              </div>
 
               {/* Secondary Buttons */}
-              <div className="flex gap-2">
-                <Link href="/duroods">
-                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+              <div className="flex flex-wrap justify-center gap-2 w-full sm:w-auto sm:flex-nowrap">
+                <Link href="/duroods" className="block">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
+                  >
                     ﷺ Duroods
                   </Button>
                 </Link>
-                <Link href="/prayer-timings">
-                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                <Link href="/prayer-timings" className="block">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
+                  >
                     🕌 Prayer Times
                   </Button>
                 </Link>
-                <Link href="/profile">
-                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                <Link href="/profile" className="block">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
+                  >
                     👤 Profile
                   </Button>
                 </Link>
-                <Link href="/rankings">
-                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                <Link href="/rankings" className="block">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
+                  >
                     🏆 Rankings
                   </Button>
                 </Link>
@@ -735,7 +753,7 @@ export default function Home() {
                   variant="outline"
                   size="sm"
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
+                  className="w-full sm:w-auto min-w-[100px] border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 text-sm font-medium"
                 >
                   🚪 Sign Out
                 </Button>
@@ -760,7 +778,7 @@ export default function Home() {
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl md:text-2xl text-center">Today&apos;s Reading</CardTitle>
-            <CardDescription className='text-2xl md:text-2xl text-center'>اَللّٰهُمَّ صَلِّ عَلٰی مُحَمَّدٍ وَّعَلٰی اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰی اِبْرَاهِيْمَ وَعَلٰی اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ </CardDescription>
+            <CardDescription className='text-2xl md:text-2xl text-center font-bold text-emerald-800'>اَللّٰهُمَّ صَلِّ عَلٰی مُحَمَّدٍ وَّعَلٰی اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰی اِبْرَاهِيْمَ وَعَلٰی اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
