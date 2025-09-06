@@ -711,6 +711,16 @@ export default function Home() {
 
               {/* Secondary Buttons */}
               <div className="flex gap-2">
+                <Link href="/duroods">
+                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                    ﷺ Duroods
+                  </Button>
+                </Link>
+                <Link href="/prayer-timings">
+                  <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
+                    🕌 Prayer Times
+                  </Button>
+                </Link>
                 <Link href="/profile">
                   <Button variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200">
                     👤 Profile
@@ -749,8 +759,8 @@ export default function Home() {
         {/* Tasbih-style Counter + Manual Entry */}
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Today&apos;s Reading</CardTitle>
-            <CardDescription className='text-2xl text-center'>اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</CardDescription>
+            <CardTitle className="text-2xl md:text-4xl text-center">Today&apos;s Reading</CardTitle>
+            <CardDescription className='text-3xl md:text-4xl text-center'>اَللّٰهُمَّ صَلِّ عَلٰی مُحَمَّدٍ وَّعَلٰی اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰی اِبْرَاهِيْمَ وَعَلٰی اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">

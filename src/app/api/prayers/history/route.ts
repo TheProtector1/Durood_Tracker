@@ -118,3 +118,35 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    // Delete all prayer completions for this user
+    const deleteResult = await prisma.prayerCompletion.deleteMany({
+      where: {
+        userId: session.user.id
+      }
+    })
+
+    return NextResponse.json({
+      message: 'All prayer tracking data has been reset',
+      deletedCount: deleteResult.count
+    })
+
+  } catch (error) {
+    console.error('Delete prayer history error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}

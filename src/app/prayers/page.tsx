@@ -40,6 +40,8 @@ export default function PrayersPage() {
   const [currentDate, setCurrentDate] = useState<string>('')
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
   const [loadStartTime, setLoadStartTime] = useState<Date | null>(null)
+  const [isResetting, setIsResetting] = useState(false)
+  const [isResettingAll, setIsResettingAll] = useState(false)
 
   console.log('🕌 PrayersPage render:', {
     session: !!session,
@@ -127,6 +129,81 @@ export default function PrayersPage() {
       setIsRefreshing(false)
     }
   }, [session, currentDate])
+
+  const resetPrayerTracking = async () => {
+    if (!session?.user?.id || !currentDate) return
+
+    const confirmed = window.confirm('Reset all prayer tracking for today? This will mark all prayers as incomplete.')
+    if (!confirmed) return
+
+    try {
+      setIsResetting(true)
+      setError('')
+
+      // Reset all prayers to incomplete for today
+      const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']
+      await Promise.all(prayers.map(prayer =>
+        fetch('/api/prayers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            date: currentDate,
+            prayerName: prayer,
+            completed: false
+          }),
+        })
+      ))
+
+      // Reload prayer history to reflect changes
+      await loadPrayerHistory(true)
+    } catch (error) {
+      console.error('Error resetting prayer tracking:', error)
+      setError('Failed to reset prayer tracking')
+    } finally {
+      setIsResetting(false)
+    }
+  }
+
+  const resetAllPrayerTracking = async () => {
+    if (!session?.user?.id) return
+
+    const confirmed = window.confirm(
+      'WARNING: This will permanently delete ALL your prayer tracking history from all dates. This action cannot be undone. Are you sure?'
+    )
+    if (!confirmed) return
+
+    // Additional confirmation for safety
+    const doubleConfirmed = window.confirm(
+      'FINAL WARNING: This will erase your complete prayer history. Type "RESET ALL" to confirm.'
+    )
+    if (!doubleConfirmed) return
+
+    try {
+      setIsResettingAll(true)
+      setError('')
+
+      // Delete all prayer history
+      const response = await fetch('/api/prayers/history', {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        // Reload prayer history to reflect changes
+        await loadPrayerHistory(true)
+        alert('All prayer tracking data has been permanently deleted.')
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to reset all prayer tracking')
+      }
+    } catch (error) {
+      console.error('Error resetting all prayer tracking:', error)
+      setError('Failed to reset all prayer tracking')
+    } finally {
+      setIsResettingAll(false)
+    }
+  }
 
   // Update current Pakistan date
   useEffect(() => {
@@ -231,86 +308,8 @@ export default function PrayersPage() {
     return names[prayerName] || prayerName
   }
 
-  const getCompletionIcon = (completed: boolean) => {
-    return completed ? '✅' : '❌'
-  }
 
   const sortedDates = history ? Object.keys(history).sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) : []
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
-        {/* Islamic decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl"></div>
-        </div>
-
-        {/* Timezone Display - Absolute Top Right Corner */}
-        <div className="fixed top-4 right-4 z-50">
-          <TimezoneDisplay variant="compact" />
-        </div>
-
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <Link href="/">
-                <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
-                  ← Back to Home
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => loadPrayerHistory(true)}
-                disabled={isRefreshing}
-                className="border-blue-600 text-blue-600 hover:bg-blue-50"
-              >
-                {isRefreshing ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-                    Refreshing...
-                  </>
-                ) : (
-                  <>
-                    🔄 Refresh
-                  </>
-                )}
-              </Button>
-            </div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">🕌 Prayer History</h1>
-            <p className="text-gray-600">Track your daily prayer completion history</p>
-            <div className="text-xs text-blue-600 mt-2 space-y-1">
-              <div>🔄 Refreshes automatically when you complete prayers on the home page</div>
-              {lastUpdate && (
-                <div className="text-green-600">
-                  ✅ Last updated: {lastUpdate.toLocaleTimeString('en-PK', { timeZone: 'Asia/Karachi' })}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600 font-medium">Loading prayer history...</p>
-            <p className="mt-2 text-sm text-gray-500">Please wait while we fetch your prayer data</p>
-            {loadStartTime && (
-              <div className="mt-4">
-                <p className="text-sm text-amber-600 mb-2">Taking longer than expected...</p>
-                <Button
-                  onClick={() => window.location.reload()}
-                  variant="outline"
-                  size="sm"
-                >
-                  Reload Page
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   if (error) {
     return (
@@ -319,11 +318,6 @@ export default function PrayersPage() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl"></div>
-        </div>
-
-        {/* Timezone Display - Absolute Top Right Corner */}
-        <div className="fixed top-4 right-4 z-50">
-          <TimezoneDisplay variant="compact" />
         </div>
 
         <div className="max-w-4xl mx-auto relative z-10">
@@ -367,8 +361,6 @@ export default function PrayersPage() {
     )
   }
 
-
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 relative overflow-hidden">
       {/* Islamic decorative elements */}
@@ -409,6 +401,42 @@ export default function PrayersPage() {
                 </>
               )}
             </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetPrayerTracking}
+              disabled={isResetting}
+              className="border-red-600 text-red-600 hover:bg-red-50"
+            >
+              {isResetting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
+                  Resetting...
+                </>
+              ) : (
+                <>
+                  🔄 Reset Today
+                </>
+              )}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetAllPrayerTracking}
+              disabled={isResettingAll}
+              className="border-red-800 text-red-800 hover:bg-red-100"
+            >
+              {isResettingAll ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-800 mr-2"></div>
+                  Deleting...
+                </>
+              ) : (
+                <>
+                  🗑️ Reset All History
+                </>
+              )}
+            </Button>
           </div>
           <h1 className="text-4xl font-bold text-gray-800 mb-2">🕌 Prayer History</h1>
           <p className="text-gray-600">Track your daily prayer completion history</p>
@@ -422,22 +450,6 @@ export default function PrayersPage() {
           </div>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-100 border border-red-200 rounded-lg">
-            <p className="text-red-800 text-sm">{error}</p>
-            <div className="mt-2">
-              <Button
-                onClick={() => loadPrayerHistory(true)}
-                variant="outline"
-                size="sm"
-                className="text-red-600 border-red-300"
-              >
-                Try Again
-              </Button>
-            </div>
-          </div>
-        )}
 
         {/* Statistics */}
         {stats && (
