@@ -759,8 +759,8 @@ export default function Home() {
         {/* Tasbih-style Counter + Manual Entry */}
         <Card className="mb-6 overflow-hidden">
           <CardHeader>
-            <CardTitle className="text-2xl md:text-4xl text-center">Today&apos;s Reading</CardTitle>
-            <CardDescription className='text-3xl md:text-4xl text-center'>اَللّٰهُمَّ صَلِّ عَلٰی مُحَمَّدٍ وَّعَلٰی اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰی اِبْرَاهِيْمَ وَعَلٰی اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ </CardDescription>
+            <CardTitle className="text-2xl md:text-2xl text-center">Today&apos;s Reading</CardTitle>
+            <CardDescription className='text-2xl md:text-2xl text-center'>اَللّٰهُمَّ صَلِّ عَلٰی مُحَمَّدٍ وَّعَلٰی اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰی اِبْرَاهِيْمَ وَعَلٰی اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
