@@ -1,81 +1,169 @@
-# Email Setup Guide for Durood Tracker
+# Email Provider Configuration Guide
 
-## Required Environment Variables
+This guide explains how to configure different email providers for Durood Tracker's email verification and password reset features.
 
-To enable email functionality for password reset, you need to set the following environment variables:
+## Supported Email Providers
 
-### 1. Resend API Key
+### 1. SendGrid (Recommended)
+**Free Tier:** 100 emails/day, then paid plans
+**Setup:**
+1. Sign up at [SendGrid](https://sendgrid.com)
+2. Create an API key in Settings > API Keys
+3. Add to your `.env.local`:
 ```bash
-RESEND_API_KEY=your-resend-api-key-here
-```
-
-### 2. From Email Address
-```bash
+SENDGRID_API_KEY=your_sendgrid_api_key_here
 FROM_EMAIL=noreply@yourdomain.com
 ```
 
-### 3. NextAuth URL
+### 2. Mailgun
+**Free Tier:** 5,000 emails/month
+**Setup:**
+1. Sign up at [Mailgun](https://mailgun.com)
+2. Verify your domain or use Mailgun's sandbox domain
+3. Get your API key from Settings > API Keys
+4. Add to your `.env.local`:
 ```bash
-NEXTAUTH_URL=https://yourdomain.com
-```
-
-## How to Get Resend API Key
-
-1. Go to [Resend.com](https://resend.com) and create an account
-2. Navigate to the API Keys section
-3. Create a new API key
-4. Copy the API key and add it to your environment variables
-
-## Vercel Configuration
-
-### Environment Variables
-Add the following environment variables in your Vercel project settings:
-
-1. Go to your Vercel project dashboard
-2. Navigate to Settings > Environment Variables
-3. Add each variable:
-   - `RESEND_API_KEY`: Your Resend API key
-   - `FROM_EMAIL`: Your verified domain email (e.g., noreply@yourdomain.com)
-   - `NEXTAUTH_URL`: Your production domain (e.g., https://yourdomain.com)
-
-### Domain Verification
-If you want to send emails from a custom domain:
-
-1. In Resend, go to Domains section
-2. Add and verify your domain
-3. Update the `FROM_EMAIL` to use your verified domain
-
-## Local Development
-
-For local development, create a `.env.local` file in your project root:
-
-```bash
-RESEND_API_KEY=your-resend-api-key-here
+MAILGUN_API_KEY=your_mailgun_api_key_here
+MAILGUN_DOMAIN=yourdomain.com
 FROM_EMAIL=noreply@yourdomain.com
-NEXTAUTH_URL=http://localhost:3000
 ```
 
-## Testing
+### 3. Gmail SMTP
+**Free:** Limited to 500 emails/day
+**Setup:**
+1. Enable 2-Factor Authentication on your Gmail account
+2. Generate an App Password in Google Account Settings
+3. Add to your `.env.local`:
+```bash
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your_app_password_here
+SMTP_SECURE=false
+FROM_EMAIL=your-email@gmail.com
+```
 
-1. Start your development server
-2. Go to the forgot password page
-3. Enter a valid email address
-4. Check your email for the password reset link
-5. Verify the link works and allows password reset
+### 4. Outlook/Hotmail SMTP
+**Free:** Limited daily sending limits
+**Setup:**
+1. Add to your `.env.local`:
+```bash
+SMTP_HOST=smtp-mail.outlook.com
+SMTP_PORT=587
+SMTP_USER=your-email@outlook.com
+SMTP_PASS=your_password_here
+SMTP_SECURE=false
+FROM_EMAIL=your-email@outlook.com
+```
+
+### 5. Custom SMTP Server
+**Setup:**
+```bash
+SMTP_HOST=your-smtp-server.com
+SMTP_PORT=587
+SMTP_USER=your-username
+SMTP_PASS=your-password
+SMTP_SECURE=false  # Set to true for port 465
+FROM_EMAIL=noreply@yourdomain.com
+```
+
+## Configuration Priority
+
+The system checks for email providers in this order:
+1. SendGrid (SENDGRID_API_KEY)
+2. Mailgun (MAILGUN_API_KEY + MAILGUN_DOMAIN)
+3. AWS SES (AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY + AWS_REGION)
+4. SMTP (SMTP_HOST + SMTP_USER + SMTP_PASS)
+
+## Environment Variables
+
+Create a `.env.local` file in your project root with your chosen provider's configuration:
+
+```bash
+# Choose ONE provider configuration:
+
+# For SendGrid
+SENDGRID_API_KEY=SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+FROM_EMAIL=noreply@duroodtracker.com
+
+# For Mailgun
+MAILGUN_API_KEY=key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MAILGUN_DOMAIN=duroodtracker.com
+FROM_EMAIL=noreply@duroodtracker.com
+
+# For Gmail
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-app@gmail.com
+SMTP_PASS=your-app-password
+SMTP_SECURE=false
+FROM_EMAIL=your-app@gmail.com
+
+# For Outlook
+SMTP_HOST=smtp-mail.outlook.com
+SMTP_PORT=587
+SMTP_USER=your-email@outlook.com
+SMTP_PASS=your-password
+SMTP_SECURE=false
+FROM_EMAIL=your-email@outlook.com
+```
+
+## Testing Email Configuration
+
+After setup, test the email functionality:
+
+1. Try creating a new user account
+2. Check if verification email is sent
+3. Try the password reset feature
 
 ## Troubleshooting
 
-### Email Not Sending
-- Check if `RESEND_API_KEY` is set correctly
-- Verify the `FROM_EMAIL` domain is verified in Resend
-- Check Vercel function logs for any errors
+### Common Issues:
 
-### Invalid API Key
-- Ensure the API key is copied correctly
-- Check if the API key has the necessary permissions
-- Verify the API key is active in Resend
+1. **"Email service not configured"**
+   - Check that your environment variables are set correctly
+   - Ensure your `.env.local` file is in the project root
 
-### Domain Issues
-- Make sure your domain is verified in Resend
-- Check DNS records are configured correctly
-- Allow some time for DNS propagation
+2. **"Authentication failed" (SMTP)**
+   - For Gmail: Use App Password instead of regular password
+   - For Outlook: Ensure you're using the correct SMTP settings
+
+3. **"Domain not verified" (Mailgun)**
+   - Use Mailgun's sandbox domain for testing
+   - Or verify your own domain in Mailgun dashboard
+
+4. **Rate Limits**
+   - Check your provider's sending limits
+   - Free tiers have daily/monthly limits
+
+### Email Not Being Sent:
+
+- Check server console for error messages
+- Verify your API keys are correct
+- Ensure your domain is verified (for Mailgun)
+- Check spam/junk folder
+
+## Security Notes
+
+- Never commit your `.env.local` file to version control
+- Use App Passwords for Gmail instead of regular passwords
+- Rotate API keys regularly
+- Monitor your email sending limits
+
+## Support
+
+For issues with specific email providers:
+- **SendGrid:** Check their status page and documentation
+- **Mailgun:** Review their knowledge base
+- **Gmail/Outlook:** Check Microsoft's email sending guidelines
+
+## Cost Comparison
+
+| Provider | Free Tier | Paid Plans |
+|----------|-----------|------------|
+| SendGrid | 100/day | $19.95/month (50k emails) |
+| Mailgun | 5,000/month | $35/month (50k emails) |
+| Gmail | 500/day | N/A (personal use only) |
+| Outlook | Limited | N/A (personal use only) |
+
+Choose based on your expected email volume and budget requirements.

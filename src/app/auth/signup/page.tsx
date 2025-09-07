@@ -67,10 +67,12 @@ export default function SignUp() {
         throw new Error(data.error || 'Signup failed')
       }
 
-      setSuccess('Account created successfully! Redirecting to sign in...')
-      setTimeout(() => {
-        router.push('/auth/signin')
-      }, 2000)
+      if (data.emailSent) {
+        setSuccess('Account created successfully! Please check your email to verify your account before signing in.')
+      } else {
+        setSuccess('Account created successfully! You can now sign in to your account.')
+      }
+      // Don't auto-redirect, let user verify email first
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
@@ -174,8 +176,13 @@ export default function SignUp() {
             )}
             
             {success && (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
-                <p className="text-emerald-700 text-sm text-center">{success}</p>
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                <p className="text-emerald-700 text-sm text-center mb-3">{success}</p>
+                <div className="text-center">
+                  <Link href="/auth/signin" className="text-emerald-600 hover:text-emerald-700 font-medium hover:underline">
+                    Proceed to Sign In
+                  </Link>
+                </div>
               </div>
             )}
             

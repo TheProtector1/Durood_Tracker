@@ -29,7 +29,12 @@ export default function SignIn() {
       })
 
       if (result?.error) {
-        setError('Invalid email or password')
+        // Check if it's an email verification error
+        if (result.error.includes('verify your email')) {
+          setError(result.error)
+        } else {
+          setError('Invalid email or password')
+        }
       } else {
         const session = await getSession()
         if (session) {
@@ -39,6 +44,35 @@ export default function SignIn() {
       }
     } catch (error) {
       setError('An error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleResendVerification = async () => {
+    if (!email) {
+      setError('Please enter your email address first')
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const response = await fetch('/api/auth/resend-verification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      if (response.ok) {
+        setError('Verification email sent! Please check your email.')
+      } else {
+        const data = await response.json()
+        setError(data.error || 'Failed to send verification email')
+      }
+    } catch (error) {
+      setError('An error occurred while sending the verification email.')
     } finally {
       setIsLoading(false)
     }
@@ -101,8 +135,21 @@ export default function SignIn() {
             </div>
             
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700 text-sm text-center">{error}</p>
+              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-700 text-sm text-center mb-3">{error}</p>
+                {error.includes('verify your email') && (
+                  <div className="text-center">
+                    <Button
+                      onClick={handleResendVerification}
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 border-red-300 hover:bg-red-50"
+                      disabled={isLoading}
+                    >
+                      Resend Verification Email
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
             

@@ -8,8 +8,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // used by migrate
-
 }
 
 model User {
@@ -19,11 +17,16 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   // Profile information
   displayName String?
   avatar     String?
-  
+
+  // Email verification
+  emailVerified Boolean @default(false)
+  emailVerificationToken String?
+  emailVerificationExpires DateTime?
+
   // Durood entries
   duroodEntries DuroodEntry[]
 
@@ -32,7 +35,7 @@ model User {
 
   // Prayer completions
   prayerCompletions PrayerCompletion[]
-  
+
   @@map("users")
 }
 

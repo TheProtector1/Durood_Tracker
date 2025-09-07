@@ -35,6 +35,11 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
+        // Check if email is verified (only if email verification is configured)
+        if (!user.emailVerified && process.env.RESEND_API_KEY) {
+          throw new Error('Please verify your email before signing in. Check your email for the verification link.')
+        }
+
         return {
           id: user.id,
           email: user.email,
