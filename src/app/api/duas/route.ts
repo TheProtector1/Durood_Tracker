@@ -57,15 +57,15 @@ const sampleDuas = [
 
 export async function GET(request: NextRequest) {
   try {
-    // In production, this would fetch from database
-    // For now, we'll use the sample data
-    const duas = sampleDuas.map((dua, index) => ({
-      id: `dua-${index + 1}`,
-      ...dua,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }))
+    const duas = await prisma.dua.findMany({
+      where: {
+        isActive: true
+      },
+      orderBy: [
+        { category: 'asc' },
+        { order: 'asc' }
+      ]
+    })
 
     return NextResponse.json(duas)
   } catch (error) {
@@ -77,7 +77,6 @@ export async function GET(request: NextRequest) {
 // Add new dua (admin only)
 export async function POST(request: NextRequest) {
   try {
-    // In production, add authentication check here
     const duaData = await request.json()
 
     // Validate required fields
@@ -86,14 +85,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // In production, this would save to database
-    const newDua = {
-      id: `dua-${Date.now()}`,
-      ...duaData,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
+    const newDua = await prisma.dua.create({
+      data: {
+        title,
+        category,
+        arabic,
+        urdu,
+        english,
+        transliteration: duaData.transliteration || null,
+        reference: duaData.reference || null,
+        audioUrl: duaData.audioUrl || null,
+        order: duaData.order || 0
+      }
+    })
 
     return NextResponse.json(newDua, { status: 201 })
   } catch (error) {
