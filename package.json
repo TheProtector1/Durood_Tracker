@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
@@ -15,8 +15,8 @@
     "test-profile-update": "tsx scripts/test-profile-update.ts",
     "delete-user": "tsx scripts/delete-user.ts",
     "test-timezone": "tsx scripts/test-timezone.ts",
-    "vercel-build": "echo 'Using standard Next.js build' && next build",
-    "postinstall": "prisma generate"
+    "vercel-build": "prisma generate && next build",
+    "postinstall": "[ -n \"$DATABASE_URL\" ] && prisma generate || echo 'Skipping Prisma generate - DATABASE_URL not set'"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",

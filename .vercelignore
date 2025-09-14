@@ -1,34 +1,27 @@
-# BLOCK ALL PRISMA FILES AND OPERATIONS
-prisma
-prisma/
-prisma/**
-**/prisma
-**/prisma/**
-**/*prisma*
-**/prisma*
-
-# BLOCK ALL DATABASE FILES
+# BLOCK PRISMA DATABASE AND MIGRATION FILES, BUT ALLOW SCHEMA
+# Block database files
 *.db
 *.db-journal
 *.db-shm
 *.db-wal
-**/*.db
-**/*.db-journal
-**/*.db-shm
-**/*.db-wal
+**/dev.db
+**/dev.db-journal
+**/dev.db-shm
+**/dev.db-wal
 
-# BLOCK MIGRATION FILES
+# Block migration files
 **/migrations
 **/migrations/**
-migration*
-**/migration*
 
-# BLOCK PRISMA CLI AND TOOLS
+# Block Prisma CLI and tools
 **/@prisma/cli
 **/@prisma/cli/**
 **/prisma-cli
 **/prisma-cli/**
 
-# ONLY ALLOW THE PRE-GENERATED PRISMA CLIENT
+# ALLOW Prisma schema file (needed for client generation)
+!prisma/schema.prisma
+
+# ALLOW pre-generated Prisma client
 !node_modules/@prisma/client
 !node_modules/@prisma/client/**
