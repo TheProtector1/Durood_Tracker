@@ -1359,3 +1359,33 @@ Please make sure your database server is running at `db.prisma.io:5432`.
 [2025-09-14T11:30:09.772Z] [INFO] 🔌 Disconnected from production database
 [2025-09-14T11:30:09.772Z] [INFO] ============================================================
 [2025-09-14T11:30:09.772Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-14T12:00:00.896Z] [INFO] ============================================================
+[2025-09-14T12:00:00.908Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T12:00:00.908Z] [INFO] ============================================================
+[2025-09-14T12:00:00.909Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T12:00:00.912Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T12:00:04.050Z] [INFO] ✅ Connected to production database
+[2025-09-14T12:00:04.052Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-14T12:00:04.052Z] [INFO] 👥 Exporting users...
+[2025-09-14T12:00:04.898Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-14T12:00:05.765Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-14T12:00:06.658Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-14T12:00:07.505Z] [INFO] 🔑 Exporting password resets...
+[2025-09-14T12:00:08.378Z] [INFO] 📊 Exporting total counters...
+[2025-09-14T12:00:09.229Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-14T12:00:09.232Z] [INFO] 💾 Backup saved: production-backup-2025-09-14T12-00-09.json
+[2025-09-14T12:00:09.258Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-14T12-00-09.json.gz
+[2025-09-14T12:00:09.260Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.35s
+[2025-09-14T12:00:09.260Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-14T12-00-09.json.gz
+[2025-09-14T12:00:09.260Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-14T12:00:09.260Z] [INFO]    👥 Users: 18
+[2025-09-14T12:00:09.260Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-14T12:00:09.261Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-14T12:00:09.261Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-14T12:00:09.261Z] [INFO]    🔑 Password Resets: 3
+[2025-09-14T12:00:09.261Z] [INFO]    📊 Total Counters: 1
+[2025-09-14T12:00:09.261Z] [INFO]    📈 Total Records: 125
+[2025-09-14T12:00:09.261Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-14T12:00:09.262Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T12:00:09.262Z] [INFO] ============================================================
+[2025-09-14T12:00:09.263Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
