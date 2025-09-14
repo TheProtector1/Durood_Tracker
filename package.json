@@ -15,7 +15,7 @@
     "test-profile-update": "tsx scripts/test-profile-update.ts",
     "delete-user": "tsx scripts/delete-user.ts",
     "test-timezone": "tsx scripts/test-timezone.ts",
-    "vercel-build": "prisma generate && next build",
+    "vercel-build": "prisma generate && NEXT_TELEMETRY_DISABLED=1 next build",
     "postinstall": "[ -n \"$DATABASE_URL\" ] && prisma generate || echo 'Skipping Prisma generate - DATABASE_URL not set'"
   },
   "dependencies": {
@@ -39,8 +39,7 @@
     "react-day-picker": "^9.8.1",
     "react-dom": "19.1.0",
     "sqlite3": "^5.1.7",
-    "tailwind-merge": "^3.3.1",
-    "tw-animate-css": "^1.3.7"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
