@@ -1,0 +1,34 @@
+# BLOCK ALL PRISMA FILES AND OPERATIONS
+prisma
+prisma/
+prisma/**
+**/prisma
+**/prisma/**
+**/*prisma*
+**/prisma*
+
+# BLOCK ALL DATABASE FILES
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+**/*.db
+**/*.db-journal
+**/*.db-shm
+**/*.db-wal
+
+# BLOCK MIGRATION FILES
+**/migrations
+**/migrations/**
+migration*
+**/migration*
+
+# BLOCK PRISMA CLI AND TOOLS
+**/@prisma/cli
+**/@prisma/cli/**
+**/prisma-cli
+**/prisma-cli/**
+
+# ONLY ALLOW THE PRE-GENERATED PRISMA CLIENT
+!node_modules/@prisma/client
+!node_modules/@prisma/client/**

@@ -15,7 +15,7 @@
     "test-profile-update": "tsx scripts/test-profile-update.ts",
     "delete-user": "tsx scripts/delete-user.ts",
     "test-timezone": "tsx scripts/test-timezone.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy && npm run init-counter && next build",
+    "vercel-build": "echo 'Using standard Next.js build' && next build",
     "postinstall": "prisma generate"
   },
   "dependencies": {
