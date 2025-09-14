@@ -1,0 +1,1361 @@
+[2025-09-07T19:23:41.913Z] [INFO] ============================================================
+[2025-09-07T19:23:41.922Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T19:23:41.922Z] [INFO] ============================================================
+[2025-09-07T19:23:41.922Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T19:23:41.924Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T19:23:47.052Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.13s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-07T19:23:47.054Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:230:18)
+[2025-09-07T19:23:47.055Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T19:23:47.055Z] [INFO] ============================================================
+[2025-09-07T19:23:47.055Z] [INFO] 💥 BACKUP FAILED
+[2025-09-07T19:24:45.469Z] [INFO] ============================================================
+[2025-09-07T19:24:45.480Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T19:24:45.480Z] [INFO] ============================================================
+[2025-09-07T19:24:45.480Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T19:24:45.482Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T19:24:49.672Z] [INFO] ✅ Connected to production database
+[2025-09-07T19:24:49.673Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-07T19:24:54.693Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 9.21s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:114:19
+
+  111   passwordResets,
+  112   totalCounters
+  113 ] = await Promise.all([
+→ 114   prisma.user.findMany(
+Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-07T19:24:54.694Z] [ERROR] Error details: PrismaClientKnownRequestError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:114:19
+
+  111   passwordResets,
+  112   totalCounters
+  113 ] = await Promise.all([
+→ 114   prisma.user.findMany(
+Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at ei.handleRequestError (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:7283)
+    at ei.handleAndLogRequestError (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at async a (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async Promise.all (index 0)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:113:9)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:230:18)
+[2025-09-07T19:24:54.698Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T19:24:54.698Z] [INFO] ============================================================
+[2025-09-07T19:24:54.698Z] [INFO] 💥 BACKUP FAILED
+[2025-09-07T19:25:32.898Z] [INFO] ============================================================
+[2025-09-07T19:25:32.910Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T19:25:32.910Z] [INFO] ============================================================
+[2025-09-07T19:25:32.910Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T19:25:32.912Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T19:25:35.838Z] [INFO] ✅ Connected to production database
+[2025-09-07T19:25:35.839Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-07T19:25:35.839Z] [INFO] 👥 Exporting users...
+[2025-09-07T19:25:36.730Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-07T19:25:37.578Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-07T19:25:38.442Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-07T19:25:39.312Z] [INFO] 🔑 Exporting password resets...
+[2025-09-07T19:25:39.323Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 6.41s: 
+Invalid `prisma.passwordReset.findMany()` invocation in
+/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:131:55
+
+  128 const prayerCompletions = await prisma.prayerCompletion.findMany();
+  129 
+  130 log('🔑 Exporting password resets...');
+→ 131 const passwordResets = await prisma.passwordReset.findMany({
+        select: {
+          id: true,
+          userId: true,
+          ~~~~~~
+          resetToken: true,
+          resetTokenExpiry: true,
+          createdAt: true,
+      ?   email?: true,
+      ?   token?: true,
+      ?   expires?: true
+        }
+      })
+
+Unknown field `userId` for select statement on model `PasswordReset`. Available options are marked with ?.
+[2025-09-07T19:25:39.323Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.passwordReset.findMany()` invocation in
+/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:131:55
+
+  128 const prayerCompletions = await prisma.prayerCompletion.findMany();
+  129 
+  130 log('🔑 Exporting password resets...');
+→ 131 const passwordResets = await prisma.passwordReset.findMany({
+        select: {
+          id: true,
+          userId: true,
+          ~~~~~~
+          resetToken: true,
+          resetTokenExpiry: true,
+          createdAt: true,
+      ?   email?: true,
+      ?   token?: true,
+      ?   expires?: true
+        }
+      })
+
+Unknown field `userId` for select statement on model `PasswordReset`. Available options are marked with ?.
+    at _n (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at async a (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:131:28)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-07T19:25:39.324Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T19:25:39.325Z] [INFO] ============================================================
+[2025-09-07T19:25:39.325Z] [INFO] 💥 BACKUP FAILED
+[2025-09-07T19:26:19.065Z] [INFO] ============================================================
+[2025-09-07T19:26:19.075Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T19:26:19.075Z] [INFO] ============================================================
+[2025-09-07T19:26:19.075Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T19:26:19.077Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T19:26:22.984Z] [INFO] ✅ Connected to production database
+[2025-09-07T19:26:22.986Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-07T19:26:22.987Z] [INFO] 👥 Exporting users...
+[2025-09-07T19:26:24.520Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-07T19:26:25.606Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-07T19:26:26.491Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-07T19:26:27.473Z] [INFO] 🔑 Exporting password resets...
+[2025-09-07T19:26:28.494Z] [INFO] 📊 Exporting total counters...
+[2025-09-07T19:26:30.253Z] [INFO] 📈 Data exported: 9 users, 5 durood entries, 5 rankings
+[2025-09-07T19:26:30.256Z] [INFO] 💾 Backup saved: production-backup-2025-09-07T19-26-30.json
+[2025-09-07T19:26:30.278Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-07T19-26-30.json.gz
+[2025-09-07T19:26:30.279Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 11.20s
+[2025-09-07T19:26:30.279Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-07T19-26-30.json.gz
+[2025-09-07T19:26:30.279Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-07T19:26:30.279Z] [INFO]    👥 Users: 9
+[2025-09-07T19:26:30.279Z] [INFO]    🙏 Durood Entries: 5
+[2025-09-07T19:26:30.279Z] [INFO]    🏆 Daily Rankings: 5
+[2025-09-07T19:26:30.280Z] [INFO]    🕌 Prayer Completions: 8
+[2025-09-07T19:26:30.280Z] [INFO]    🔑 Password Resets: 2
+[2025-09-07T19:26:30.280Z] [INFO]    📊 Total Counters: 1
+[2025-09-07T19:26:30.280Z] [INFO]    📈 Total Records: 30
+[2025-09-07T19:26:30.280Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-07T19:26:30.281Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T19:26:30.281Z] [INFO] ============================================================
+[2025-09-07T19:26:30.281Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-07T19:26:55.970Z] [INFO] ============================================================
+[2025-09-07T19:26:55.975Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T19:26:55.975Z] [INFO] ============================================================
+[2025-09-07T19:26:55.975Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T19:26:55.977Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T19:27:01.002Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.03s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-07T19:27:01.004Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-07T19:27:01.005Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T19:27:01.005Z] [INFO] ============================================================
+[2025-09-07T19:27:01.005Z] [INFO] 💥 BACKUP FAILED
+[2025-09-07T19:30:01.147Z] [INFO] ============================================================
+[2025-09-07T19:30:01.160Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T19:30:01.160Z] [INFO] ============================================================
+[2025-09-07T19:30:01.161Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T19:30:01.165Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T19:30:06.222Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.06s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-07T19:30:06.226Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-07T19:30:06.227Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T19:30:06.228Z] [INFO] ============================================================
+[2025-09-07T19:30:06.228Z] [INFO] 💥 BACKUP FAILED
+[2025-09-07T21:00:00.809Z] [INFO] ============================================================
+[2025-09-07T21:00:00.818Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-07T21:00:00.819Z] [INFO] ============================================================
+[2025-09-07T21:00:00.819Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-07T21:00:00.822Z] [INFO] 🔌 Connecting to production database...
+[2025-09-07T21:00:03.992Z] [INFO] ✅ Connected to production database
+[2025-09-07T21:00:03.993Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-07T21:00:03.993Z] [INFO] 👥 Exporting users...
+[2025-09-07T21:00:04.889Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-07T21:00:05.734Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-07T21:00:06.856Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-07T21:00:07.708Z] [INFO] 🔑 Exporting password resets...
+[2025-09-07T21:00:08.563Z] [INFO] 📊 Exporting total counters...
+[2025-09-07T21:00:09.402Z] [INFO] 📈 Data exported: 9 users, 5 durood entries, 5 rankings
+[2025-09-07T21:00:09.406Z] [INFO] 💾 Backup saved: production-backup-2025-09-07T21-00-09.json
+[2025-09-07T21:00:09.443Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-07T21-00-09.json.gz
+[2025-09-07T21:00:09.444Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.63s
+[2025-09-07T21:00:09.445Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-07T21-00-09.json.gz
+[2025-09-07T21:00:09.445Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-07T21:00:09.445Z] [INFO]    👥 Users: 9
+[2025-09-07T21:00:09.445Z] [INFO]    🙏 Durood Entries: 5
+[2025-09-07T21:00:09.445Z] [INFO]    🏆 Daily Rankings: 5
+[2025-09-07T21:00:09.445Z] [INFO]    🕌 Prayer Completions: 8
+[2025-09-07T21:00:09.445Z] [INFO]    🔑 Password Resets: 2
+[2025-09-07T21:00:09.445Z] [INFO]    📊 Total Counters: 1
+[2025-09-07T21:00:09.445Z] [INFO]    📈 Total Records: 30
+[2025-09-07T21:00:09.446Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-07T21:00:09.448Z] [INFO] 🔌 Disconnected from production database
+[2025-09-07T21:00:09.448Z] [INFO] ============================================================
+[2025-09-07T21:00:09.449Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-08T01:01:10.295Z] [INFO] ============================================================
+[2025-09-08T01:01:10.381Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T01:01:10.381Z] [INFO] ============================================================
+[2025-09-08T01:01:10.382Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T01:01:10.388Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T01:01:15.862Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.48s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T01:01:15.867Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T01:01:15.868Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T01:01:15.868Z] [INFO] ============================================================
+[2025-09-08T01:01:15.869Z] [INFO] 💥 BACKUP FAILED
+[2025-09-08T03:00:00.722Z] [INFO] ============================================================
+[2025-09-08T03:00:00.729Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T03:00:00.730Z] [INFO] ============================================================
+[2025-09-08T03:00:00.730Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T03:00:00.733Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T03:15:31.733Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 931.00s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T03:15:31.735Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T03:15:31.736Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T03:15:31.737Z] [INFO] ============================================================
+[2025-09-08T03:15:31.737Z] [INFO] 💥 BACKUP FAILED
+[2025-09-08T03:30:40.435Z] [INFO] ============================================================
+[2025-09-08T03:30:40.439Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T03:30:40.439Z] [INFO] ============================================================
+[2025-09-08T03:30:40.440Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T03:30:40.442Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T03:46:09.799Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 929.36s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T03:46:09.805Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T03:46:09.808Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T03:46:09.809Z] [INFO] ============================================================
+[2025-09-08T03:46:09.810Z] [INFO] 💥 BACKUP FAILED
+[2025-09-08T08:00:59.769Z] [INFO] ============================================================
+[2025-09-08T08:00:59.831Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T08:00:59.831Z] [INFO] ============================================================
+[2025-09-08T08:00:59.832Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T08:00:59.835Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T08:05:40.580Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 280.75s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T08:05:40.592Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T08:05:40.593Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T08:05:40.594Z] [INFO] ============================================================
+[2025-09-08T08:05:40.594Z] [INFO] 💥 BACKUP FAILED
+[2025-09-08T10:30:01.400Z] [INFO] ============================================================
+[2025-09-08T10:30:01.410Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T10:30:01.411Z] [INFO] ============================================================
+[2025-09-08T10:30:01.411Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T10:30:01.414Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T10:30:02.308Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 0.90s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T10:30:02.310Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T10:30:02.312Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T10:30:02.312Z] [INFO] ============================================================
+[2025-09-08T10:30:02.312Z] [INFO] 💥 BACKUP FAILED
+[2025-09-08T11:30:01.153Z] [INFO] ============================================================
+[2025-09-08T11:30:01.160Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T11:30:01.160Z] [INFO] ============================================================
+[2025-09-08T11:30:01.161Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T11:30:01.164Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T11:30:01.282Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 0.12s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T11:30:01.283Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T11:30:01.284Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T11:30:01.284Z] [INFO] ============================================================
+[2025-09-08T11:30:01.284Z] [INFO] 💥 BACKUP FAILED
+[2025-09-08T12:00:01.017Z] [INFO] ============================================================
+[2025-09-08T12:00:01.038Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-08T12:00:01.038Z] [INFO] ============================================================
+[2025-09-08T12:00:01.038Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-08T12:00:01.041Z] [INFO] 🔌 Connecting to production database...
+[2025-09-08T12:00:01.171Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 0.13s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-08T12:00:01.173Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-08T12:00:01.173Z] [INFO] 🔌 Disconnected from production database
+[2025-09-08T12:00:01.174Z] [INFO] ============================================================
+[2025-09-08T12:00:01.174Z] [INFO] 💥 BACKUP FAILED
+[2025-09-11T12:30:01.143Z] [INFO] ============================================================
+[2025-09-11T12:30:01.156Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-11T12:30:01.156Z] [INFO] ============================================================
+[2025-09-11T12:30:01.156Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-11T12:30:01.159Z] [INFO] 🔌 Connecting to production database...
+[2025-09-11T12:34:21.012Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 259.86s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-11T12:34:21.026Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-11T12:34:21.027Z] [INFO] 🔌 Disconnected from production database
+[2025-09-11T12:34:21.028Z] [INFO] ============================================================
+[2025-09-11T12:34:21.028Z] [INFO] 💥 BACKUP FAILED
+[2025-09-12T11:30:01.229Z] [INFO] ============================================================
+[2025-09-12T11:30:01.241Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T11:30:01.241Z] [INFO] ============================================================
+[2025-09-12T11:30:01.242Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T11:30:01.245Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T11:30:05.132Z] [INFO] ✅ Connected to production database
+[2025-09-12T11:30:05.133Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T11:30:05.133Z] [INFO] 👥 Exporting users...
+[2025-09-12T11:30:06.206Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T11:30:07.256Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T11:30:08.323Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T11:30:09.389Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T11:30:10.419Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T11:30:11.453Z] [INFO] 📈 Data exported: 11 users, 24 durood entries, 24 rankings
+[2025-09-12T11:30:11.456Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T11-30-11.json
+[2025-09-12T11:30:11.481Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T11-30-11.json.gz
+[2025-09-12T11:30:11.483Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.24s
+[2025-09-12T11:30:11.483Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T11-30-11.json.gz
+[2025-09-12T11:30:11.483Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T11:30:11.483Z] [INFO]    👥 Users: 11
+[2025-09-12T11:30:11.483Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T11:30:11.483Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T11:30:11.484Z] [INFO]    🕌 Prayer Completions: 30
+[2025-09-12T11:30:11.484Z] [INFO]    🔑 Password Resets: 2
+[2025-09-12T11:30:11.484Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T11:30:11.484Z] [INFO]    📈 Total Records: 92
+[2025-09-12T11:30:11.484Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T11:30:11.485Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T11:30:11.486Z] [INFO] ============================================================
+[2025-09-12T11:30:11.486Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T12:00:01.475Z] [INFO] ============================================================
+[2025-09-12T12:00:01.482Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T12:00:01.483Z] [INFO] ============================================================
+[2025-09-12T12:00:01.483Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T12:00:01.487Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T12:00:04.858Z] [INFO] ✅ Connected to production database
+[2025-09-12T12:00:04.859Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T12:00:04.860Z] [INFO] 👥 Exporting users...
+[2025-09-12T12:00:05.715Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T12:00:06.537Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T12:00:07.368Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T12:00:08.201Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T12:00:09.010Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T12:00:09.819Z] [INFO] 📈 Data exported: 11 users, 24 durood entries, 24 rankings
+[2025-09-12T12:00:09.823Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T12-00-09.json
+[2025-09-12T12:00:09.856Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T12-00-09.json.gz
+[2025-09-12T12:00:09.858Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.37s
+[2025-09-12T12:00:09.858Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T12-00-09.json.gz
+[2025-09-12T12:00:09.858Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T12:00:09.858Z] [INFO]    👥 Users: 11
+[2025-09-12T12:00:09.858Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T12:00:09.858Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T12:00:09.859Z] [INFO]    🕌 Prayer Completions: 30
+[2025-09-12T12:00:09.859Z] [INFO]    🔑 Password Resets: 2
+[2025-09-12T12:00:09.859Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T12:00:09.859Z] [INFO]    📈 Total Records: 92
+[2025-09-12T12:00:09.859Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T12:00:09.861Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T12:00:09.861Z] [INFO] ============================================================
+[2025-09-12T12:00:09.861Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T12:32:48.606Z] [INFO] ============================================================
+[2025-09-12T12:32:48.616Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T12:32:48.617Z] [INFO] ============================================================
+[2025-09-12T12:32:48.617Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T12:32:48.621Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T12:32:53.227Z] [INFO] ✅ Connected to production database
+[2025-09-12T12:32:53.229Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T12:32:53.230Z] [INFO] 👥 Exporting users...
+[2025-09-12T12:32:54.082Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T12:32:54.910Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T12:32:55.758Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T12:32:56.601Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T12:32:57.419Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T12:32:58.237Z] [INFO] 📈 Data exported: 11 users, 24 durood entries, 24 rankings
+[2025-09-12T12:32:58.240Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T12-32-58.json
+[2025-09-12T12:32:58.276Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T12-32-58.json.gz
+[2025-09-12T12:32:58.278Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 9.66s
+[2025-09-12T12:32:58.278Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T12-32-58.json.gz
+[2025-09-12T12:32:58.278Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T12:32:58.278Z] [INFO]    👥 Users: 11
+[2025-09-12T12:32:58.278Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T12:32:58.279Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T12:32:58.279Z] [INFO]    🕌 Prayer Completions: 30
+[2025-09-12T12:32:58.279Z] [INFO]    🔑 Password Resets: 2
+[2025-09-12T12:32:58.279Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T12:32:58.279Z] [INFO]    📈 Total Records: 92
+[2025-09-12T12:32:58.279Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T12:32:58.281Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T12:32:58.281Z] [INFO] ============================================================
+[2025-09-12T12:32:58.281Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T13:00:00.927Z] [INFO] ============================================================
+[2025-09-12T13:00:00.942Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T13:00:00.942Z] [INFO] ============================================================
+[2025-09-12T13:00:00.942Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T13:00:00.946Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T13:00:04.337Z] [INFO] ✅ Connected to production database
+[2025-09-12T13:00:04.338Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T13:00:04.338Z] [INFO] 👥 Exporting users...
+[2025-09-12T13:00:05.229Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T13:00:06.054Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T13:00:06.887Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T13:00:07.743Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T13:00:08.558Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T13:00:09.373Z] [INFO] 📈 Data exported: 11 users, 24 durood entries, 24 rankings
+[2025-09-12T13:00:09.377Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T13-00-09.json
+[2025-09-12T13:00:09.415Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T13-00-09.json.gz
+[2025-09-12T13:00:09.417Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.47s
+[2025-09-12T13:00:09.417Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T13-00-09.json.gz
+[2025-09-12T13:00:09.417Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T13:00:09.417Z] [INFO]    👥 Users: 11
+[2025-09-12T13:00:09.417Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T13:00:09.417Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T13:00:09.418Z] [INFO]    🕌 Prayer Completions: 30
+[2025-09-12T13:00:09.418Z] [INFO]    🔑 Password Resets: 2
+[2025-09-12T13:00:09.418Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T13:00:09.418Z] [INFO]    📈 Total Records: 92
+[2025-09-12T13:00:09.418Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T13:00:09.420Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T13:00:09.420Z] [INFO] ============================================================
+[2025-09-12T13:00:09.421Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T13:30:01.211Z] [INFO] ============================================================
+[2025-09-12T13:30:01.217Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T13:30:01.217Z] [INFO] ============================================================
+[2025-09-12T13:30:01.218Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T13:30:01.221Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T13:30:06.242Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.02s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-12T13:30:06.246Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-12T13:30:06.247Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T13:30:06.247Z] [INFO] ============================================================
+[2025-09-12T13:30:06.248Z] [INFO] 💥 BACKUP FAILED
+[2025-09-12T14:00:01.040Z] [INFO] ============================================================
+[2025-09-12T14:00:01.052Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T14:00:01.052Z] [INFO] ============================================================
+[2025-09-12T14:00:01.053Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T14:00:01.057Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T14:00:04.643Z] [INFO] ✅ Connected to production database
+[2025-09-12T14:00:04.644Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T14:00:04.645Z] [INFO] 👥 Exporting users...
+[2025-09-12T14:00:05.528Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T14:00:06.390Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T14:00:07.267Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T14:00:08.150Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T14:00:09.014Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T14:00:09.872Z] [INFO] 📈 Data exported: 12 users, 24 durood entries, 24 rankings
+[2025-09-12T14:00:09.883Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T14-00-09.json
+[2025-09-12T14:00:09.956Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T14-00-09.json.gz
+[2025-09-12T14:00:09.964Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.91s
+[2025-09-12T14:00:09.964Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T14-00-09.json.gz
+[2025-09-12T14:00:09.964Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T14:00:09.964Z] [INFO]    👥 Users: 12
+[2025-09-12T14:00:09.964Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T14:00:09.965Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T14:00:09.965Z] [INFO]    🕌 Prayer Completions: 30
+[2025-09-12T14:00:09.966Z] [INFO]    🔑 Password Resets: 3
+[2025-09-12T14:00:09.966Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T14:00:09.966Z] [INFO]    📈 Total Records: 94
+[2025-09-12T14:00:09.966Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T14:00:09.997Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T14:00:09.998Z] [INFO] ============================================================
+[2025-09-12T14:00:09.998Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T14:30:00.538Z] [INFO] ============================================================
+[2025-09-12T14:30:00.542Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T14:30:00.542Z] [INFO] ============================================================
+[2025-09-12T14:30:00.543Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T14:30:00.546Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T14:30:05.393Z] [INFO] ✅ Connected to production database
+[2025-09-12T14:30:05.393Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T14:30:05.393Z] [INFO] 👥 Exporting users...
+[2025-09-12T14:30:06.934Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T14:30:08.501Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T14:30:09.887Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T14:30:11.177Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T14:30:12.539Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T14:30:13.968Z] [INFO] 📈 Data exported: 12 users, 24 durood entries, 24 rankings
+[2025-09-12T14:30:13.970Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T14-30-13.json
+[2025-09-12T14:30:13.997Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T14-30-13.json.gz
+[2025-09-12T14:30:13.999Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 13.46s
+[2025-09-12T14:30:13.999Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T14-30-13.json.gz
+[2025-09-12T14:30:13.999Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T14:30:14.000Z] [INFO]    👥 Users: 12
+[2025-09-12T14:30:14.000Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T14:30:14.000Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T14:30:14.000Z] [INFO]    🕌 Prayer Completions: 30
+[2025-09-12T14:30:14.000Z] [INFO]    🔑 Password Resets: 3
+[2025-09-12T14:30:14.000Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T14:30:14.000Z] [INFO]    📈 Total Records: 94
+[2025-09-12T14:30:14.000Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T14:30:14.002Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T14:30:14.002Z] [INFO] ============================================================
+[2025-09-12T14:30:14.003Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T15:00:00.987Z] [INFO] ============================================================
+[2025-09-12T15:00:00.991Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T15:00:00.991Z] [INFO] ============================================================
+[2025-09-12T15:00:00.992Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T15:00:00.995Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T15:00:01.622Z] [INFO] ✅ Connected to production database
+[2025-09-12T15:00:01.622Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T15:00:01.623Z] [INFO] 👥 Exporting users...
+[2025-09-12T15:00:01.631Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T15:00:01.633Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T15:00:01.635Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T15:00:01.637Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T15:00:01.638Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T15:00:01.639Z] [INFO] 📈 Data exported: 0 users, 0 durood entries, 0 rankings
+[2025-09-12T15:00:01.640Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T15-00-01.json
+[2025-09-12T15:00:01.667Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T15-00-01.json.gz
+[2025-09-12T15:00:01.668Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 0.68s
+[2025-09-12T15:00:01.669Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T15-00-01.json.gz
+[2025-09-12T15:00:01.669Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T15:00:01.669Z] [INFO]    👥 Users: 0
+[2025-09-12T15:00:01.669Z] [INFO]    🙏 Durood Entries: 0
+[2025-09-12T15:00:01.669Z] [INFO]    🏆 Daily Rankings: 0
+[2025-09-12T15:00:01.669Z] [INFO]    🕌 Prayer Completions: 0
+[2025-09-12T15:00:01.669Z] [INFO]    🔑 Password Resets: 0
+[2025-09-12T15:00:01.669Z] [INFO]    📊 Total Counters: 0
+[2025-09-12T15:00:01.670Z] [INFO]    📈 Total Records: 0
+[2025-09-12T15:00:01.670Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T15:00:01.671Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T15:00:01.671Z] [INFO] ============================================================
+[2025-09-12T15:00:01.671Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T15:38:46.425Z] [INFO] ============================================================
+[2025-09-12T15:38:46.436Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T15:38:46.436Z] [INFO] ============================================================
+[2025-09-12T15:38:46.437Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T15:38:46.441Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T15:38:51.990Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.55s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-12T15:38:51.994Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-12T15:38:51.995Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T15:38:51.995Z] [INFO] ============================================================
+[2025-09-12T15:38:51.995Z] [INFO] 💥 BACKUP FAILED
+[2025-09-12T15:52:53.412Z] [INFO] ============================================================
+[2025-09-12T15:52:53.416Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T15:52:53.417Z] [INFO] ============================================================
+[2025-09-12T15:52:53.417Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T15:52:53.418Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T15:52:57.873Z] [INFO] ✅ Connected to production database
+[2025-09-12T15:52:57.875Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T15:52:57.875Z] [INFO] 👥 Exporting users...
+[2025-09-12T15:52:59.271Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T15:53:00.419Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T15:53:01.335Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T15:53:02.261Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T15:53:03.150Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T15:53:04.033Z] [INFO] 📈 Data exported: 18 users, 24 durood entries, 24 rankings
+[2025-09-12T15:53:04.038Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T15-53-04.json
+[2025-09-12T15:53:04.053Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T15-53-04.json.gz
+[2025-09-12T15:53:04.053Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.64s
+[2025-09-12T15:53:04.054Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T15-53-04.json.gz
+[2025-09-12T15:53:04.054Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T15:53:04.054Z] [INFO]    👥 Users: 18
+[2025-09-12T15:53:04.054Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T15:53:04.054Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T15:53:04.054Z] [INFO]    🕌 Prayer Completions: 33
+[2025-09-12T15:53:04.054Z] [INFO]    🔑 Password Resets: 3
+[2025-09-12T15:53:04.054Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T15:53:04.054Z] [INFO]    📈 Total Records: 103
+[2025-09-12T15:53:04.054Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T15:53:04.055Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T15:53:04.055Z] [INFO] ============================================================
+[2025-09-12T15:53:04.055Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-12T16:00:00.541Z] [INFO] ============================================================
+[2025-09-12T16:00:00.546Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-12T16:00:00.546Z] [INFO] ============================================================
+[2025-09-12T16:00:00.547Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-12T16:00:00.550Z] [INFO] 🔌 Connecting to production database...
+[2025-09-12T16:00:05.117Z] [INFO] ✅ Connected to production database
+[2025-09-12T16:00:05.119Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-12T16:00:05.120Z] [INFO] 👥 Exporting users...
+[2025-09-12T16:00:06.083Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-12T16:00:07.039Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-12T16:00:08.330Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-12T16:00:09.311Z] [INFO] 🔑 Exporting password resets...
+[2025-09-12T16:00:10.255Z] [INFO] 📊 Exporting total counters...
+[2025-09-12T16:00:11.200Z] [INFO] 📈 Data exported: 18 users, 24 durood entries, 24 rankings
+[2025-09-12T16:00:11.204Z] [INFO] 💾 Backup saved: production-backup-2025-09-12T16-00-11.json
+[2025-09-12T16:00:11.230Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-12T16-00-11.json.gz
+[2025-09-12T16:00:11.231Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.68s
+[2025-09-12T16:00:11.231Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-12T16-00-11.json.gz
+[2025-09-12T16:00:11.231Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-12T16:00:11.231Z] [INFO]    👥 Users: 18
+[2025-09-12T16:00:11.231Z] [INFO]    🙏 Durood Entries: 24
+[2025-09-12T16:00:11.231Z] [INFO]    🏆 Daily Rankings: 24
+[2025-09-12T16:00:11.232Z] [INFO]    🕌 Prayer Completions: 33
+[2025-09-12T16:00:11.232Z] [INFO]    🔑 Password Resets: 3
+[2025-09-12T16:00:11.232Z] [INFO]    📊 Total Counters: 1
+[2025-09-12T16:00:11.232Z] [INFO]    📈 Total Records: 103
+[2025-09-12T16:00:11.232Z] [INFO]    💾 File Size: 0.00 MB
+[2025-09-12T16:00:11.233Z] [INFO] 🔌 Disconnected from production database
+[2025-09-12T16:00:11.233Z] [INFO] ============================================================
+[2025-09-12T16:00:11.233Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T12:32:18.788Z] [INFO] ============================================================
+[2025-09-13T12:32:18.797Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T12:32:18.797Z] [INFO] ============================================================
+[2025-09-13T12:32:18.798Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T12:32:18.801Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T12:32:23.777Z] [INFO] ✅ Connected to production database
+[2025-09-13T12:32:23.778Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T12:32:23.779Z] [INFO] 👥 Exporting users...
+[2025-09-13T12:32:24.678Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T12:32:25.578Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T12:32:26.443Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T12:32:27.399Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T12:32:28.261Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T12:32:29.107Z] [INFO] 📈 Data exported: 18 users, 27 durood entries, 27 rankings
+[2025-09-13T12:32:29.111Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T12-32-29.json
+[2025-09-13T12:32:29.146Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T12-32-29.json.gz
+[2025-09-13T12:32:29.148Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.35s
+[2025-09-13T12:32:29.148Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T12-32-29.json.gz
+[2025-09-13T12:32:29.148Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T12:32:29.148Z] [INFO]    👥 Users: 18
+[2025-09-13T12:32:29.148Z] [INFO]    🙏 Durood Entries: 27
+[2025-09-13T12:32:29.148Z] [INFO]    🏆 Daily Rankings: 27
+[2025-09-13T12:32:29.149Z] [INFO]    🕌 Prayer Completions: 38
+[2025-09-13T12:32:29.149Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T12:32:29.149Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T12:32:29.149Z] [INFO]    📈 Total Records: 114
+[2025-09-13T12:32:29.149Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T12:32:29.150Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T12:32:29.151Z] [INFO] ============================================================
+[2025-09-13T12:32:29.151Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T12:34:00.261Z] [INFO] ============================================================
+[2025-09-13T12:34:00.262Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T12:34:00.263Z] [INFO] ============================================================
+[2025-09-13T12:34:00.263Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T12:34:00.264Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T12:34:05.274Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.01s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T12:34:05.277Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T12:34:05.278Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T12:34:05.278Z] [INFO] ============================================================
+[2025-09-13T12:34:05.279Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T12:34:20.969Z] [INFO] ============================================================
+[2025-09-13T12:34:20.971Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T12:34:20.971Z] [INFO] ============================================================
+[2025-09-13T12:34:20.971Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T12:34:20.972Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T12:34:24.510Z] [INFO] ✅ Connected to production database
+[2025-09-13T12:34:24.512Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T12:34:24.512Z] [INFO] 👥 Exporting users...
+[2025-09-13T12:34:25.732Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T12:34:26.790Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T12:34:27.948Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T12:34:29.008Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T12:34:30.019Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T12:34:31.030Z] [INFO] 📈 Data exported: 18 users, 28 durood entries, 28 rankings
+[2025-09-13T12:34:31.034Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T12-34-31.json
+[2025-09-13T12:34:31.057Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T12-34-31.json.gz
+[2025-09-13T12:34:31.058Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.09s
+[2025-09-13T12:34:31.059Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T12-34-31.json.gz
+[2025-09-13T12:34:31.059Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T12:34:31.059Z] [INFO]    👥 Users: 18
+[2025-09-13T12:34:31.059Z] [INFO]    🙏 Durood Entries: 28
+[2025-09-13T12:34:31.059Z] [INFO]    🏆 Daily Rankings: 28
+[2025-09-13T12:34:31.059Z] [INFO]    🕌 Prayer Completions: 40
+[2025-09-13T12:34:31.059Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T12:34:31.059Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T12:34:31.059Z] [INFO]    📈 Total Records: 118
+[2025-09-13T12:34:31.060Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T12:34:31.060Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T12:34:31.060Z] [INFO] ============================================================
+[2025-09-13T12:34:31.060Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T13:00:02.230Z] [INFO] ============================================================
+[2025-09-13T13:00:02.652Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T13:00:02.653Z] [INFO] ============================================================
+[2025-09-13T13:00:02.654Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T13:00:02.665Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T13:00:07.964Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.30s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T13:00:07.966Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T13:00:07.966Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T13:00:07.967Z] [INFO] ============================================================
+[2025-09-13T13:00:07.967Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T13:35:59.481Z] [INFO] ============================================================
+[2025-09-13T13:35:59.509Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T13:35:59.510Z] [INFO] ============================================================
+[2025-09-13T13:35:59.510Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T13:35:59.520Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T13:36:05.508Z] [INFO] ✅ Connected to production database
+[2025-09-13T13:36:05.539Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T13:36:05.540Z] [INFO] 👥 Exporting users...
+[2025-09-13T13:36:09.612Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T13:36:11.018Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T13:36:12.113Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T13:36:13.409Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T13:36:14.697Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T13:36:17.811Z] [INFO] 📈 Data exported: 18 users, 28 durood entries, 28 rankings
+[2025-09-13T13:36:17.837Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T13-36-17.json
+[2025-09-13T13:36:18.035Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T13-36-17.json.gz
+[2025-09-13T13:36:18.038Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 18.53s
+[2025-09-13T13:36:18.038Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T13-36-17.json.gz
+[2025-09-13T13:36:18.038Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T13:36:18.038Z] [INFO]    👥 Users: 18
+[2025-09-13T13:36:18.038Z] [INFO]    🙏 Durood Entries: 28
+[2025-09-13T13:36:18.038Z] [INFO]    🏆 Daily Rankings: 28
+[2025-09-13T13:36:18.039Z] [INFO]    🕌 Prayer Completions: 40
+[2025-09-13T13:36:18.039Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T13:36:18.039Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T13:36:18.039Z] [INFO]    📈 Total Records: 118
+[2025-09-13T13:36:18.039Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T13:36:18.069Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T13:36:18.070Z] [INFO] ============================================================
+[2025-09-13T13:36:18.070Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T14:00:02.470Z] [INFO] ============================================================
+[2025-09-13T14:00:02.943Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T14:00:02.944Z] [INFO] ============================================================
+[2025-09-13T14:00:02.945Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T14:00:02.951Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T14:00:08.074Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.13s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T14:00:08.078Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T14:00:08.079Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T14:00:08.081Z] [INFO] ============================================================
+[2025-09-13T14:00:08.082Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T14:30:00.984Z] [INFO] ============================================================
+[2025-09-13T14:30:00.995Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T14:30:00.995Z] [INFO] ============================================================
+[2025-09-13T14:30:00.996Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T14:30:00.999Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T14:30:07.279Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 6.28s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T14:30:07.285Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T14:30:07.286Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T14:30:07.286Z] [INFO] ============================================================
+[2025-09-13T14:30:07.287Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T15:09:13.262Z] [INFO] ============================================================
+[2025-09-13T15:09:13.630Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T15:09:13.631Z] [INFO] ============================================================
+[2025-09-13T15:09:13.632Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T15:09:13.640Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T15:09:18.900Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.27s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T15:09:18.903Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T15:09:18.904Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T15:09:18.904Z] [INFO] ============================================================
+[2025-09-13T15:09:18.905Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T15:30:00.872Z] [INFO] ============================================================
+[2025-09-13T15:30:00.886Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T15:30:00.886Z] [INFO] ============================================================
+[2025-09-13T15:30:00.887Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T15:30:00.891Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T15:30:05.625Z] [INFO] ✅ Connected to production database
+[2025-09-13T15:30:05.626Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T15:30:05.627Z] [INFO] 👥 Exporting users...
+[2025-09-13T15:30:06.961Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T15:30:08.737Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T15:30:09.897Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T15:30:11.397Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T15:30:12.451Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T15:30:13.512Z] [INFO] 📈 Data exported: 18 users, 28 durood entries, 28 rankings
+[2025-09-13T15:30:13.517Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T15-30-13.json
+[2025-09-13T15:30:13.551Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T15-30-13.json.gz
+[2025-09-13T15:30:13.556Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 12.67s
+[2025-09-13T15:30:13.556Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T15-30-13.json.gz
+[2025-09-13T15:30:13.556Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T15:30:13.556Z] [INFO]    👥 Users: 18
+[2025-09-13T15:30:13.556Z] [INFO]    🙏 Durood Entries: 28
+[2025-09-13T15:30:13.557Z] [INFO]    🏆 Daily Rankings: 28
+[2025-09-13T15:30:13.557Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T15:30:13.557Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T15:30:13.557Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T15:30:13.557Z] [INFO]    📈 Total Records: 119
+[2025-09-13T15:30:13.558Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T15:30:13.560Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T15:30:13.560Z] [INFO] ============================================================
+[2025-09-13T15:30:13.560Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T16:30:01.471Z] [INFO] ============================================================
+[2025-09-13T16:30:01.483Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T16:30:01.483Z] [INFO] ============================================================
+[2025-09-13T16:30:01.483Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T16:30:01.486Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T16:30:07.548Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 6.06s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T16:30:07.552Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T16:30:07.553Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T16:30:07.554Z] [INFO] ============================================================
+[2025-09-13T16:30:07.554Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T16:47:10.922Z] [INFO] ============================================================
+[2025-09-13T16:47:10.926Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T16:47:10.926Z] [INFO] ============================================================
+[2025-09-13T16:47:10.926Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T16:47:10.927Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T16:47:15.962Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.04s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T16:47:15.965Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T16:47:15.966Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T16:47:15.966Z] [INFO] ============================================================
+[2025-09-13T16:47:15.966Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T16:47:21.182Z] [INFO] ============================================================
+[2025-09-13T16:47:21.183Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T16:47:21.183Z] [INFO] ============================================================
+[2025-09-13T16:47:21.183Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T16:47:21.184Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T16:47:25.344Z] [INFO] ✅ Connected to production database
+[2025-09-13T16:47:25.348Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T16:47:25.348Z] [INFO] 👥 Exporting users...
+[2025-09-13T16:47:26.991Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T16:47:28.182Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T16:47:30.732Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T16:47:31.665Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T16:47:32.654Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T16:47:33.630Z] [INFO] 📈 Data exported: 18 users, 28 durood entries, 28 rankings
+[2025-09-13T16:47:33.638Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T16-47-33.json
+[2025-09-13T16:47:33.663Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T16-47-33.json.gz
+[2025-09-13T16:47:33.664Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 12.48s
+[2025-09-13T16:47:33.665Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T16-47-33.json.gz
+[2025-09-13T16:47:33.665Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T16:47:33.665Z] [INFO]    👥 Users: 18
+[2025-09-13T16:47:33.665Z] [INFO]    🙏 Durood Entries: 28
+[2025-09-13T16:47:33.665Z] [INFO]    🏆 Daily Rankings: 28
+[2025-09-13T16:47:33.665Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T16:47:33.666Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T16:47:33.666Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T16:47:33.666Z] [INFO]    📈 Total Records: 119
+[2025-09-13T16:47:33.666Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T16:47:33.670Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T16:47:33.671Z] [INFO] ============================================================
+[2025-09-13T16:47:33.672Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T17:00:02.046Z] [INFO] ============================================================
+[2025-09-13T17:00:02.389Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T17:00:02.389Z] [INFO] ============================================================
+[2025-09-13T17:00:02.390Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T17:00:02.393Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T17:00:07.664Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.27s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T17:00:07.668Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T17:00:07.670Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T17:00:07.671Z] [INFO] ============================================================
+[2025-09-13T17:00:07.671Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T17:30:00.933Z] [INFO] ============================================================
+[2025-09-13T17:30:00.941Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T17:30:00.941Z] [INFO] ============================================================
+[2025-09-13T17:30:00.941Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T17:30:00.945Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T17:30:05.988Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.05s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T17:30:05.990Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T17:30:05.990Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T17:30:05.991Z] [INFO] ============================================================
+[2025-09-13T17:30:05.991Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T18:00:01.586Z] [INFO] ============================================================
+[2025-09-13T18:00:01.644Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T18:00:01.644Z] [INFO] ============================================================
+[2025-09-13T18:00:01.645Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T18:00:01.654Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T18:00:06.774Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.13s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T18:00:06.776Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T18:00:06.777Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T18:00:06.778Z] [INFO] ============================================================
+[2025-09-13T18:00:06.778Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T18:30:01.337Z] [INFO] ============================================================
+[2025-09-13T18:30:01.349Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T18:30:01.349Z] [INFO] ============================================================
+[2025-09-13T18:30:01.350Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T18:30:01.354Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T18:30:07.261Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.91s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-13T18:30:07.263Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-13T18:30:07.264Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T18:30:07.264Z] [INFO] ============================================================
+[2025-09-13T18:30:07.265Z] [INFO] 💥 BACKUP FAILED
+[2025-09-13T19:00:02.389Z] [INFO] ============================================================
+[2025-09-13T19:00:02.444Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T19:00:02.445Z] [INFO] ============================================================
+[2025-09-13T19:00:02.446Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T19:00:02.452Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T19:00:06.067Z] [INFO] ✅ Connected to production database
+[2025-09-13T19:00:06.069Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T19:00:06.069Z] [INFO] 👥 Exporting users...
+[2025-09-13T19:00:06.950Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T19:00:07.887Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T19:00:09.162Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T19:00:10.071Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T19:00:10.907Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T19:00:11.726Z] [INFO] 📈 Data exported: 18 users, 30 durood entries, 30 rankings
+[2025-09-13T19:00:11.736Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T19-00-11.json
+[2025-09-13T19:00:11.772Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T19-00-11.json.gz
+[2025-09-13T19:00:11.773Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 9.33s
+[2025-09-13T19:00:11.774Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T19-00-11.json.gz
+[2025-09-13T19:00:11.774Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T19:00:11.774Z] [INFO]    👥 Users: 18
+[2025-09-13T19:00:11.774Z] [INFO]    🙏 Durood Entries: 30
+[2025-09-13T19:00:11.775Z] [INFO]    🏆 Daily Rankings: 30
+[2025-09-13T19:00:11.775Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T19:00:11.775Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T19:00:11.775Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T19:00:11.775Z] [INFO]    📈 Total Records: 123
+[2025-09-13T19:00:11.775Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T19:00:11.797Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T19:00:11.797Z] [INFO] ============================================================
+[2025-09-13T19:00:11.798Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T19:30:01.059Z] [INFO] ============================================================
+[2025-09-13T19:30:01.070Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T19:30:01.070Z] [INFO] ============================================================
+[2025-09-13T19:30:01.070Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T19:30:01.074Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T19:30:06.318Z] [INFO] ✅ Connected to production database
+[2025-09-13T19:30:06.320Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T19:30:06.320Z] [INFO] 👥 Exporting users...
+[2025-09-13T19:30:07.495Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T19:30:08.725Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T19:30:09.870Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T19:30:11.101Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T19:30:12.454Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T19:30:13.732Z] [INFO] 📈 Data exported: 18 users, 30 durood entries, 30 rankings
+[2025-09-13T19:30:13.735Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T19-30-13.json
+[2025-09-13T19:30:13.802Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T19-30-13.json.gz
+[2025-09-13T19:30:13.804Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 12.73s
+[2025-09-13T19:30:13.804Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T19-30-13.json.gz
+[2025-09-13T19:30:13.804Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T19:30:13.804Z] [INFO]    👥 Users: 18
+[2025-09-13T19:30:13.805Z] [INFO]    🙏 Durood Entries: 30
+[2025-09-13T19:30:13.805Z] [INFO]    🏆 Daily Rankings: 30
+[2025-09-13T19:30:13.805Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T19:30:13.805Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T19:30:13.805Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T19:30:13.805Z] [INFO]    📈 Total Records: 123
+[2025-09-13T19:30:13.805Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T19:30:13.807Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T19:30:13.808Z] [INFO] ============================================================
+[2025-09-13T19:30:13.808Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T20:05:17.443Z] [INFO] ============================================================
+[2025-09-13T20:05:17.947Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T20:05:17.948Z] [INFO] ============================================================
+[2025-09-13T20:05:17.948Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T20:05:17.952Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T20:05:23.829Z] [INFO] ✅ Connected to production database
+[2025-09-13T20:05:23.832Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T20:05:23.833Z] [INFO] 👥 Exporting users...
+[2025-09-13T20:05:25.300Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T20:05:26.227Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T20:05:27.320Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T20:05:28.391Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T20:05:29.383Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T20:05:30.298Z] [INFO] 📈 Data exported: 18 users, 30 durood entries, 30 rankings
+[2025-09-13T20:05:30.304Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T20-05-30.json
+[2025-09-13T20:05:30.336Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T20-05-30.json.gz
+[2025-09-13T20:05:30.338Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 12.39s
+[2025-09-13T20:05:30.338Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T20-05-30.json.gz
+[2025-09-13T20:05:30.338Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T20:05:30.338Z] [INFO]    👥 Users: 18
+[2025-09-13T20:05:30.338Z] [INFO]    🙏 Durood Entries: 30
+[2025-09-13T20:05:30.338Z] [INFO]    🏆 Daily Rankings: 30
+[2025-09-13T20:05:30.339Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T20:05:30.339Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T20:05:30.339Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T20:05:30.339Z] [INFO]    📈 Total Records: 123
+[2025-09-13T20:05:30.339Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T20:05:30.340Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T20:05:30.341Z] [INFO] ============================================================
+[2025-09-13T20:05:30.341Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T20:30:00.204Z] [INFO] ============================================================
+[2025-09-13T20:30:00.215Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T20:30:00.215Z] [INFO] ============================================================
+[2025-09-13T20:30:00.215Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T20:30:00.219Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T20:30:03.211Z] [INFO] ✅ Connected to production database
+[2025-09-13T20:30:03.213Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T20:30:03.214Z] [INFO] 👥 Exporting users...
+[2025-09-13T20:30:04.089Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T20:30:04.977Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T20:30:05.860Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T20:30:06.777Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T20:30:07.635Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T20:30:08.512Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-13T20:30:08.516Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T20-30-08.json
+[2025-09-13T20:30:08.551Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T20-30-08.json.gz
+[2025-09-13T20:30:08.553Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.34s
+[2025-09-13T20:30:08.554Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T20-30-08.json.gz
+[2025-09-13T20:30:08.554Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T20:30:08.554Z] [INFO]    👥 Users: 18
+[2025-09-13T20:30:08.554Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-13T20:30:08.555Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-13T20:30:08.555Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T20:30:08.555Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T20:30:08.556Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T20:30:08.556Z] [INFO]    📈 Total Records: 125
+[2025-09-13T20:30:08.556Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T20:30:08.558Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T20:30:08.558Z] [INFO] ============================================================
+[2025-09-13T20:30:08.558Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T21:00:00.573Z] [INFO] ============================================================
+[2025-09-13T21:00:00.578Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T21:00:00.578Z] [INFO] ============================================================
+[2025-09-13T21:00:00.579Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T21:00:00.582Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T21:00:03.505Z] [INFO] ✅ Connected to production database
+[2025-09-13T21:00:03.507Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T21:00:03.507Z] [INFO] 👥 Exporting users...
+[2025-09-13T21:00:04.565Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T21:00:05.556Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T21:00:06.483Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T21:00:07.467Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T21:00:08.895Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T21:00:09.757Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-13T21:00:09.768Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T21-00-09.json
+[2025-09-13T21:00:09.889Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T21-00-09.json.gz
+[2025-09-13T21:00:09.892Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 9.31s
+[2025-09-13T21:00:09.893Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T21-00-09.json.gz
+[2025-09-13T21:00:09.894Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T21:00:09.894Z] [INFO]    👥 Users: 18
+[2025-09-13T21:00:09.896Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-13T21:00:09.896Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-13T21:00:09.896Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T21:00:09.897Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T21:00:09.897Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T21:00:09.898Z] [INFO]    📈 Total Records: 125
+[2025-09-13T21:00:09.898Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T21:00:09.906Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T21:00:09.907Z] [INFO] ============================================================
+[2025-09-13T21:00:09.907Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-13T21:30:35.181Z] [INFO] ============================================================
+[2025-09-13T21:30:35.192Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-13T21:30:35.192Z] [INFO] ============================================================
+[2025-09-13T21:30:35.192Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-13T21:30:35.197Z] [INFO] 🔌 Connecting to production database...
+[2025-09-13T21:30:39.011Z] [INFO] ✅ Connected to production database
+[2025-09-13T21:30:39.013Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-13T21:30:39.014Z] [INFO] 👥 Exporting users...
+[2025-09-13T21:30:40.047Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-13T21:30:40.957Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-13T21:30:41.879Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-13T21:30:42.795Z] [INFO] 🔑 Exporting password resets...
+[2025-09-13T21:30:43.658Z] [INFO] 📊 Exporting total counters...
+[2025-09-13T21:30:44.577Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-13T21:30:44.602Z] [INFO] 💾 Backup saved: production-backup-2025-09-13T21-30-44.json
+[2025-09-13T21:30:44.666Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-13T21-30-44.json.gz
+[2025-09-13T21:30:44.668Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 9.47s
+[2025-09-13T21:30:44.668Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-13T21-30-44.json.gz
+[2025-09-13T21:30:44.669Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-13T21:30:44.669Z] [INFO]    👥 Users: 18
+[2025-09-13T21:30:44.669Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-13T21:30:44.669Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-13T21:30:44.669Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-13T21:30:44.669Z] [INFO]    🔑 Password Resets: 3
+[2025-09-13T21:30:44.669Z] [INFO]    📊 Total Counters: 1
+[2025-09-13T21:30:44.669Z] [INFO]    📈 Total Records: 125
+[2025-09-13T21:30:44.670Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-13T21:30:44.671Z] [INFO] 🔌 Disconnected from production database
+[2025-09-13T21:30:44.672Z] [INFO] ============================================================
+[2025-09-13T21:30:44.672Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-14T04:30:01.373Z] [INFO] ============================================================
+[2025-09-14T04:30:01.383Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T04:30:01.383Z] [INFO] ============================================================
+[2025-09-14T04:30:01.383Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T04:30:01.387Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T04:30:08.035Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 6.65s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-14T04:30:08.038Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-14T04:30:08.039Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T04:30:08.040Z] [INFO] ============================================================
+[2025-09-14T04:30:08.040Z] [INFO] 💥 BACKUP FAILED
+[2025-09-14T07:00:01.500Z] [INFO] ============================================================
+[2025-09-14T07:00:01.817Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T07:00:01.818Z] [INFO] ============================================================
+[2025-09-14T07:00:01.818Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T07:00:01.824Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T07:00:06.912Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.09s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-14T07:00:06.916Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-14T07:00:06.918Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T07:00:06.918Z] [INFO] ============================================================
+[2025-09-14T07:00:06.919Z] [INFO] 💥 BACKUP FAILED
+[2025-09-14T08:30:00.387Z] [INFO] ============================================================
+[2025-09-14T08:30:00.392Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T08:30:00.392Z] [INFO] ============================================================
+[2025-09-14T08:30:00.393Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T08:30:00.396Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T08:30:05.080Z] [INFO] ✅ Connected to production database
+[2025-09-14T08:30:05.082Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-14T08:30:05.082Z] [INFO] 👥 Exporting users...
+[2025-09-14T08:30:06.024Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-14T08:30:07.063Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-14T08:30:08.707Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-14T08:30:09.685Z] [INFO] 🔑 Exporting password resets...
+[2025-09-14T08:30:11.003Z] [INFO] 📊 Exporting total counters...
+[2025-09-14T08:30:12.005Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-14T08:30:12.011Z] [INFO] 💾 Backup saved: production-backup-2025-09-14T08-30-12.json
+[2025-09-14T08:30:12.044Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-14T08-30-12.json.gz
+[2025-09-14T08:30:12.050Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 11.66s
+[2025-09-14T08:30:12.051Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-14T08-30-12.json.gz
+[2025-09-14T08:30:12.051Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-14T08:30:12.051Z] [INFO]    👥 Users: 18
+[2025-09-14T08:30:12.051Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-14T08:30:12.051Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-14T08:30:12.051Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-14T08:30:12.051Z] [INFO]    🔑 Password Resets: 3
+[2025-09-14T08:30:12.052Z] [INFO]    📊 Total Counters: 1
+[2025-09-14T08:30:12.052Z] [INFO]    📈 Total Records: 125
+[2025-09-14T08:30:12.052Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-14T08:30:12.054Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T08:30:12.055Z] [INFO] ============================================================
+[2025-09-14T08:30:12.055Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-14T09:00:00.993Z] [INFO] ============================================================
+[2025-09-14T09:00:01.005Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T09:00:01.006Z] [INFO] ============================================================
+[2025-09-14T09:00:01.006Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T09:00:01.011Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T09:00:04.231Z] [INFO] ✅ Connected to production database
+[2025-09-14T09:00:04.232Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-14T09:00:04.232Z] [INFO] 👥 Exporting users...
+[2025-09-14T09:00:05.099Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-14T09:00:06.299Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-14T09:00:07.148Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-14T09:00:08.218Z] [INFO] 🔑 Exporting password resets...
+[2025-09-14T09:00:09.215Z] [INFO] 📊 Exporting total counters...
+[2025-09-14T09:00:10.237Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-14T09:00:10.259Z] [INFO] 💾 Backup saved: production-backup-2025-09-14T09-00-10.json
+[2025-09-14T09:00:10.290Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-14T09-00-10.json.gz
+[2025-09-14T09:00:10.294Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 9.29s
+[2025-09-14T09:00:10.294Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-14T09-00-10.json.gz
+[2025-09-14T09:00:10.294Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-14T09:00:10.294Z] [INFO]    👥 Users: 18
+[2025-09-14T09:00:10.294Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-14T09:00:10.295Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-14T09:00:10.295Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-14T09:00:10.295Z] [INFO]    🔑 Password Resets: 3
+[2025-09-14T09:00:10.295Z] [INFO]    📊 Total Counters: 1
+[2025-09-14T09:00:10.295Z] [INFO]    📈 Total Records: 125
+[2025-09-14T09:00:10.296Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-14T09:00:10.297Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T09:00:10.297Z] [INFO] ============================================================
+[2025-09-14T09:00:10.297Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-14T10:00:01.544Z] [INFO] ============================================================
+[2025-09-14T10:00:01.909Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T10:00:01.909Z] [INFO] ============================================================
+[2025-09-14T10:00:01.910Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T10:00:01.915Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T10:00:07.202Z] [INFO] ✅ Connected to production database
+[2025-09-14T10:00:07.203Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-14T10:00:07.204Z] [INFO] 👥 Exporting users...
+[2025-09-14T10:00:08.195Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-14T10:00:09.971Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-14T10:00:12.850Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-14T10:00:14.671Z] [INFO] 🔑 Exporting password resets...
+[2025-09-14T10:00:15.663Z] [INFO] 📊 Exporting total counters...
+[2025-09-14T10:00:16.541Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-14T10:00:16.544Z] [INFO] 💾 Backup saved: production-backup-2025-09-14T10-00-16.json
+[2025-09-14T10:00:16.578Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-14T10-00-16.json.gz
+[2025-09-14T10:00:16.581Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 14.67s
+[2025-09-14T10:00:16.581Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-14T10-00-16.json.gz
+[2025-09-14T10:00:16.581Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-14T10:00:16.581Z] [INFO]    👥 Users: 18
+[2025-09-14T10:00:16.582Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-14T10:00:16.582Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-14T10:00:16.582Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-14T10:00:16.582Z] [INFO]    🔑 Password Resets: 3
+[2025-09-14T10:00:16.582Z] [INFO]    📊 Total Counters: 1
+[2025-09-14T10:00:16.582Z] [INFO]    📈 Total Records: 125
+[2025-09-14T10:00:16.583Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-14T10:00:16.585Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T10:00:16.585Z] [INFO] ============================================================
+[2025-09-14T10:00:16.586Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-14T10:30:01.234Z] [INFO] ============================================================
+[2025-09-14T10:30:01.246Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T10:30:01.246Z] [INFO] ============================================================
+[2025-09-14T10:30:01.246Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T10:30:01.250Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T10:30:07.367Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 6.12s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-14T10:30:07.370Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-14T10:30:07.371Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T10:30:07.372Z] [INFO] ============================================================
+[2025-09-14T10:30:07.372Z] [INFO] 💥 BACKUP FAILED
+[2025-09-14T11:00:01.655Z] [INFO] ============================================================
+[2025-09-14T11:00:01.671Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T11:00:01.671Z] [INFO] ============================================================
+[2025-09-14T11:00:01.672Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T11:00:01.676Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T11:00:06.768Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.10s: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+[2025-09-14T11:00:06.771Z] [ERROR] Error details: PrismaClientInitializationError: Can't reach database server at `db.prisma.io:5432`
+
+Please make sure your database server is running at `db.prisma.io:5432`.
+    at r (/Users/apple/durood/Durood_Tracker/node_modules/@prisma/client/runtime/library.js:112:2770)
+    at async backupProductionDatabase (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:100:5)
+    at async main (/Users/apple/durood/Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-14T11:00:06.772Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T11:00:06.772Z] [INFO] ============================================================
+[2025-09-14T11:00:06.773Z] [INFO] 💥 BACKUP FAILED
+[2025-09-14T11:30:00.929Z] [INFO] ============================================================
+[2025-09-14T11:30:00.934Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-14T11:30:00.934Z] [INFO] ============================================================
+[2025-09-14T11:30:00.934Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-14T11:30:00.938Z] [INFO] 🔌 Connecting to production database...
+[2025-09-14T11:30:04.003Z] [INFO] ✅ Connected to production database
+[2025-09-14T11:30:04.009Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-14T11:30:04.010Z] [INFO] 👥 Exporting users...
+[2025-09-14T11:30:04.964Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-14T11:30:05.933Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-14T11:30:06.843Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-14T11:30:07.813Z] [INFO] 🔑 Exporting password resets...
+[2025-09-14T11:30:08.786Z] [INFO] 📊 Exporting total counters...
+[2025-09-14T11:30:09.742Z] [INFO] 📈 Data exported: 18 users, 31 durood entries, 31 rankings
+[2025-09-14T11:30:09.745Z] [INFO] 💾 Backup saved: production-backup-2025-09-14T11-30-09.json
+[2025-09-14T11:30:09.768Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-14T11-30-09.json.gz
+[2025-09-14T11:30:09.769Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 8.83s
+[2025-09-14T11:30:09.770Z] [INFO] 📁 Backup location: /Users/apple/durood/Durood_Tracker/backups/production-backup-2025-09-14T11-30-09.json.gz
+[2025-09-14T11:30:09.770Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-14T11:30:09.770Z] [INFO]    👥 Users: 18
+[2025-09-14T11:30:09.770Z] [INFO]    🙏 Durood Entries: 31
+[2025-09-14T11:30:09.770Z] [INFO]    🏆 Daily Rankings: 31
+[2025-09-14T11:30:09.770Z] [INFO]    🕌 Prayer Completions: 41
+[2025-09-14T11:30:09.770Z] [INFO]    🔑 Password Resets: 3
+[2025-09-14T11:30:09.770Z] [INFO]    📊 Total Counters: 1
+[2025-09-14T11:30:09.770Z] [INFO]    📈 Total Records: 125
+[2025-09-14T11:30:09.771Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-14T11:30:09.772Z] [INFO] 🔌 Disconnected from production database
+[2025-09-14T11:30:09.772Z] [INFO] ============================================================
+[2025-09-14T11:30:09.772Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY

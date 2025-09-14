@@ -82,51 +82,52 @@ export async function POST(request: NextRequest) {
     let entry
     let totalDelta = 0
 
-    // Use transaction for atomic operation
-    await prisma.$transaction(async (tx) => {
-      // Find existing entry
-      const existingEntry = await tx.duroodEntry.findFirst({
-        where: {
-          userId,
-          date
-        }
-      })
-
-      if (existingEntry) {
-        // Update existing entry by incrementing count
-        entry = await tx.duroodEntry.update({
-          where: { id: existingEntry.id },
-          data: {
-            count: {
-              increment: count
-            },
-            updatedAt: new Date()
-          }
-        })
-        totalDelta = count // Only increment by the added amount
-      } else {
-        // Create new entry
-        entry = await tx.duroodEntry.create({
-          data: {
-            userId,
-            date,
-            count
-          }
-        })
-        totalDelta = count // Add the full count
+    // Find existing entry
+    const existingEntry = await prisma.duroodEntry.findFirst({
+      where: {
+        userId,
+        date
       }
     })
 
+    if (existingEntry) {
+      // Update existing entry by incrementing count
+      entry = await prisma.duroodEntry.update({
+        where: { id: existingEntry.id },
+        data: {
+          count: {
+            increment: count
+          },
+          updatedAt: new Date()
+        }
+      })
+      totalDelta = count // Only increment by the added amount
+    } else {
+      // Create new entry
+      entry = await prisma.duroodEntry.create({
+        data: {
+          userId,
+          date,
+          count
+        }
+      })
+      totalDelta = count // Add the full count
+    }
+
     // Update total counter efficiently
-    const newTotal = await updateTotalCounter(totalDelta)
+    // Temporarily disabled to reduce database load
+    // const newTotal = await updateTotalCounter(totalDelta)
 
     // Emit total updated event with the new total
-    appEvents.emit('totalUpdated', newTotal)
+    // appEvents.emit('totalUpdated', newTotal)
 
     // Update daily rankings asynchronously (don't block response)
+    // Temporarily disabled to reduce database load
+    /*
     updateDailyRankingsOptimized(date).catch(error => {
       console.error('Async ranking update error:', error)
     })
+    */
 
     return NextResponse.json(entry)
   } catch (error) {
@@ -187,15 +188,21 @@ export async function DELETE(request: NextRequest) {
     })
 
     // Update total counter if we actually deleted something
+    // Temporarily disabled to reduce database load
+    /*
     if (deletedCount > 0) {
       const newTotal = await updateTotalCounter(-deletedCount)
       appEvents.emit('totalUpdated', newTotal)
     }
+    */
 
     // Update daily rankings asynchronously (don't block response)
+    // Temporarily disabled to reduce database load
+    /*
     updateDailyRankingsOptimized(date).catch(error => {
       console.error('Async ranking update error:', error)
     })
+    */
 
     return NextResponse.json({ message: 'Entry deleted successfully' })
   } catch (error) {

@@ -13,6 +13,10 @@ import { Calendar } from '@/components/ui/calendar'
 import { format, startOfMonth, startOfYear, isSameDay, subDays, parseISO } from 'date-fns'
 import { getPakistanDate, getCurrentPakistanDate, getPakistanDateTime, isNewDayInPakistan } from '@/lib/timezone'
 import TimezoneDisplay from '@/components/TimezoneDisplay'
+import DailySpinWheel from '@/components/DailySpinWheel'
+import LevelBadges from '@/components/LevelBadges'
+import GoalTimer from '@/components/GoalTimer'
+import DuaLibrary from '@/components/DuaLibrary'
 
 interface DuroodEntry {
   id: string
@@ -21,11 +25,12 @@ interface DuroodEntry {
 }
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [entries, setEntries] = useState<DuroodEntry[]>([])
   const [todayCount, setTodayCount] = useState(0)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [inputCount, setInputCount] = useState('')
+
 
   const [publicTotal, setPublicTotal] = useState<number | null>(null)
   const [publicTotalLoading, setPublicTotalLoading] = useState(true)
@@ -731,6 +736,15 @@ export default function Home() {
                     🕌 Prayer Times
                   </Button>
                 </Link>
+                <Link href="/dua-library" className="block">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
+                  >
+                    📖 Duas
+                  </Button>
+                </Link>
                 <Link href="/profile" className="block">
                   <Button
                     variant="outline"
@@ -984,6 +998,50 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Points Display */}
+        <div className="mb-6">
+          <Card className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-0 shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-bold text-lg">Your Points</h3>
+                  <p className="text-emerald-100 text-sm">Earn points by reciting duroods and completing goals</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold">{Math.floor(todayCount / 10 + completedPrayers.size * 2.5).toLocaleString()}</div>
+                  <div className="text-sm text-emerald-100">Total Points</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Interactive Features - Compact Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
+          {/* Daily Goal Progress - Primary Feature */}
+          <div className="md:col-span-1 xl:col-span-1">
+            <DailySpinWheel
+              currentCount={todayCount}
+              onDuroodIncrement={fetchEntries}
+            />
+          </div>
+
+          {/* Level Badges */}
+          <div className="md:col-span-1 xl:col-span-1">
+            <LevelBadges compact={true} />
+          </div>
+
+          {/* Goal Timer */}
+          <div className="md:col-span-2 xl:col-span-1">
+            <GoalTimer />
+          </div>
+        </div>
+
+        {/* Dua Library - Full Width */}
+        <div className="mb-8">
+          <DuaLibrary compact />
+        </div>
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">

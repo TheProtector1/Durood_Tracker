@@ -1,0 +1,78 @@
+{
+  "version": "1.0.0",
+  "description": "Configuration for Durood Tracker production backup system",
+
+  "backup": {
+    "enabled": true,
+    "interval_minutes": 30,
+    "retention_days": 7,
+    "max_backups": 50,
+    "compress": true,
+    "backup_dir": "./backups",
+    "log_dir": "./logs"
+  },
+
+  "database": {
+    "type": "postgresql",
+    "provider": "prisma",
+    "connection_timeout_seconds": 30,
+    "query_timeout_seconds": 300
+  },
+
+  "notifications": {
+    "enabled": false,
+    "on_success": false,
+    "on_failure": true,
+    "email": {
+      "enabled": false,
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 587,
+      "smtp_secure": false,
+      "from_email": "noreply@duroodtracker.com",
+      "to_email": "",
+      "subject_success": "Production Backup Completed Successfully",
+      "subject_failure": "Production Backup Failed"
+    },
+    "slack": {
+      "enabled": false,
+      "webhook_url": "",
+      "channel": "#backups",
+      "username": "Durood Tracker Backup"
+    }
+  },
+
+  "monitoring": {
+    "enabled": true,
+    "health_check_url": "",
+    "metrics": {
+      "backup_duration_threshold_seconds": 300,
+      "min_records_threshold": 100,
+      "max_backup_age_hours": 1
+    }
+  },
+
+  "security": {
+    "encrypt_backups": false,
+    "encryption_key": "",
+    "backup_permissions": "0600",
+    "verify_integrity": true
+  },
+
+  "advanced": {
+    "parallel_processing": false,
+    "chunk_size": 1000,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 60,
+    "exclude_tables": [],
+    "include_metadata": true,
+    "anonymize_sensitive_data": false
+  },
+
+  "maintenance": {
+    "auto_cleanup_enabled": true,
+    "cleanup_schedule": "weekly",
+    "archive_old_backups": true,
+    "archive_dir": "./backups/archive",
+    "send_reports": false
+  }
+}

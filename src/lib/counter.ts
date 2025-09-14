@@ -34,19 +34,30 @@ export async function getCurrentTotal(): Promise<number> {
 // Update total counter atomically
 export async function updateTotalCounter(delta: number): Promise<number> {
   try {
-    const counter = await prisma.totalCounter.upsert({
-      where: { id: 'global' }, // Use a fixed ID for the global counter
-      update: {
-        total: {
-          increment: delta
-        },
-        updatedAt: new Date()
-      },
-      create: {
-        id: 'global',
-        total: delta
-      }
+    // First try to find existing counter
+    let counter = await prisma.totalCounter.findUnique({
+      where: { id: 'global' }
     })
+
+    if (counter) {
+      // Update existing counter
+      counter = await prisma.totalCounter.update({
+        where: { id: 'global' },
+        data: {
+          total: counter.total + delta,
+          updatedAt: new Date()
+        }
+      })
+    } else {
+      // Create new counter
+      counter = await prisma.totalCounter.create({
+        data: {
+          id: 'global',
+          total: delta
+        }
+      })
+    }
+
     return counter.total
   } catch (error) {
     console.error('Update total counter error:', error)

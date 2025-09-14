@@ -143,13 +143,15 @@ export async function POST(request: NextRequest) {
     const verificationUrl = `${baseUrl}/auth/verify-email?token=${verificationToken}&email=${encodeURIComponent(email)}`
 
     let emailSent = false
-    try {
-      await sendEmailVerificationEmail(email, verificationUrl)
-      emailSent = true
-    } catch (emailError) {
-      console.error('Failed to send verification email:', emailError)
-      // Don't fail the signup if email fails, but log it
-      // User can still request verification later
+    if (process.env.SMTP_HOST || process.env.RESEND_API_KEY) {
+      try {
+        await sendEmailVerificationEmail(email, verificationUrl)
+        emailSent = true
+      } catch (emailError) {
+        console.error('Failed to send verification email:', emailError)
+        // Don't fail the signup if email fails, but log it
+        // User can still request verification later
+      }
     }
 
     return NextResponse.json(

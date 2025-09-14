@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import fs from 'fs';
+import path from 'path';
 
 // Email service configuration
 interface EmailConfig {
@@ -13,6 +15,79 @@ interface EmailConfig {
       pass: string;
     };
   };
+}
+
+// Template data interfaces
+interface VerificationEmailData {
+  verificationCode: string;
+  verificationLink: string;
+  verificationUrl: string;
+  resendLink: string;
+}
+
+interface PasswordResetEmailData {
+  resetCode: string;
+  resetLink: string;
+  resetUrl: string;
+  loginLink: string;
+}
+
+interface DailyReminderEmailData {
+  userName: string;
+  currentDate: string;
+  todayCount: number;
+  weekCount: number;
+  monthCount: number;
+  totalCount: number;
+  appLink: string;
+  statsLink: string;
+  fajrTime: string;
+  dhuhrTime: string;
+  asrTime: string;
+  maghribTime: string;
+  ishaTime: string;
+  jummahTime: string;
+}
+
+// Load email template
+function loadEmailTemplate(templateName: string): string {
+  // Try multiple path resolutions for Next.js compatibility
+  const possiblePaths = [
+    path.join(__dirname, 'email-templates', `${templateName}.html`),
+    path.join(__dirname, '../email-templates', `${templateName}.html`),
+    path.join(process.cwd(), 'src/lib/email-templates', `${templateName}.html`),
+    path.join(process.cwd(), 'email-templates', `${templateName}.html`)
+  ];
+
+  for (const templatePath of possiblePaths) {
+    try {
+      if (fs.existsSync(templatePath)) {
+        return fs.readFileSync(templatePath, 'utf8');
+      }
+    } catch (error) {
+      // Continue to next path
+      continue;
+    }
+  }
+
+  // If none of the paths work, throw error with debug info
+  const debugInfo = possiblePaths.map(p => `${p} (${fs.existsSync(p) ? 'exists' : 'not found'})`).join(', ');
+  throw new Error(`Failed to load email template: ${templateName}. Tried paths: ${debugInfo}`);
+}
+
+// Replace template variables
+function replaceTemplateVariables(template: string, data: Record<string, any>): string {
+  let result = template;
+  for (const [key, value] of Object.entries(data)) {
+    const regex = new RegExp(`{{${key.toUpperCase()}}}`, 'g');
+    result = result.replace(regex, String(value));
+  }
+  return result;
+}
+
+// Get current year for templates
+function getCurrentYear(): number {
+  return new Date().getFullYear();
 }
 
 // Get email configuration from environment variables
@@ -141,99 +216,69 @@ async function sendEmail(to: string, subject: string, html: string) {
   }
 }
 
-export async function sendPasswordResetEmail(email: string, resetUrl: string) {
+export async function sendPasswordResetEmail(email: string, resetUrl: string, resetCode?: string) {
   if (!emailConfig) {
     throw new Error('Email service not configured');
   }
 
-  const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 30px;">
-        <div style="font-size: 48px; color: #10b981;">﷽</div>
-      </div>
-      <h2 style="color: #065f46; text-align: center; margin-bottom: 20px;">Password Reset Request</h2>
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">Assalamu Alaikum,</p>
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">You have requested to reset your password for your Durood Tracker account.</p>
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">Click the button below to reset your password:</p>
+  // Load the password reset template
+  const template = loadEmailTemplate('password-reset');
 
-      <div style="text-align: center; margin: 40px 0;">
-        <a href="${resetUrl}"
-           style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
-          Reset Password
-        </a>
-      </div>
+  // Prepare template data
+  const templateData: PasswordResetEmailData = {
+    resetCode: resetCode || 'N/A',
+    resetLink: resetUrl,
+    resetUrl: resetUrl,
+    loginLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/signin`
+  };
 
-      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 20px; margin: 30px 0;">
-        <p style="color: #166534; margin: 0; font-weight: 500;">If the button doesn't work, copy and paste this link:</p>
-        <p style="word-break: break-all; color: #059669; margin: 10px 0 0 0; font-family: monospace;">${resetUrl}</p>
-      </div>
+  // Add current year to template data
+  templateData.currentYear = getCurrentYear();
 
-      <div style="background-color: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin: 20px 0;">
-        <p style="color: #92400e; margin: 0; font-weight: 500;">⏰ This link will expire in 1 hour.</p>
-      </div>
+  // Replace template variables
+  const html = replaceTemplateVariables(template, templateData);
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">If you didn't request this password reset, please ignore this email.</p>
-
-      <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-        <p style="color: #6b7280; font-size: 14px; margin: 0;">
-          Best regards,<br>
-          <strong>The Durood Tracker Team</strong>
-        </p>
-      </div>
-    </div>
-  `;
-
-  return await sendEmail(email, 'Password Reset Request - Durood Tracker', html);
+  return await sendEmail(email, '🔐 إعادة تعيين كلمة المرور - Durood Tracker', html);
 }
 
-export async function sendEmailVerificationEmail(email: string, verificationUrl: string) {
+export async function sendEmailVerificationEmail(email: string, verificationUrl: string, verificationCode?: string) {
   if (!emailConfig) {
     throw new Error('Email service not configured');
   }
 
-  const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 30px;">
-        <div style="font-size: 48px; color: #10b981;">﷽</div>
-      </div>
-      <h2 style="color: #065f46; text-align: center; margin-bottom: 20px;">Welcome to Durood Tracker!</h2>
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">Assalamu Alaikum,</p>
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">Thank you for joining Durood Tracker. To complete your registration and start tracking your durood recitations, please verify your email address.</p>
+  // Load the email verification template
+  const template = loadEmailTemplate('email-verification');
 
-      <div style="text-align: center; margin: 40px 0;">
-        <a href="${verificationUrl}"
-           style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
-          Verify Your Email
-        </a>
-      </div>
+  // Prepare template data
+  const templateData: VerificationEmailData = {
+    verificationCode: verificationCode || 'N/A',
+    verificationLink: verificationUrl,
+    verificationUrl: verificationUrl,
+    resendLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/signup?resend=true&email=${encodeURIComponent(email)}`
+  };
 
-      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 20px; margin: 30px 0;">
-        <p style="color: #166534; margin: 0; font-weight: 500;">If the button doesn't work, copy and paste this link into your browser:</p>
-        <p style="word-break: break-all; color: #059669; margin: 10px 0 0 0; font-family: monospace;">${verificationUrl}</p>
-      </div>
+  // Add current year to template data
+  templateData.currentYear = getCurrentYear();
 
-      <div style="background-color: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin: 20px 0;">
-        <p style="color: #92400e; margin: 0; font-weight: 500;">⏰ This verification link will expire in 24 hours.</p>
-      </div>
+  // Replace template variables
+  const html = replaceTemplateVariables(template, templateData);
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">Once verified, you'll be able to:</p>
-      <ul style="color: #374151; font-size: 16px; line-height: 1.8;">
-        <li>Track your daily durood recitations</li>
-        <li>View comprehensive durood collections</li>
-        <li>Monitor your prayer completion</li>
-        <li>Join community rankings</li>
-      </ul>
+  return await sendEmail(email, 'ﷺ تفعيل حسابك في تطبيق الدروود - Durood Tracker', html);
+}
 
-      <p style="color: #374151; font-size: 16px; line-height: 1.6;">If you didn't create this account, please ignore this email.</p>
+export async function sendDailyReminderEmail(email: string, userData: DailyReminderEmailData) {
+  if (!emailConfig) {
+    throw new Error('Email service not configured');
+  }
 
-      <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-        <p style="color: #6b7280; font-size: 14px; margin: 0;">
-          Best regards,<br>
-          <strong>The Durood Tracker Team</strong>
-        </p>
-      </div>
-    </div>
-  `;
+  // Load the daily reminder template
+  const template = loadEmailTemplate('daily-reminder');
 
-  return await sendEmail(email, 'Verify Your Email - Durood Tracker', html);
+  // Add current year to template data
+  userData.currentYear = getCurrentYear();
+
+  // Replace template variables
+  const html = replaceTemplateVariables(template, userData);
+
+  return await sendEmail(email, '🔔 تذكير يومي بالدروود - Durood Tracker', html);
 }

@@ -1,0 +1,1167 @@
+{
+  "metadata": {
+    "exportedAt": "2025-09-13T16:47:33.629Z",
+    "version": "1.0",
+    "source": "production",
+    "recordCounts": {
+      "users": 18,
+      "duroodEntries": 28,
+      "dailyRankings": 28,
+      "prayerCompletions": 41,
+      "passwordResets": 3,
+      "totalCounters": 1
+    }
+  },
+  "data": {
+    "users": [
+      {
+        "id": "cmf9lnuzh00061kfnhbkkq6at",
+        "email": "test-1757243921695@example.com",
+        "username": "test921695",
+        "displayName": "Test User",
+        "createdAt": "2025-09-07T11:18:45.917Z",
+        "updatedAt": "2025-09-07T11:18:45.917Z",
+        "emailVerified": false,
+        "emailVerificationToken": "3b751ee35b0c19c315cec71651ee3f917aee17584b53be45688bf60ddd347e8b",
+        "emailVerificationExpires": "2025-09-08T11:18:45.074Z"
+      },
+      {
+        "id": "cmf9qtcu90003ju04yjbwy79o",
+        "email": "hyaseen.bscs17seecs@seecs.edu.pk",
+        "username": "Yaseen_Ibn_hanif",
+        "displayName": "Yaseen",
+        "createdAt": "2025-09-07T13:43:00.418Z",
+        "updatedAt": "2025-09-07T13:43:00.418Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmf9w12yx0000l504as3f8hg6",
+        "email": "ishaal.hashim17@gmail.com",
+        "username": "Ishaal_Fatima",
+        "displayName": "Ishaal Fatima",
+        "createdAt": "2025-09-07T16:08:58.954Z",
+        "updatedAt": "2025-09-07T16:08:58.954Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmf9wnqxc0006la04mc74hn8x",
+        "email": "emannfatima642@gmail.com",
+        "username": "Fatima",
+        "displayName": "Fatima",
+        "createdAt": "2025-09-07T16:26:36.433Z",
+        "updatedAt": "2025-09-07T16:26:36.433Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmf9y5gyr0000kz04p71w2e3r",
+        "email": "owaishanif991@gmail.com",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "createdAt": "2025-09-07T17:08:22.948Z",
+        "updatedAt": "2025-09-07T17:08:22.948Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmf9y9l770000l204n4ts6k3v",
+        "email": "manobillim483@gmail.com",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "createdAt": "2025-09-07T17:11:35.059Z",
+        "updatedAt": "2025-09-07T17:11:35.059Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmf9zewco0001i804yts7cyyt",
+        "email": "test@gmail.com",
+        "username": "test",
+        "displayName": "test",
+        "createdAt": "2025-09-07T17:43:42.409Z",
+        "updatedAt": "2025-09-07T17:43:42.409Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmfa013zb0000k004y65l7huo",
+        "email": "test1@gmail.com",
+        "username": "test1",
+        "displayName": "test1",
+        "createdAt": "2025-09-07T18:00:58.728Z",
+        "updatedAt": "2025-09-07T18:00:58.728Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmfb2f22h0000le04anfzvv6c",
+        "email": "mhammadbilal136@gmail.com",
+        "username": "Muhammad Bilal",
+        "displayName": "Muhammad",
+        "createdAt": "2025-09-08T11:55:34.842Z",
+        "updatedAt": "2025-09-08T11:55:34.842Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmff6ux070000kz040w3m1u1y",
+        "email": "bismaali188@gmail.com",
+        "username": "Fatim",
+        "displayName": "Fatim",
+        "createdAt": "2025-09-11T09:10:57.943Z",
+        "updatedAt": "2025-09-11T09:10:57.943Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmfgvft6h0000rgkan4uryjrm",
+        "email": "hmyaseen776@gmail.com",
+        "username": "hyasee",
+        "displayName": "hyaseen",
+        "createdAt": "2025-09-12T13:26:49.721Z",
+        "updatedAt": "2025-09-12T13:26:49.721Z",
+        "emailVerified": false,
+        "emailVerificationToken": "63440d894848540241ca873518f902c957ee125a3f3204658fcbd5085f5ee7d2",
+        "emailVerificationExpires": "2025-09-13T13:26:49.720Z"
+      },
+      {
+        "id": "cmfgxplmu0000rgffonabze5h",
+        "email": "verify-1757687419865@test.com",
+        "username": "test419865",
+        "displayName": "Test Verification User",
+        "createdAt": "2025-09-12T14:30:25.734Z",
+        "updatedAt": "2025-09-12T14:30:25.734Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmfgxqrqc0001rgff3ftobwco",
+        "email": "verify-1757687478712@test.com",
+        "username": "test478712",
+        "displayName": "Test Verification User",
+        "createdAt": "2025-09-12T14:31:20.292Z",
+        "updatedAt": "2025-09-12T14:31:20.292Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmfgxrszx0002rgffzjrehjzb",
+        "email": "verify-1757687526824@test.com",
+        "username": "test526824",
+        "displayName": "Test Verification User",
+        "createdAt": "2025-09-12T14:32:08.590Z",
+        "updatedAt": "2025-09-12T14:32:08.590Z",
+        "emailVerified": false,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      },
+      {
+        "id": "cmfgxxfm70000rgwuxm1tcsyf",
+        "email": "thelittlematepk@gmail.com",
+        "username": "Little",
+        "displayName": "Little",
+        "createdAt": "2025-09-12T14:36:31.184Z",
+        "updatedAt": "2025-09-12T14:36:31.184Z",
+        "emailVerified": false,
+        "emailVerificationToken": "09e07dc94a5d26c1dd3ed8f7fef958c59bddfbd6e500a192ab2941f1fd848d4b",
+        "emailVerificationExpires": "2025-09-13T14:36:31.182Z"
+      },
+      {
+        "id": "cmfgy73hm0000rgupn0068yh1",
+        "email": "test@example.com",
+        "username": "testuser",
+        "displayName": "testuser",
+        "createdAt": "2025-09-12T14:44:02.026Z",
+        "updatedAt": "2025-09-12T14:44:02.026Z",
+        "emailVerified": false,
+        "emailVerificationToken": "acf61316ba071000dc14304cc10d1d092983de6cab7ef6f66bb7ab0a204e942e",
+        "emailVerificationExpires": "2025-09-13T14:44:02.013Z"
+      },
+      {
+        "id": "cmfgye40h0001rgupv722m40v",
+        "email": "english-test@example.com",
+        "username": "englishtest",
+        "displayName": "englishtest",
+        "createdAt": "2025-09-12T14:49:29.297Z",
+        "updatedAt": "2025-09-12T14:49:29.297Z",
+        "emailVerified": false,
+        "emailVerificationToken": "e275d594351e159da2b0136e65c63e33f57500781ca9625821aa475fa58e003e",
+        "emailVerificationExpires": "2025-09-13T14:49:29.291Z"
+      },
+      {
+        "id": "cmf9lt85q0002zegywg7gywzv",
+        "email": "yasirhanif555@gmail.com",
+        "username": "Hafiz",
+        "displayName": "hafiz",
+        "createdAt": "2025-09-07T11:22:56.270Z",
+        "updatedAt": "2025-09-12T15:20:06.419Z",
+        "emailVerified": true,
+        "emailVerificationToken": null,
+        "emailVerificationExpires": null
+      }
+    ],
+    "duroodEntries": [
+      {
+        "id": "cmfaq8je30001le042zitj5kp",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-08",
+        "count": 245,
+        "createdAt": "2025-09-08T06:14:35.304Z",
+        "updatedAt": "2025-09-08T17:11:08.250Z"
+      },
+      {
+        "id": "cmf9woaot0008la04d2jh71iw",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "date": "2025-09-07",
+        "count": 60500,
+        "createdAt": "2025-09-07T16:27:02.046Z",
+        "updatedAt": "2025-09-07T16:35:20.549Z"
+      },
+      {
+        "id": "cmfcfhet20001kz042x4v5p1a",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "date": "2025-09-09",
+        "count": 200,
+        "createdAt": "2025-09-09T10:49:05.844Z",
+        "updatedAt": "2025-09-09T10:49:05.844Z"
+      },
+      {
+        "id": "cmf9w1sd20001jp043c9xe5ph",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-07",
+        "count": 1986,
+        "createdAt": "2025-09-07T16:09:31.859Z",
+        "updatedAt": "2025-09-07T17:11:36.513Z"
+      },
+      {
+        "id": "cmf9ybw8c0001l504x78x9l1x",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "date": "2025-09-07",
+        "count": 1500,
+        "createdAt": "2025-09-07T17:13:22.666Z",
+        "updatedAt": "2025-09-07T17:13:22.666Z"
+      },
+      {
+        "id": "cmfcalhlq0001l404bdfh3e0s",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-09",
+        "count": 500,
+        "createdAt": "2025-09-09T08:32:18.012Z",
+        "updatedAt": "2025-09-09T16:57:48.719Z"
+      },
+      {
+        "id": "cmfcw2b2m0001l104yq36tscb",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "date": "2025-09-09",
+        "count": 500,
+        "createdAt": "2025-09-09T18:33:14.636Z",
+        "updatedAt": "2025-09-09T18:33:14.636Z"
+      },
+      {
+        "id": "cmfcw3oma0004l104z63xpd8e",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "date": "2025-09-09",
+        "count": 100,
+        "createdAt": "2025-09-09T18:34:18.851Z",
+        "updatedAt": "2025-09-09T18:34:18.851Z"
+      },
+      {
+        "id": "cmfd6u0t60001jv04metu49yp",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "date": "2025-09-10",
+        "count": 200,
+        "createdAt": "2025-09-09T23:34:43.864Z",
+        "updatedAt": "2025-09-09T23:34:43.864Z"
+      },
+      {
+        "id": "cmfd6yvy50001i204vjkm8ijn",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-10",
+        "count": 200,
+        "createdAt": "2025-09-09T23:38:30.845Z",
+        "updatedAt": "2025-09-10T17:47:08.684Z"
+      },
+      {
+        "id": "cmfebc9gq0001jo04rybukpfc",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "date": "2025-09-10",
+        "count": 500,
+        "createdAt": "2025-09-10T18:28:39.527Z",
+        "updatedAt": "2025-09-10T18:28:39.527Z"
+      },
+      {
+        "id": "cmfebdocd0001le04t7mp35tp",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "date": "2025-09-10",
+        "count": 200,
+        "createdAt": "2025-09-10T18:29:45.467Z",
+        "updatedAt": "2025-09-10T18:29:45.809Z"
+      },
+      {
+        "id": "cmfejfzwu0001lb04f1jc7wqs",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "date": "2025-09-11",
+        "count": 200,
+        "createdAt": "2025-09-10T22:15:30.700Z",
+        "updatedAt": "2025-09-10T22:15:30.700Z"
+      },
+      {
+        "id": "cmf9qrvla0001la04rpi9w56a",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-07",
+        "count": 8015,
+        "createdAt": "2025-09-07T13:41:51.404Z",
+        "updatedAt": "2025-09-07T18:07:09.388Z"
+      },
+      {
+        "id": "cmfahe3xr0001jr04gbjnlm66",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "date": "2025-09-08",
+        "count": 100,
+        "createdAt": "2025-09-08T02:06:58.669Z",
+        "updatedAt": "2025-09-08T02:06:58.669Z"
+      },
+      {
+        "id": "cmfg6lefg0003k104veg63o5j",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-12",
+        "count": 600,
+        "createdAt": "2025-09-12T01:51:20.140Z",
+        "updatedAt": "2025-09-12T16:05:54.867Z"
+      },
+      {
+        "id": "cmfh30irt0001kz04yzrbo9i6",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "date": "2025-09-12",
+        "count": 500,
+        "createdAt": "2025-09-12T16:58:53.319Z",
+        "updatedAt": "2025-09-12T16:58:53.319Z"
+      },
+      {
+        "id": "cmff6vskm0002kz04rqrpsccp",
+        "userId": "cmff6ux070000kz040w3m1u1y",
+        "date": "2025-09-11",
+        "count": 600,
+        "createdAt": "2025-09-11T09:11:38.852Z",
+        "updatedAt": "2025-09-11T09:11:52.265Z"
+      },
+      {
+        "id": "cmffnpvta0001if04dt1ba7ur",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "date": "2025-09-11",
+        "count": 500,
+        "createdAt": "2025-09-11T17:02:56.588Z",
+        "updatedAt": "2025-09-11T17:02:56.588Z"
+      },
+      {
+        "id": "cmffnqb1l0004if04w0cq0hxu",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "date": "2025-09-11",
+        "count": 200,
+        "createdAt": "2025-09-11T17:03:16.329Z",
+        "updatedAt": "2025-09-11T17:03:16.329Z"
+      },
+      {
+        "id": "cmf9y7qki0004jr04p83ncxxm",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "date": "2025-09-07",
+        "count": 250,
+        "createdAt": "2025-09-07T17:10:08.706Z",
+        "updatedAt": "2025-09-07T17:10:08.706Z"
+      },
+      {
+        "id": "cmffp2t330001kz04tn74gf3k",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-11",
+        "count": 102,
+        "createdAt": "2025-09-11T17:40:59.197Z",
+        "updatedAt": "2025-09-11T17:41:03.270Z"
+      },
+      {
+        "id": "cmfh322g30004jj04vipzd79n",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "date": "2025-09-12",
+        "count": 300,
+        "createdAt": "2025-09-12T17:00:05.475Z",
+        "updatedAt": "2025-09-12T17:00:05.651Z"
+      },
+      {
+        "id": "cmfb2hn170001jr04b00sl031",
+        "userId": "cmfb2f22h0000le04anfzvv6c",
+        "date": "2025-09-08",
+        "count": 5,
+        "createdAt": "2025-09-08T11:57:35.323Z",
+        "updatedAt": "2025-09-08T11:57:52.503Z"
+      },
+      {
+        "id": "cmfbbk79y0001js04b1fverqy",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "date": "2025-09-08",
+        "count": 500,
+        "createdAt": "2025-09-08T16:11:31.412Z",
+        "updatedAt": "2025-09-08T16:11:31.412Z"
+      },
+      {
+        "id": "cmfbd4e2i0001l204t81svobl",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "date": "2025-09-08",
+        "count": 500,
+        "createdAt": "2025-09-08T16:55:12.952Z",
+        "updatedAt": "2025-09-08T16:55:12.952Z"
+      },
+      {
+        "id": "cmfi8xkiy0001l50458akxcii",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-13",
+        "count": 100,
+        "createdAt": "2025-09-13T12:32:19.498Z",
+        "updatedAt": "2025-09-13T12:32:19.498Z"
+      },
+      {
+        "id": "cmfi8ycis0004l5040ksrs436",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-13",
+        "count": 100,
+        "createdAt": "2025-09-13T12:32:55.780Z",
+        "updatedAt": "2025-09-13T12:32:55.780Z"
+      }
+    ],
+    "dailyRankings": [
+      {
+        "id": "cmfebdog30002le04xfvqqnc8",
+        "date": "2025-09-10",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "count": 200,
+        "rank": 4,
+        "createdAt": "2025-09-10T18:29:45.603Z"
+      },
+      {
+        "id": "cmfh30iwu0002kz04tgetm3n0",
+        "date": "2025-09-12",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "count": 500,
+        "rank": 2,
+        "createdAt": "2025-09-12T16:58:53.502Z"
+      },
+      {
+        "id": "cmfbbk7eg0002js04jjs9wn6n",
+        "date": "2025-09-08",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "count": 500,
+        "rank": 1,
+        "createdAt": "2025-09-08T16:11:31.577Z"
+      },
+      {
+        "id": "cmf9woau50009la04p69zomnx",
+        "date": "2025-09-07",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "username": "Fatima",
+        "displayName": "Fatima",
+        "count": 60500,
+        "rank": 1,
+        "createdAt": "2025-09-07T16:27:02.238Z"
+      },
+      {
+        "id": "cmfb2hqf60002jr049f7tpl2q",
+        "date": "2025-09-08",
+        "userId": "cmfb2f22h0000le04anfzvv6c",
+        "username": "Muhammad Bilal",
+        "displayName": "Muhammad",
+        "count": 5,
+        "rank": 5,
+        "createdAt": "2025-09-08T11:57:39.715Z"
+      },
+      {
+        "id": "cmfbd4e6z0002l204uds7x84a",
+        "date": "2025-09-08",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "username": "Fatima",
+        "displayName": "Fatima",
+        "count": 500,
+        "rank": 2,
+        "createdAt": "2025-09-08T16:55:13.115Z"
+      },
+      {
+        "id": "cmfh322k20005jj04nhcc3rfd",
+        "date": "2025-09-12",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "count": 300,
+        "rank": 3,
+        "createdAt": "2025-09-12T17:00:05.618Z"
+      },
+      {
+        "id": "cmfahe42x0002jr04arcvcfus",
+        "date": "2025-09-08",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "count": 100,
+        "rank": 4,
+        "createdAt": "2025-09-08T02:06:58.857Z"
+      },
+      {
+        "id": "cmff6vspu0003kz04ei73lfca",
+        "date": "2025-09-11",
+        "userId": "cmff6ux070000kz040w3m1u1y",
+        "username": "Fatim",
+        "displayName": "Fatim",
+        "count": 600,
+        "rank": 1,
+        "createdAt": "2025-09-11T09:11:39.042Z"
+      },
+      {
+        "id": "cmfejfzzq0002lb04rr3hzcs4",
+        "date": "2025-09-11",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "username": "Fatima",
+        "displayName": "Fatima",
+        "count": 200,
+        "rank": 3,
+        "createdAt": "2025-09-10T22:15:30.807Z"
+      },
+      {
+        "id": "cmffnpvz90002if0445upznpq",
+        "date": "2025-09-11",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "count": 500,
+        "rank": 2,
+        "createdAt": "2025-09-11T17:02:56.806Z"
+      },
+      {
+        "id": "cmffnqb4l0005if04377curzl",
+        "date": "2025-09-11",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "count": 200,
+        "rank": 4,
+        "createdAt": "2025-09-11T17:03:16.438Z"
+      },
+      {
+        "id": "cmffp2t8c0002kz04mukagssb",
+        "date": "2025-09-11",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "hafiz",
+        "displayName": "hafiz",
+        "count": 102,
+        "rank": 5,
+        "createdAt": "2025-09-11T17:40:59.389Z"
+      },
+      {
+        "id": "cmf9w1sif0002jp04rwchzwrl",
+        "date": "2025-09-07",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "username": "Ishaal_Fatima",
+        "displayName": "Ishaal Fatima",
+        "count": 1986,
+        "rank": 3,
+        "createdAt": "2025-09-07T16:09:32.056Z"
+      },
+      {
+        "id": "cmf9y7qtp0005jr04bu7yozmp",
+        "date": "2025-09-07",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "count": 250,
+        "rank": 5,
+        "createdAt": "2025-09-07T17:10:09.037Z"
+      },
+      {
+        "id": "cmf9yc4hl0002l504vjzxtvb5",
+        "date": "2025-09-07",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "count": 1500,
+        "rank": 4,
+        "createdAt": "2025-09-07T17:13:33.370Z"
+      },
+      {
+        "id": "cmfaq8jig0002le0485fekww1",
+        "date": "2025-09-08",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "hafiz",
+        "displayName": "hafiz",
+        "count": 245,
+        "rank": 3,
+        "createdAt": "2025-09-08T06:14:35.464Z"
+      },
+      {
+        "id": "cmf9qrx7s0002la04o6s1bt6d",
+        "date": "2025-09-07",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "hafiz",
+        "displayName": "hafiz",
+        "count": 8015,
+        "rank": 2,
+        "createdAt": "2025-09-07T13:41:53.512Z"
+      },
+      {
+        "id": "cmfcalhpk0002l404gmnaoolo",
+        "date": "2025-09-09",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "hafiz",
+        "displayName": "hafiz",
+        "count": 500,
+        "rank": 1,
+        "createdAt": "2025-09-09T08:32:18.153Z"
+      },
+      {
+        "id": "cmfcw2b8s0002l1041vf1v3jg",
+        "date": "2025-09-09",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "count": 500,
+        "rank": 2,
+        "createdAt": "2025-09-09T18:33:14.860Z"
+      },
+      {
+        "id": "cmfcfhewe0002kz0412cz6ha4",
+        "date": "2025-09-09",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "username": "Fatima",
+        "displayName": "Fatima",
+        "count": 200,
+        "rank": 3,
+        "createdAt": "2025-09-09T10:49:05.966Z"
+      },
+      {
+        "id": "cmfcw3opv0005l1041ograpci",
+        "date": "2025-09-09",
+        "userId": "cmf9y5gyr0000kz04p71w2e3r",
+        "username": "Owais hanif",
+        "displayName": "Owais hanif",
+        "count": 100,
+        "rank": 4,
+        "createdAt": "2025-09-09T18:34:18.979Z"
+      },
+      {
+        "id": "cmfd6u0wd0002jv04ztzvr9zn",
+        "date": "2025-09-10",
+        "userId": "cmf9wnqxc0006la04mc74hn8x",
+        "username": "Fatima",
+        "displayName": "Fatima",
+        "count": 200,
+        "rank": 2,
+        "createdAt": "2025-09-09T23:34:43.982Z"
+      },
+      {
+        "id": "cmfi8xkmc0002l504yz8yteoc",
+        "date": "2025-09-13",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "username": "Ishaal_Fatima",
+        "displayName": "Ishaal Fatima",
+        "count": 100,
+        "rank": 1,
+        "createdAt": "2025-09-13T12:32:19.621Z"
+      },
+      {
+        "id": "cmfd6yw190002i204drbpcwrl",
+        "date": "2025-09-10",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "hafiz",
+        "displayName": "hafiz",
+        "count": 200,
+        "rank": 3,
+        "createdAt": "2025-09-09T23:38:30.957Z"
+      },
+      {
+        "id": "cmfebc9ks0002jo04trt92fs7",
+        "date": "2025-09-10",
+        "userId": "cmf9y9l770000l204n4ts6k3v",
+        "username": "Mano billi",
+        "displayName": "Mano billi",
+        "count": 500,
+        "rank": 1,
+        "createdAt": "2025-09-10T18:28:39.677Z"
+      },
+      {
+        "id": "cmfi8ycln0005l504fbqz3v2e",
+        "date": "2025-09-13",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "Hafiz",
+        "displayName": "hafiz",
+        "count": 100,
+        "rank": 2,
+        "createdAt": "2025-09-13T12:32:55.883Z"
+      },
+      {
+        "id": "cmfg6lek40004k1041xspu5mf",
+        "date": "2025-09-12",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "username": "Hafiz",
+        "displayName": "hafiz",
+        "count": 600,
+        "rank": 1,
+        "createdAt": "2025-09-12T01:51:20.308Z"
+      }
+    ],
+    "prayerCompletions": [
+      {
+        "id": "cmf9qrvkd0002ju047pptrzfc",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-07",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-07T13:41:51.258Z",
+        "createdAt": "2025-09-07T13:41:51.262Z",
+        "updatedAt": "2025-09-07T13:41:51.262Z"
+      },
+      {
+        "id": "cmf9qrx8e0004la04ab5d0vc8",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-07",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-07T13:41:53.461Z",
+        "createdAt": "2025-09-07T13:41:53.462Z",
+        "updatedAt": "2025-09-07T13:41:53.462Z"
+      },
+      {
+        "id": "cmf9wmapn0001la043xcf5ucg",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-07",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-07T17:06:45.055Z",
+        "createdAt": "2025-09-07T16:25:28.761Z",
+        "updatedAt": "2025-09-07T17:06:45.056Z"
+      },
+      {
+        "id": "cmf9wmbgj0003la04wwqisdsp",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-07",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-07T17:06:46.012Z",
+        "createdAt": "2025-09-07T16:25:29.731Z",
+        "updatedAt": "2025-09-07T17:06:46.013Z"
+      },
+      {
+        "id": "cmf9wmcdg0001jp04abkp6sn7",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-07",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-07T17:06:47.718Z",
+        "createdAt": "2025-09-07T16:25:30.914Z",
+        "updatedAt": "2025-09-07T17:06:47.719Z"
+      },
+      {
+        "id": "cmf9wmctt0005la04w7nk8dwr",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-07",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-07T17:06:48.672Z",
+        "createdAt": "2025-09-07T16:25:31.505Z",
+        "updatedAt": "2025-09-07T17:06:48.673Z"
+      },
+      {
+        "id": "cmfa09ay50001jr047ilv3xc4",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-07",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-07T18:07:20.999Z",
+        "createdAt": "2025-09-07T18:07:21.000Z",
+        "updatedAt": "2025-09-07T18:07:21.000Z"
+      },
+      {
+        "id": "cmfa09bu10003jr042nuhbfd3",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-07",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-07T18:07:22.144Z",
+        "createdAt": "2025-09-07T18:07:22.145Z",
+        "updatedAt": "2025-09-07T18:07:22.145Z"
+      },
+      {
+        "id": "cmfcpshtf0001l704o7ht4k0i",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-09",
+        "prayerName": "fajr",
+        "completed": true,
+        "completedAt": "2025-09-09T15:37:39.119Z",
+        "createdAt": "2025-09-09T15:37:39.120Z",
+        "updatedAt": "2025-09-09T15:37:39.120Z"
+      },
+      {
+        "id": "cmfcpsisx0003l704g2yna15d",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-09",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-09T15:37:40.400Z",
+        "createdAt": "2025-09-09T15:37:40.401Z",
+        "updatedAt": "2025-09-09T15:37:40.401Z"
+      },
+      {
+        "id": "cmfcpsj4x0005l7041mb21akf",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-09",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-09T15:37:40.832Z",
+        "createdAt": "2025-09-09T15:37:40.833Z",
+        "updatedAt": "2025-09-09T15:37:40.833Z"
+      },
+      {
+        "id": "cmfcpsk0m0007l704jkoo5beb",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-09",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-09T15:37:41.974Z",
+        "createdAt": "2025-09-09T15:37:41.975Z",
+        "updatedAt": "2025-09-09T15:37:41.975Z"
+      },
+      {
+        "id": "cmfcpskal0009l70426wzy30a",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-09",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-09T15:37:42.333Z",
+        "createdAt": "2025-09-09T15:37:42.334Z",
+        "updatedAt": "2025-09-09T15:37:42.334Z"
+      },
+      {
+        "id": "cmfcv7kwa0004ju04xeme8myz",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-09",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-09T18:09:24.451Z",
+        "createdAt": "2025-09-09T18:09:20.941Z",
+        "updatedAt": "2025-09-09T18:09:24.452Z"
+      },
+      {
+        "id": "cmfcv7kwg0001jr04xlz4mdn1",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-09",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-09T18:09:25.669Z",
+        "createdAt": "2025-09-09T18:09:21.020Z",
+        "updatedAt": "2025-09-09T18:09:25.670Z"
+      },
+      {
+        "id": "cmfcv7lba0006ju04xnex3hpq",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-09",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-09T18:09:27.190Z",
+        "createdAt": "2025-09-09T18:09:21.575Z",
+        "updatedAt": "2025-09-09T18:09:27.191Z"
+      },
+      {
+        "id": "cmfcv7lb90005l104759x67fn",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-09",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-09T18:09:28.125Z",
+        "createdAt": "2025-09-09T18:09:21.574Z",
+        "updatedAt": "2025-09-09T18:09:28.126Z"
+      },
+      {
+        "id": "cmfcv7f760001l104oo5ywic1",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-09",
+        "prayerName": "fajr",
+        "completed": true,
+        "completedAt": "2025-09-09T18:09:30.225Z",
+        "createdAt": "2025-09-09T18:09:13.648Z",
+        "updatedAt": "2025-09-09T18:09:30.226Z"
+      },
+      {
+        "id": "cmfd6yyjs0004i20471lja7vd",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-10",
+        "prayerName": "fajr",
+        "completed": true,
+        "completedAt": "2025-09-10T17:47:24.703Z",
+        "createdAt": "2025-09-09T23:38:34.217Z",
+        "updatedAt": "2025-09-10T17:47:24.704Z"
+      },
+      {
+        "id": "cmfe9uz5s0003l8045lyulalc",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-10",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-10T17:47:25.756Z",
+        "createdAt": "2025-09-10T17:47:13.408Z",
+        "updatedAt": "2025-09-10T17:47:25.757Z"
+      },
+      {
+        "id": "cmfe9uzzw0005l804lk55bebf",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-10",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-10T17:47:26.016Z",
+        "createdAt": "2025-09-10T17:47:14.493Z",
+        "updatedAt": "2025-09-10T17:47:26.017Z"
+      },
+      {
+        "id": "cmfe9v09n0001ld04txogzt0m",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-10",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-10T17:47:27.092Z",
+        "createdAt": "2025-09-10T17:47:14.832Z",
+        "updatedAt": "2025-09-10T17:47:27.093Z"
+      },
+      {
+        "id": "cmfe9v12v0007l804l3520vkq",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-10",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-10T17:47:27.400Z",
+        "createdAt": "2025-09-10T17:47:15.896Z",
+        "updatedAt": "2025-09-10T17:47:27.401Z"
+      },
+      {
+        "id": "cmffp2ycr0004kz04skp2kycz",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-11",
+        "prayerName": "fajr",
+        "completed": true,
+        "completedAt": "2025-09-11T17:41:06.027Z",
+        "createdAt": "2025-09-11T17:41:06.028Z",
+        "updatedAt": "2025-09-11T17:41:06.028Z"
+      },
+      {
+        "id": "cmffp2z3e0006kz04rhgh7zx5",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-11",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-11T17:41:06.985Z",
+        "createdAt": "2025-09-11T17:41:06.986Z",
+        "updatedAt": "2025-09-11T17:41:06.986Z"
+      },
+      {
+        "id": "cmffp2zak0008kz04h53t12ho",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-11",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-11T17:41:07.244Z",
+        "createdAt": "2025-09-11T17:41:07.245Z",
+        "updatedAt": "2025-09-11T17:41:07.245Z"
+      },
+      {
+        "id": "cmffp301i000akz04gx1ezt99",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-11",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-11T17:41:08.214Z",
+        "createdAt": "2025-09-11T17:41:08.215Z",
+        "updatedAt": "2025-09-11T17:41:08.215Z"
+      },
+      {
+        "id": "cmffp308m000ckz04k1i3ex95",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-11",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-11T17:41:08.469Z",
+        "createdAt": "2025-09-11T17:41:08.470Z",
+        "updatedAt": "2025-09-11T17:41:08.470Z"
+      },
+      {
+        "id": "cmfg6lbeb0001k1046gnblt2m",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-12",
+        "prayerName": "fajr",
+        "completed": true,
+        "completedAt": "2025-09-12T01:51:16.207Z",
+        "createdAt": "2025-09-12T01:51:16.209Z",
+        "updatedAt": "2025-09-12T01:51:16.209Z"
+      },
+      {
+        "id": "cmfgr4bbe0001rgtd270fcs5k",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-12",
+        "prayerName": "dhuhr",
+        "completed": true,
+        "completedAt": "2025-09-12T11:25:54.887Z",
+        "createdAt": "2025-09-12T11:25:54.889Z",
+        "updatedAt": "2025-09-12T11:25:54.889Z"
+      },
+      {
+        "id": "cmfgzixif0001l2044a7qzgpo",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-12",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-12T15:21:13.764Z",
+        "createdAt": "2025-09-12T15:21:13.765Z",
+        "updatedAt": "2025-09-12T15:21:13.765Z"
+      },
+      {
+        "id": "cmfgzixxm0003l204of9se3ra",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-12",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-12T15:21:14.313Z",
+        "createdAt": "2025-09-12T15:21:14.314Z",
+        "updatedAt": "2025-09-12T15:21:14.314Z"
+      },
+      {
+        "id": "cmfh0kq580001kz04c7rruce5",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-12",
+        "prayerName": "isha",
+        "completed": true,
+        "completedAt": "2025-09-12T15:50:37.147Z",
+        "createdAt": "2025-09-12T15:50:37.148Z",
+        "updatedAt": "2025-09-12T15:50:37.148Z"
+      },
+      {
+        "id": "cmfhtom960001l504ptxjsxpw",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-13",
+        "prayerName": "isha",
+        "completed": false,
+        "completedAt": null,
+        "createdAt": "2025-09-13T05:25:27.589Z",
+        "updatedAt": "2025-09-13T05:25:39.362Z"
+      },
+      {
+        "id": "cmfhtoiwz0001l40405r883ek",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-13",
+        "prayerName": "fajr",
+        "completed": false,
+        "completedAt": null,
+        "createdAt": "2025-09-13T05:25:23.170Z",
+        "updatedAt": "2025-09-13T05:25:39.365Z"
+      },
+      {
+        "id": "cmfhtom1g0003l404tyj4tnzk",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-13",
+        "prayerName": "maghrib",
+        "completed": false,
+        "completedAt": null,
+        "createdAt": "2025-09-13T05:25:27.317Z",
+        "updatedAt": "2025-09-13T05:25:39.380Z"
+      },
+      {
+        "id": "cmfhtom320001jp048a4imicd",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-13",
+        "prayerName": "dhuhr",
+        "completed": false,
+        "completedAt": null,
+        "createdAt": "2025-09-13T05:25:27.363Z",
+        "updatedAt": "2025-09-13T05:25:39.386Z"
+      },
+      {
+        "id": "cmfhtom2e0001jm047vazdtgo",
+        "userId": "cmf9w12yx0000l504as3f8hg6",
+        "date": "2025-09-13",
+        "prayerName": "asr",
+        "completed": false,
+        "completedAt": null,
+        "createdAt": "2025-09-13T05:25:27.338Z",
+        "updatedAt": "2025-09-13T05:25:39.408Z"
+      },
+      {
+        "id": "cmfi8yenp0001jo04gso14wpl",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-13",
+        "prayerName": "fajr",
+        "completed": true,
+        "completedAt": "2025-09-13T12:32:58.537Z",
+        "createdAt": "2025-09-13T12:32:58.538Z",
+        "updatedAt": "2025-09-13T12:32:58.538Z"
+      },
+      {
+        "id": "cmfi8yg0s0007l50496qfdyjh",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-13",
+        "prayerName": "asr",
+        "completed": true,
+        "completedAt": "2025-09-13T12:33:00.306Z",
+        "createdAt": "2025-09-13T12:33:00.308Z",
+        "updatedAt": "2025-09-13T12:33:00.308Z"
+      },
+      {
+        "id": "cmficp6x70001l4046ern7x4z",
+        "userId": "cmf9lt85q0002zegywg7gywzv",
+        "date": "2025-09-13",
+        "prayerName": "maghrib",
+        "completed": true,
+        "completedAt": "2025-09-13T14:17:47.079Z",
+        "createdAt": "2025-09-13T14:17:47.080Z",
+        "updatedAt": "2025-09-13T14:17:47.080Z"
+      }
+    ],
+    "passwordResets": [
+      {
+        "id": "cmf9qome10000ju04rsm5jjg7",
+        "email": "yasirhanif555@gmail.com",
+        "token": "ab9f0195a5fd777dff3072b2efb566bc16633aaeb1b5fbc06a407c3ac60330ad",
+        "expires": "2025-09-07T14:39:19.512Z",
+        "createdAt": "2025-09-07T13:39:19.513Z"
+      },
+      {
+        "id": "cmf9zdn190000i804gz211d79",
+        "email": "yasirhanif555@gmail.com",
+        "token": "20b2e6ba4a0252329767c8e96bc8d59b387dd08f112f8284a7f584328c596cfd",
+        "expires": "2025-09-07T18:42:43.676Z",
+        "createdAt": "2025-09-07T17:42:43.677Z"
+      },
+      {
+        "id": "cmfgva8920000rg21wj1rj3wi",
+        "email": "yasirhanif555@gmail.com",
+        "token": "bfc790b1885a3435f43ae3d31b9a55353f5131e10203471c584b44ff1e78e779",
+        "expires": "2025-09-12T14:22:29.316Z",
+        "createdAt": "2025-09-12T13:22:29.319Z"
+      }
+    ],
+    "totalCounters": [
+      {
+        "id": "global",
+        "total": 79203,
+        "updatedAt": "2025-09-13T12:32:55.815Z"
+      }
+    ]
+  }
+}
