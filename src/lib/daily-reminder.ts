@@ -32,10 +32,7 @@ async function getUsersForReminders(): Promise<UserReminderData[]> {
     // Get all verified users (you might want to add a preference setting later)
     const users = await prisma.user.findMany({
       where: {
-        emailVerified: true,
-        email: {
-          not: null
-        }
+        emailVerified: true
       },
       select: {
         id: true,
@@ -45,7 +42,10 @@ async function getUsersForReminders(): Promise<UserReminderData[]> {
       }
     });
 
-    return users.map(user => ({
+    // Filter users to only include those with valid emails
+    const validUsers = users.filter(user => user.email && user.email.trim() !== '');
+
+    return validUsers.map(user => ({
       userId: user.id,
       email: user.email!,
       username: user.username,
@@ -60,20 +60,14 @@ async function getUsersForReminders(): Promise<UserReminderData[]> {
 // Get user's durood statistics
 async function getUserDuroodStats(userId: string, date: Date) {
   try {
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
+    // Format date as YYYY-MM-DD string for database queries
+    const dateString = date.toISOString().split('T')[0];
 
-    const endOfDay = new Date(date);
-    endOfDay.setHours(23, 59, 59, 999);
-
-    // Today's count
+    // Today's count - since dates are stored as strings, we can use direct equality
     const todayCount = await prisma.duroodEntry.aggregate({
       where: {
         userId,
-        date: {
-          gte: startOfDay,
-          lte: endOfDay
-        }
+        date: dateString
       },
       _sum: {
         count: true
@@ -83,13 +77,14 @@ async function getUserDuroodStats(userId: string, date: Date) {
     // Week count (last 7 days)
     const weekStart = new Date(date);
     weekStart.setDate(weekStart.getDate() - 7);
+    const weekStartString = weekStart.toISOString().split('T')[0];
 
     const weekCount = await prisma.duroodEntry.aggregate({
       where: {
         userId,
         date: {
-          gte: weekStart,
-          lte: endOfDay
+          gte: weekStartString,
+          lte: dateString
         }
       },
       _sum: {
@@ -100,13 +95,14 @@ async function getUserDuroodStats(userId: string, date: Date) {
     // Month count (last 30 days)
     const monthStart = new Date(date);
     monthStart.setDate(monthStart.getDate() - 30);
+    const monthStartString = monthStart.toISOString().split('T')[0];
 
     const monthCount = await prisma.duroodEntry.aggregate({
       where: {
         userId,
         date: {
-          gte: monthStart,
-          lte: endOfDay
+          gte: monthStartString,
+          lte: dateString
         }
       },
       _sum: {
@@ -162,10 +158,10 @@ async function sendUserReminder(userData: UserReminderData): Promise<boolean> {
     const reminderData = {
       userName: userData.displayName || userData.username,
       currentDate: formatDateArabic(today),
-      todayCount: stats.todayCount.toString(),
-      weekCount: stats.weekCount.toString(),
-      monthCount: stats.monthCount.toString(),
-      totalCount: stats.totalCount.toString(),
+      todayCount: Number(stats.todayCount) || 0,
+      weekCount: Number(stats.weekCount) || 0,
+      monthCount: Number(stats.monthCount) || 0,
+      totalCount: Number(stats.totalCount) || 0,
       appLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/`,
       statsLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile`,
       fajrTime: DEFAULT_PRAYER_TIMES.fajr,

@@ -128,7 +128,7 @@ export default function DailySpinWheel({ currentCount = 0, onGoalSelected, onDur
         alert(`❌ Error submitting goal: ${errorText}`)
       }
     } catch (error) {
-      alert(`💥 Error submitting goal: ${error.message}`)
+      alert(`💥 Error submitting goal: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setIsSubmitting(false)
     }
@@ -138,7 +138,7 @@ export default function DailySpinWheel({ currentCount = 0, onGoalSelected, onDur
     <Card className="w-full max-w-sm mx-auto bg-white shadow-lg border-0">
       <CardHeader className="text-center pb-4">
         <CardTitle className="text-lg font-bold text-gray-800">
-          Today's Durood Goal
+          Today&apos;s Durood Goal
         </CardTitle>
         <CardDescription className="text-gray-600">
           Set your target and track progress

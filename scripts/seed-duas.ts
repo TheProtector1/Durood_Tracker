@@ -117,7 +117,7 @@ const comprehensiveDuas = [
     title: "Travel Protection",
     category: "travel",
     arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى وَمِنَ الْعَمَلِ مَا تَرْضَى",
-    urdu: "اے اللہ! ہم تجھ سے اس سفر میں نیکی اور تقویٰ اور ایسے عمل کی درخواست کرتے ہیں جس سے تو راضی ہو",
+    urdu: "اے اللہ! ہم تجھ سے اس سفر میں نیکی اور تقویٰ اور ایسے عمل کا سوال کرتے ہیں جس سے تو راضی ہو",
     english: "O Allah, we ask You in this journey of ours for goodness and piety, and for works that are pleasing to You.",
     transliteration: "Allahumma inna nas'aluka fi safarina hadhal birra wal taqwa wa minal 'amali ma tarda",
     reference: "Sunan at-Tirmidhi 3444",
@@ -361,12 +361,20 @@ async function main() {
   console.log('🌱 Starting comprehensive dua seeding...')
 
   try {
-    // Clear existing duas
-    console.log('🧹 Clearing existing duas...')
-    await prisma.dua.deleteMany({})
+    // Check if any duas already exist
+    const existingCount = await prisma.dua.count()
+    console.log(`📊 Found ${existingCount} existing duas in database`)
+
+    if (existingCount > 0) {
+      console.log('⏭️  Database already has duas. Skipping seeding to preserve existing data.')
+      console.log('✅ Seeding process completed successfully!')
+      return
+    }
 
     // Insert comprehensive duas
     console.log('📖 Inserting comprehensive duas...')
+    let createdCount = 0
+
     for (const dua of comprehensiveDuas) {
       await prisma.dua.create({
         data: {
@@ -381,10 +389,15 @@ async function main() {
           isActive: true
         }
       })
+      console.log(`✅ Created dua: "${dua.title}"`)
+      createdCount++
     }
 
-    const count = await prisma.dua.count()
-    console.log(`✅ Successfully seeded ${count} duas from LifeWithAllah.com!`)
+    const totalCount = await prisma.dua.count()
+    console.log('\n🎉 Seeding completed!')
+    console.log(`📊 Created: ${createdCount} duas`)
+    console.log(`📈 Total duas in database: ${totalCount}`)
+    console.log('✅ Seeding process completed successfully!')
 
     // Show category breakdown
     const categoryStats = await prisma.dua.groupBy({

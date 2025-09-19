@@ -125,7 +125,7 @@ export default function LevelBadges({ compact = false }: LevelBadgesProps) {
           {userLevel?.jumuahBadge && (
             <div className="text-center">
               <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1">
-                🕌 Jumu'ah Master
+                🕌 Jumu&apos;ah Master
               </Badge>
             </div>
           )}
@@ -160,7 +160,7 @@ export default function LevelBadges({ compact = false }: LevelBadgesProps) {
           {userLevel?.jumuahBadge && (
             <div className="mt-3">
               <Badge variant="secondary" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 text-sm font-medium">
-                🕌 Special Jumu'ah Badge Earned!
+                🕌 Special Jumu&apos;ah Badge Earned!
               </Badge>
             </div>
           )}
@@ -255,7 +255,7 @@ export default function LevelBadges({ compact = false }: LevelBadgesProps) {
         {/* Jumu'ah Special Badge Info */}
         <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 border border-yellow-200">
           <h4 className="font-semibold text-yellow-800 mb-2 flex items-center gap-2">
-            🕌 Special Jumu'ah Badge
+            🕌 Special Jumu&apos;ah Badge
           </h4>
           <p className="text-sm text-yellow-700 mb-2">
             Earn this special badge by completing all 5 daily prayers on Friday!

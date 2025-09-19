@@ -69,8 +69,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(duas)
   } catch (error) {
-    console.error('Get duas error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error fetching duas:', error)
+    return NextResponse.json({ error: 'Failed to fetch duas' }, { status: 500 })
   }
 }
 
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     const duaData = await request.json()
 
     // Validate required fields
-    const { title, category, arabic, urdu, english } = duaData
+    const { title, category, arabic, urdu, english, transliteration, reference } = duaData
     if (!title || !category || !arabic || !urdu || !english) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(newDua, { status: 201 })
   } catch (error) {
-    console.error('Create dua error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error creating dua:', error)
+    return NextResponse.json({ error: 'Failed to create dua' }, { status: 500 })
   }
 }

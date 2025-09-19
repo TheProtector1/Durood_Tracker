@@ -22,7 +22,7 @@ export default function GoalTimer({ onComplete }: GoalTimerProps) {
   // Initialize audio context
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+      audioContextRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
     }
   }, [])
 
@@ -213,7 +213,7 @@ export default function GoalTimer({ onComplete }: GoalTimerProps) {
             <div className="text-2xl mb-2">🎉</div>
             <h3 className="font-semibold text-emerald-800 mb-2">Session Complete!</h3>
             <p className="text-emerald-700 text-sm mb-3">
-              Great job! You've completed your 5-minute focus session.
+              Great job! You&apos;ve completed your 5-minute focus session.
             </p>
             <Badge variant="secondary" className="bg-emerald-100 text-emerald-800">
               +20 Points Earned
