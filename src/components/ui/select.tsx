@@ -23,40 +23,49 @@ export interface SelectContentProps {
 export interface SelectItemProps {
   children?: React.ReactNode
   value: string
+  onClick?: () => void
 }
 
-const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ children, value, onValueChange, ...props }, ref) => {
-    return (
+const SelectContext = React.createContext<{
+  value?: string
+  onValueChange?: (value: string) => void
+  open: boolean
+  setOpen: (open: boolean) => void
+}>({
+  open: false,
+  setOpen: () => {},
+})
+
+const Select = ({ children, value, onValueChange }: SelectProps) => {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <SelectContext.Provider value={{ value, onValueChange, open, setOpen }}>
       <div className="relative">
-        <select
-          ref={ref}
-          value={value}
-          onChange={(e) => onValueChange?.(e.target.value)}
-          className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          {...props}
-        >
-          {children}
-        </select>
+        {children}
       </div>
-    )
-  }
-)
-Select.displayName = "Select"
+    </SelectContext.Provider>
+  )
+}
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ className, children, ...props }, ref) => {
+    const { open, setOpen } = React.useContext(SelectContext)
+
     return (
       <button
         type="button"
         ref={ref}
+        onClick={() => setOpen(!open)}
         className={cn(
           "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+
           className
         )}
         {...props}
       >
         {children}
+        <span className="ml-2">▼</span>
       </button>
     )
   }
@@ -64,33 +73,47 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
 SelectTrigger.displayName = "SelectTrigger"
 
 const SelectValue = ({ placeholder }: SelectValueProps) => {
-  return <span>{placeholder}</span>
+  const { value } = React.useContext(SelectContext)
+  return <span>{value || placeholder}</span>
 }
 
 const SelectContent = ({ children }: SelectContentProps) => {
+  const { open } = React.useContext(SelectContext)
+
+  if (!open) return null
+
   return (
-    <div className="absolute top-full z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
+    <div className="absolute top-full z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md mt-1">
+
       {children}
     </div>
   )
 }
 
 const SelectItem = React.forwardRef<
-  HTMLOptionElement,
+  HTMLDivElement,
   SelectItemProps
->(({ children, value, ...props }, ref) => {
+>(({ children, value, onClick, ...props }, ref) => {
+  const { onValueChange, setOpen } = React.useContext(SelectContext)
+
+  const handleClick = () => {
+    onValueChange?.(value)
+    setOpen(false)
+    onClick?.()
+  }
+
   return (
-    <option ref={ref} value={value} {...props}>
+    <div
+      ref={ref}
+      onClick={handleClick}
+      className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+
+      {...props}
+    >
       {children}
-    </option>
+    </div>
   )
 })
 SelectItem.displayName = "SelectItem"
 
-export {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-}
+export { Select, SelectTrigger, SelectValue, SelectContent, SelectItem }

@@ -57,20 +57,20 @@ const sampleDuas = [
 
 export async function GET(request: NextRequest) {
   try {
-    // In production, this would fetch from database
-    // For now, we'll use the sample data
-    const duas = sampleDuas.map((dua, index) => ({
-      id: `dua-${index + 1}`,
-      ...dua,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }))
+    const duas = await prisma.dua.findMany({
+      where: {
+        isActive: true
+      },
+      orderBy: [
+        { category: 'asc' },
+        { order: 'asc' }
+      ]
+    })
 
     return NextResponse.json(duas)
   } catch (error) {
-    console.error('Get duas error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error fetching duas:', error)
+    return NextResponse.json({ error: 'Failed to fetch duas' }, { status: 500 })
   }
 }
 
@@ -81,23 +81,28 @@ export async function POST(request: NextRequest) {
     const duaData = await request.json()
 
     // Validate required fields
-    const { title, category, arabic, urdu, english } = duaData
+    const { title, category, arabic, urdu, english, transliteration, reference } = duaData
     if (!title || !category || !arabic || !urdu || !english) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // In production, this would save to database
-    const newDua = {
-      id: `dua-${Date.now()}`,
-      ...duaData,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
+    const newDua = await prisma.dua.create({
+      data: {
+        title,
+        category,
+        arabic,
+        urdu,
+        english,
+        transliteration: duaData.transliteration || null,
+        reference: duaData.reference || null,
+        audioUrl: duaData.audioUrl || null,
+        order: duaData.order || 0
+      }
+    })
 
     return NextResponse.json(newDua, { status: 201 })
   } catch (error) {
-    console.error('Create dua error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error creating dua:', error)
+    return NextResponse.json({ error: 'Failed to create dua' }, { status: 500 })
   }
 }

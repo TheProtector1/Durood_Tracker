@@ -12,7 +12,8 @@ export async function GET(request: NextRequest) {
 
     // In production, this would fetch from database
     // For now, return empty array as we don't have favorites functionality in the sample data
-    const favorites = []
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const favorites: any[] = []
 
     return NextResponse.json(favorites)
   } catch (error) {

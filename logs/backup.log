@@ -1359,3 +1359,642 @@ Please make sure your database server is running at `db.prisma.io:5432`.
 [2025-09-14T11:30:09.772Z] [INFO] 🔌 Disconnected from production database
 [2025-09-14T11:30:09.772Z] [INFO] ============================================================
 [2025-09-14T11:30:09.772Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-19T00:00:00.849Z] [INFO] ============================================================
+[2025-09-19T00:00:00.858Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T00:00:00.858Z] [INFO] ============================================================
+[2025-09-19T00:00:00.858Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T00:00:00.863Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T00:00:00.866Z] [INFO] ✅ Connected to production database
+[2025-09-19T00:00:00.866Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T00:00:00.866Z] [INFO] 👥 Exporting users...
+[2025-09-19T00:00:06.022Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.16s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T00:00:06.023Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T00:00:06.024Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T00:00:06.024Z] [INFO] ============================================================
+[2025-09-19T00:00:06.024Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T00:30:01.438Z] [INFO] ============================================================
+[2025-09-19T00:30:01.450Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T00:30:01.450Z] [INFO] ============================================================
+[2025-09-19T00:30:01.451Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T00:30:01.456Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T00:30:01.459Z] [INFO] ✅ Connected to production database
+[2025-09-19T00:30:01.459Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T00:30:01.460Z] [INFO] 👥 Exporting users...
+[2025-09-19T00:30:06.112Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 4.66s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T00:30:06.113Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T00:30:06.113Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T00:30:06.113Z] [INFO] ============================================================
+[2025-09-19T00:30:06.113Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T10:00:01.320Z] [INFO] ============================================================
+[2025-09-19T10:00:01.331Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T10:00:01.331Z] [INFO] ============================================================
+[2025-09-19T10:00:01.331Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T10:00:01.336Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T10:00:01.338Z] [INFO] ✅ Connected to production database
+[2025-09-19T10:00:01.339Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T10:00:01.339Z] [INFO] 👥 Exporting users...
+[2025-09-19T10:00:06.512Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.18s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T10:00:06.513Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T10:00:06.514Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T10:00:06.514Z] [INFO] ============================================================
+[2025-09-19T10:00:06.514Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T10:30:01.238Z] [INFO] ============================================================
+[2025-09-19T10:30:01.252Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T10:30:01.252Z] [INFO] ============================================================
+[2025-09-19T10:30:01.252Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T10:30:01.257Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T10:30:01.260Z] [INFO] ✅ Connected to production database
+[2025-09-19T10:30:01.261Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T10:30:01.261Z] [INFO] 👥 Exporting users...
+[2025-09-19T10:30:06.293Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.04s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T10:30:06.294Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T10:30:06.294Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T10:30:06.294Z] [INFO] ============================================================
+[2025-09-19T10:30:06.294Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T11:00:01.182Z] [INFO] ============================================================
+[2025-09-19T11:00:01.194Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T11:00:01.194Z] [INFO] ============================================================
+[2025-09-19T11:00:01.195Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T11:00:01.199Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T11:00:01.202Z] [INFO] ✅ Connected to production database
+[2025-09-19T11:00:01.202Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T11:00:01.202Z] [INFO] 👥 Exporting users...
+[2025-09-19T11:00:06.393Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.20s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T11:00:06.394Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T11:00:06.394Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T11:00:06.394Z] [INFO] ============================================================
+[2025-09-19T11:00:06.394Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T11:30:01.669Z] [INFO] ============================================================
+[2025-09-19T11:30:01.697Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T11:30:01.698Z] [INFO] ============================================================
+[2025-09-19T11:30:01.701Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T11:30:01.713Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T11:30:01.718Z] [INFO] ✅ Connected to production database
+[2025-09-19T11:30:01.718Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T11:30:01.719Z] [INFO] 👥 Exporting users...
+[2025-09-19T11:30:06.814Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 5.11s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T11:30:06.815Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T11:30:06.816Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T11:30:06.816Z] [INFO] ============================================================
+[2025-09-19T11:30:06.816Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T14:00:01.440Z] [INFO] ============================================================
+[2025-09-19T14:00:01.451Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T14:00:01.451Z] [INFO] ============================================================
+[2025-09-19T14:00:01.452Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T14:00:01.456Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T14:00:01.459Z] [INFO] ✅ Connected to production database
+[2025-09-19T14:00:01.459Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T14:00:01.459Z] [INFO] 👥 Exporting users...
+[2025-09-19T14:00:06.394Z] [ERROR] ❌ PRODUCTION BACKUP FAILED after 4.94s: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+[2025-09-19T14:00:06.395Z] [ERROR] Error details: PrismaClientValidationError: 
+Invalid `prisma.user.findMany()` invocation in
+/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:37
+
+  104 log('📊 Exporting data from all tables...');
+  105 
+  106 log('👥 Exporting users...');
+→ 107 const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          displayName: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          ~~~~~~~~~~~~~
+          emailVerificationToken: true,
+          emailVerificationExpires: true,
+      ?   password?: true,
+      ?   avatar?: true,
+      ?   duroodEntries?: true,
+      ?   dailyRankings?: true,
+      ?   prayerCompletions?: true,
+      ?   dailySpins?: true,
+      ?   userAchievements?: true,
+      ?   userPoints?: true,
+      ?   timerSessions?: true,
+      ?   duaFavorites?: true,
+      ?   _count?: true
+        }
+      })
+
+Unknown field `emailVerified` for select statement on model `User`. Available options are marked with ?.
+    at _n (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at ei.handleRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6926)
+    at ei.handleAndLogRequestError (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6608)
+    at ei.request (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:121:6315)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async a (/Users/apple/durood_Durood_Tracker/node_modules/@prisma/client/runtime/library.js:130:9551)
+    at async backupProductionDatabase (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:107:19)
+    at async main (/Users/apple/durood_Durood_Tracker/scripts/production-backup.js:232:18)
+[2025-09-19T14:00:06.395Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T14:00:06.395Z] [INFO] ============================================================
+[2025-09-19T14:00:06.395Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T14:30:01.110Z] [INFO] ============================================================
+[2025-09-19T14:30:01.114Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T14:30:01.114Z] [INFO] ============================================================
+[2025-09-19T14:30:01.115Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T14:30:01.118Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T14:30:01.120Z] [INFO] ✅ Connected to production database
+[2025-09-19T14:30:01.120Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T14:30:01.120Z] [INFO] 👥 Exporting users...
+[2025-09-19T14:30:03.786Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-19T14:30:04.486Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-19T14:30:04.939Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-19T14:30:05.736Z] [INFO] 🔑 Exporting password resets...
+[2025-09-19T14:30:06.181Z] [INFO] 📊 Exporting total counters...
+[2025-09-19T14:30:06.599Z] [INFO] 📈 Data exported: 19 users, 48 durood entries, 48 rankings
+[2025-09-19T14:30:06.604Z] [INFO] 💾 Backup saved: production-backup-2025-09-19T14-30-06.json
+[2025-09-19T14:30:06.634Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-19T14-30-06.json.gz
+[2025-09-19T14:30:06.635Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 5.52s
+[2025-09-19T14:30:06.635Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-19T14-30-06.json.gz
+[2025-09-19T14:30:06.635Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-19T14:30:06.635Z] [INFO]    👥 Users: 19
+[2025-09-19T14:30:06.636Z] [INFO]    🙏 Durood Entries: 48
+[2025-09-19T14:30:06.636Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-19T14:30:06.636Z] [INFO]    🕌 Prayer Completions: 57
+[2025-09-19T14:30:06.636Z] [INFO]    🔑 Password Resets: 3
+[2025-09-19T14:30:06.636Z] [INFO]    📊 Total Counters: 1
+[2025-09-19T14:30:06.636Z] [INFO]    📈 Total Records: 176
+[2025-09-19T14:30:06.636Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-19T14:30:06.637Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T14:30:06.637Z] [INFO] ============================================================
+[2025-09-19T14:30:06.637Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY

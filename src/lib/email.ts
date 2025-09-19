@@ -23,6 +23,7 @@ interface VerificationEmailData {
   verificationLink: string;
   verificationUrl: string;
   resendLink: string;
+  currentYear?: number;
 }
 
 interface PasswordResetEmailData {
@@ -30,6 +31,7 @@ interface PasswordResetEmailData {
   resetLink: string;
   resetUrl: string;
   loginLink: string;
+  currentYear?: number;
 }
 
 interface DailyReminderEmailData {
@@ -47,6 +49,7 @@ interface DailyReminderEmailData {
   maghribTime: string;
   ishaTime: string;
   jummahTime: string;
+  currentYear?: number;
 }
 
 // Load email template
@@ -76,7 +79,7 @@ function loadEmailTemplate(templateName: string): string {
 }
 
 // Replace template variables
-function replaceTemplateVariables(template: string, data: Record<string, any>): string {
+function replaceTemplateVariables(template: string, data: Record<string, string | number | boolean>): string {
   let result = template;
   for (const [key, value] of Object.entries(data)) {
     const regex = new RegExp(`{{${key.toUpperCase()}}}`, 'g');
@@ -236,7 +239,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string, re
   templateData.currentYear = getCurrentYear();
 
   // Replace template variables
-  const html = replaceTemplateVariables(template, templateData);
+  const html = replaceTemplateVariables(template, templateData as unknown as Record<string, string | number | boolean>);
 
   return await sendEmail(email, '🔐 إعادة تعيين كلمة المرور - Durood Tracker', html);
 }
@@ -261,7 +264,7 @@ export async function sendEmailVerificationEmail(email: string, verificationUrl:
   templateData.currentYear = getCurrentYear();
 
   // Replace template variables
-  const html = replaceTemplateVariables(template, templateData);
+  const html = replaceTemplateVariables(template, templateData as unknown as Record<string, string | number | boolean>);
 
   return await sendEmail(email, 'ﷺ تفعيل حسابك في تطبيق الدروود - Durood Tracker', html);
 }
@@ -278,7 +281,7 @@ export async function sendDailyReminderEmail(email: string, userData: DailyRemin
   userData.currentYear = getCurrentYear();
 
   // Replace template variables
-  const html = replaceTemplateVariables(template, userData);
+  const html = replaceTemplateVariables(template, userData as unknown as Record<string, string | number | boolean>);
 
   return await sendEmail(email, '🔔 تذكير يومي بالدروود - Durood Tracker', html);
 }
