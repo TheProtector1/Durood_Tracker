@@ -2268,3 +2268,43 @@ Validation Error Count: 1
 [2025-09-20T20:30:14.416Z] [INFO] 🔌 Disconnected from production database
 [2025-09-20T20:30:14.416Z] [INFO] ============================================================
 [2025-09-20T20:30:14.416Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-20T21:00:00.816Z] [INFO] ============================================================
+[2025-09-20T21:00:00.828Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-20T21:00:00.829Z] [INFO] ============================================================
+[2025-09-20T21:00:00.829Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-20T21:00:00.834Z] [INFO] 🔌 Connecting to production database...
+[2025-09-20T21:00:00.836Z] [INFO] ✅ Connected to production database
+[2025-09-20T21:00:00.836Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-20T21:00:00.837Z] [INFO] 👥 Exporting users...
+[2025-09-20T21:00:07.689Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-20T21:00:08.200Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-20T21:00:08.539Z] [INFO] 🔑 Exporting password resets...
+[2025-09-20T21:00:09.308Z] [INFO] 📊 Exporting total counters...
+[2025-09-20T21:00:10.265Z] [INFO] 🎰 Exporting daily spins...
+[2025-09-20T21:00:11.010Z] [INFO] ⭐ Exporting user levels...
+[2025-09-20T21:00:11.331Z] [INFO] ⏰ Exporting goal timer sessions...
+[2025-09-20T21:00:11.629Z] [INFO] 📿 Exporting duas...
+[2025-09-20T21:00:12.362Z] [INFO] ❤️ Exporting dua favorites...
+[2025-09-20T21:00:12.743Z] [INFO] 🕌 Exporting authentic prayer times...
+[2025-09-20T21:00:13.050Z] [INFO] 📈 Data exported: 19 users, 64 durood entries, 57 prayer completions
+[2025-09-20T21:00:13.055Z] [INFO] 💾 Backup saved: production-backup-2025-09-20T21-00-13.json
+[2025-09-20T21:00:13.088Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-20T21-00-13.json.gz
+[2025-09-20T21:00:13.090Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 12.26s
+[2025-09-20T21:00:13.091Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-20T21-00-13.json.gz
+[2025-09-20T21:00:13.091Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-20T21:00:13.091Z] [INFO]    👥 Users: 19
+[2025-09-20T21:00:13.091Z] [INFO]    🙏 Durood Entries: 64
+[2025-09-20T21:00:13.091Z] [INFO]    🕌 Prayer Completions: 57
+[2025-09-20T21:00:13.091Z] [INFO]    🔑 Password Resets: 4
+[2025-09-20T21:00:13.091Z] [INFO]    📊 Total Counters: 1
+[2025-09-20T21:00:13.091Z] [INFO]    🎰 Daily Spins: 1
+[2025-09-20T21:00:13.091Z] [INFO]    ⭐ User Levels: 9
+[2025-09-20T21:00:13.091Z] [INFO]    ⏰ Goal Timer Sessions: 5
+[2025-09-20T21:00:13.092Z] [INFO]    📿 Duas: 64
+[2025-09-20T21:00:13.092Z] [INFO]    ❤️ Dua Favorites: 0
+[2025-09-20T21:00:13.092Z] [INFO]    🕌 Prayer Times: 0
+[2025-09-20T21:00:13.092Z] [INFO]    📈 Total Records: 224
+[2025-09-20T21:00:13.092Z] [INFO]    💾 File Size: 0.02 MB
+[2025-09-20T21:00:13.092Z] [INFO] 🔌 Disconnected from production database
+[2025-09-20T21:00:13.092Z] [INFO] ============================================================
+[2025-09-20T21:00:13.092Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY

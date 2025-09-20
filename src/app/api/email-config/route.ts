@@ -75,21 +75,45 @@ export async function GET() {
     console.log('❌ NO EMAIL SERVICE CONFIGURED');
   }
 
+  // Check NextAuth email verification logic
+  const emailVerificationEnabled = !!(process.env.SMTP_HOST || process.env.RESEND_API_KEY || process.env.SENDGRID_API_KEY || (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN));
+  console.log(`📧 Email verification enabled: ${emailVerificationEnabled ? 'YES' : 'NO'}`);
+
+  if (!emailVerificationEnabled) {
+    console.log('⚠️  WARNING: Email verification is DISABLED because no email service is configured!');
+    console.log('   This means users can sign in without verifying their email.');
+  }
+
   console.log('==================================');
+
+  // Check NextAuth email verification logic
+  const emailVerificationEnabled = !!(process.env.SMTP_HOST || process.env.RESEND_API_KEY || process.env.SENDGRID_API_KEY || (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN));
+
+  let recommendations = [];
+  if (detectedService === 'resend') {
+    recommendations = [
+      'Remove RESEND_API_KEY from Vercel environment variables',
+      'Set up Gmail SMTP instead (see setup-gmail-smtp.js)',
+      'Required SMTP variables: SMTP_HOST, SMTP_USER, SMTP_PASS, FROM_EMAIL'
+    ];
+  } else if (detectedService === 'smtp') {
+    recommendations = ['Configuration looks good for Gmail SMTP!'];
+    if (!emailVerificationEnabled) {
+      recommendations.push('WARNING: Email verification may be disabled due to missing env vars');
+    }
+  } else {
+    recommendations = ['Set up email service (Gmail SMTP recommended)'];
+  }
 
   return NextResponse.json({
     timestamp: new Date().toISOString(),
     environment: envStatus,
     detectedService,
     serviceDetails,
-    recommendations: detectedService === 'resend'
-      ? [
-          'Remove RESEND_API_KEY from Vercel environment variables',
-          'Set up Gmail SMTP instead (see setup-gmail-smtp.js)',
-          'Required SMTP variables: SMTP_HOST, SMTP_USER, SMTP_PASS, FROM_EMAIL'
-        ]
-      : detectedService === 'smtp'
-      ? ['Configuration looks good for Gmail SMTP!']
-      : ['Set up email service (Gmail SMTP recommended)']
+    emailVerification: {
+      enabled: emailVerificationEnabled,
+      logic: 'Requires verification when any email service is configured'
+    },
+    recommendations
   });
 }
