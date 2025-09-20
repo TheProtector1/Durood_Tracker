@@ -86,9 +86,6 @@ export async function GET() {
 
   console.log('==================================');
 
-  // Check NextAuth email verification logic
-  const emailVerificationEnabled = !!(process.env.SMTP_HOST || process.env.RESEND_API_KEY || process.env.SENDGRID_API_KEY || (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN));
-
   let recommendations = [];
   if (detectedService === 'resend') {
     recommendations = [
