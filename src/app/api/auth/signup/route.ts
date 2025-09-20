@@ -143,15 +143,25 @@ export async function POST(request: NextRequest) {
     const verificationUrl = `${baseUrl}/auth/verify-email?token=${verificationToken}&email=${encodeURIComponent(email)}`
 
     let emailSent = false
-    if (process.env.SMTP_HOST || process.env.RESEND_API_KEY) {
+    // Check if any email service is configured
+    const emailConfigured = process.env.SENDGRID_API_KEY ||
+                           (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) ||
+                           (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_REGION) ||
+                           (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) ||
+                           process.env.RESEND_API_KEY
+
+    if (emailConfigured) {
       try {
         await sendEmailVerificationEmail(email, verificationUrl)
         emailSent = true
+        console.log('✅ Verification email sent successfully to:', email)
       } catch (emailError) {
-        console.error('Failed to send verification email:', emailError)
+        console.error('❌ Failed to send verification email:', emailError)
         // Don't fail the signup if email fails, but log it
         // User can still request verification later
       }
+    } else {
+      console.log('⚠️  No email service configured - skipping verification email')
     }
 
     return NextResponse.json(

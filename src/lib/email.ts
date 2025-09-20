@@ -4,7 +4,7 @@ import path from 'path';
 
 // Email service configuration
 interface EmailConfig {
-  provider: 'nodemailer' | 'sendgrid' | 'mailgun' | 'aws-ses';
+  provider: 'nodemailer' | 'sendgrid' | 'mailgun' | 'aws-ses' | 'resend';
   apiKey?: string;
   smtp?: {
     host: string;
@@ -95,7 +95,15 @@ function getCurrentYear(): number {
 
 // Get email configuration from environment variables
 const getEmailConfig = (): EmailConfig | null => {
-  // Option 1: SendGrid
+  // Option 1: Resend (most popular for modern apps)
+  if (process.env.RESEND_API_KEY) {
+    return {
+      provider: 'resend',
+      apiKey: process.env.RESEND_API_KEY
+    };
+  }
+
+  // Option 2: SendGrid
   if (process.env.SENDGRID_API_KEY) {
     return {
       provider: 'sendgrid',
@@ -103,7 +111,7 @@ const getEmailConfig = (): EmailConfig | null => {
     };
   }
 
-  // Option 2: Mailgun
+  // Option 3: Mailgun
   if (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) {
     return {
       provider: 'mailgun',
@@ -111,14 +119,14 @@ const getEmailConfig = (): EmailConfig | null => {
     };
   }
 
-  // Option 3: AWS SES
+  // Option 4: AWS SES
   if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_REGION) {
     return {
       provider: 'aws-ses'
     };
   }
 
-  // Option 4: SMTP (Gmail, Outlook, etc.)
+  // Option 5: SMTP (Gmail, Outlook, etc.)
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
     return {
       provider: 'nodemailer',
@@ -147,6 +155,27 @@ async function sendEmail(to: string, subject: string, html: string) {
 
   try {
     switch (emailConfig.provider) {
+      case 'resend':
+        const resendResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${emailConfig.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: process.env.FROM_EMAIL || 'noreply@duroodtracker.com',
+            to: [to],
+            subject,
+            html
+          })
+        });
+
+        if (!resendResponse.ok) {
+          const errorData = await resendResponse.text();
+          throw new Error(`Resend API error: ${resendResponse.status} - ${errorData}`);
+        }
+        break;
+
       case 'sendgrid':
         const sgResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
           method: 'POST',
