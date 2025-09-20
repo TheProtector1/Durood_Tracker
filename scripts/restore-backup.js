@@ -11,10 +11,33 @@ const path = require('path');
 const { execSync } = require('child_process');
 const readline = require('readline');
 
-// Configuration
+// Load configuration from backup-config.json
+function loadConfig() {
+  try {
+    const configPath = path.join(__dirname, '..', 'backup-config.json');
+    const configData = fs.readFileSync(configPath, 'utf8');
+    return JSON.parse(configData);
+  } catch (error) {
+    console.error('Failed to load backup configuration:', error.message);
+    // Return default configuration
+    return {
+      backup: {
+        enabled: true,
+        interval_minutes: 30,
+        retention_days: 7,
+        max_backups: 50,
+        compress: true,
+        backup_dir: "./backups",
+        log_dir: "./logs"
+      }
+    };
+  }
+}
+
+const CONFIG_DATA = loadConfig();
 const CONFIG = {
-  BACKUP_DIR: path.join(__dirname, '..', 'backups'),
-  LOG_FILE: path.join(__dirname, '..', 'logs', 'restore.log')
+  BACKUP_DIR: path.resolve(__dirname, '..', CONFIG_DATA.backup.backup_dir || 'backups'),
+  LOG_FILE: path.resolve(__dirname, '..', CONFIG_DATA.backup.log_dir || 'logs', 'restore.log')
 };
 
 // Ensure directories exist
@@ -87,8 +110,10 @@ function loadBackupData(backupPath) {
       throw new Error('Invalid backup file structure');
     }
 
-    log(`📊 Backup loaded: ${backupData.metadata.recordCounts.users} users, ${backupData.metadata.recordCounts.duroodEntries} durood entries`);
+    const version = backupData.metadata.version || '1.0';
+    log(`📊 Backup loaded (v${version}): ${backupData.metadata.recordCounts.users || 0} users, ${backupData.metadata.recordCounts.duroodEntries || 0} durood entries`);
     log(`📅 Exported: ${new Date(backupData.metadata.exportedAt).toLocaleString()}`);
+    log(`🔍 Source: ${backupData.metadata.source || 'unknown'}`);
 
     return backupData;
   } catch (error) {
@@ -101,10 +126,15 @@ async function clearExistingData(prisma) {
   log('🧹 Clearing existing data...');
 
   try {
-    // Clear in reverse order of dependencies
+    // Clear in reverse order of dependencies (avoiding foreign key constraints)
+    await prisma.duaFavorite.deleteMany();
+    await prisma.goalTimerSession.deleteMany();
+    await prisma.dailySpin.deleteMany();
     await prisma.prayerCompletion.deleteMany();
-    await prisma.dailyRanking.deleteMany();
     await prisma.duroodEntry.deleteMany();
+    await prisma.authenticPrayerTimes.deleteMany();
+    await prisma.dua.deleteMany();
+    await prisma.userLevel.deleteMany();
     await prisma.passwordReset.deleteMany();
     await prisma.totalCounter.deleteMany();
     await prisma.user.deleteMany();
@@ -150,6 +180,58 @@ async function restoreData(prisma, backupData) {
       restoredRecords += data.passwordResets.length;
     }
 
+    // Restore total counters
+    if (data.totalCounters && data.totalCounters.length > 0) {
+      log(`📊 Restoring ${data.totalCounters.length} total counters...`);
+      for (const counter of data.totalCounters) {
+        await prisma.totalCounter.upsert({
+          where: { id: counter.id },
+          update: counter,
+          create: counter
+        });
+      }
+      restoredRecords += data.totalCounters.length;
+    }
+
+    // Restore authentic prayer times
+    if (data.authenticPrayerTimes && data.authenticPrayerTimes.length > 0) {
+      log(`🕌 Restoring ${data.authenticPrayerTimes.length} prayer times...`);
+      for (const prayerTime of data.authenticPrayerTimes) {
+        await prisma.authenticPrayerTimes.upsert({
+          where: { id: prayerTime.id },
+          update: prayerTime,
+          create: prayerTime
+        });
+      }
+      restoredRecords += data.authenticPrayerTimes.length;
+    }
+
+    // Restore duas
+    if (data.duas && data.duas.length > 0) {
+      log(`📿 Restoring ${data.duas.length} duas...`);
+      for (const dua of data.duas) {
+        await prisma.dua.upsert({
+          where: { id: dua.id },
+          update: dua,
+          create: dua
+        });
+      }
+      restoredRecords += data.duas.length;
+    }
+
+    // Restore user levels
+    if (data.userLevels && data.userLevels.length > 0) {
+      log(`⭐ Restoring ${data.userLevels.length} user levels...`);
+      for (const level of data.userLevels) {
+        await prisma.userLevel.upsert({
+          where: { id: level.id },
+          update: level,
+          create: level
+        });
+      }
+      restoredRecords += data.userLevels.length;
+    }
+
     // Restore durood entries
     if (data.duroodEntries && data.duroodEntries.length > 0) {
       log(`🙏 Restoring ${data.duroodEntries.length} durood entries...`);
@@ -161,19 +243,6 @@ async function restoreData(prisma, backupData) {
         });
       }
       restoredRecords += data.duroodEntries.length;
-    }
-
-    // Restore daily rankings
-    if (data.dailyRankings && data.dailyRankings.length > 0) {
-      log(`🏆 Restoring ${data.dailyRankings.length} daily rankings...`);
-      for (const ranking of data.dailyRankings) {
-        await prisma.dailyRanking.upsert({
-          where: { id: ranking.id },
-          update: ranking,
-          create: ranking
-        });
-      }
-      restoredRecords += data.dailyRankings.length;
     }
 
     // Restore prayer completions
@@ -189,17 +258,43 @@ async function restoreData(prisma, backupData) {
       restoredRecords += data.prayerCompletions.length;
     }
 
-    // Restore total counters
-    if (data.totalCounters && data.totalCounters.length > 0) {
-      log(`📊 Restoring ${data.totalCounters.length} total counters...`);
-      for (const counter of data.totalCounters) {
-        await prisma.totalCounter.upsert({
-          where: { id: counter.id },
-          update: counter,
-          create: counter
+    // Restore daily spins
+    if (data.dailySpins && data.dailySpins.length > 0) {
+      log(`🎰 Restoring ${data.dailySpins.length} daily spins...`);
+      for (const spin of data.dailySpins) {
+        await prisma.dailySpin.upsert({
+          where: { id: spin.id },
+          update: spin,
+          create: spin
         });
       }
-      restoredRecords += data.totalCounters.length;
+      restoredRecords += data.dailySpins.length;
+    }
+
+    // Restore goal timer sessions
+    if (data.goalTimerSessions && data.goalTimerSessions.length > 0) {
+      log(`⏰ Restoring ${data.goalTimerSessions.length} timer sessions...`);
+      for (const session of data.goalTimerSessions) {
+        await prisma.goalTimerSession.upsert({
+          where: { id: session.id },
+          update: session,
+          create: session
+        });
+      }
+      restoredRecords += data.goalTimerSessions.length;
+    }
+
+    // Restore dua favorites (last, depends on users and duas)
+    if (data.duaFavorites && data.duaFavorites.length > 0) {
+      log(`❤️ Restoring ${data.duaFavorites.length} dua favorites...`);
+      for (const favorite of data.duaFavorites) {
+        await prisma.duaFavorite.upsert({
+          where: { id: favorite.id },
+          update: favorite,
+          create: favorite
+        });
+      }
+      restoredRecords += data.duaFavorites.length;
     }
 
     log(`✅ Data restoration completed: ${restoredRecords} records restored`);

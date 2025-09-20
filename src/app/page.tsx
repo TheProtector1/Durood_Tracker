@@ -610,7 +610,7 @@ export default function Home() {
               },
               body: JSON.stringify({
                 action: 'award',
-                amount: 25,
+                amount: 2,
                 description: `Completed ${prayerName} prayer`
               }),
             })
@@ -621,6 +621,34 @@ export default function Home() {
             }
           } catch (error) {
             console.error('Error awarding points for prayer completion:', error)
+          }
+
+          // Check if all 5 prayers are now completed and award bonus points
+          const updatedCompletedPrayers = new Set(completedPrayers)
+          updatedCompletedPrayers.add(prayerName)
+
+          if (updatedCompletedPrayers.size === 5) {
+            try {
+              const bonusResponse = await fetch('/api/user/points', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  action: 'award',
+                  amount: 5,
+                  description: 'Bonus for completing all 5 daily prayers'
+                }),
+              })
+
+              if (bonusResponse.ok) {
+                const bonusData = await bonusResponse.json()
+                setUserPoints(bonusData.points)
+                console.log('🎉 Bonus awarded for completing all 5 prayers!')
+              }
+            } catch (error) {
+              console.error('Error awarding bonus points for all prayers completion:', error)
+            }
           }
         }
 

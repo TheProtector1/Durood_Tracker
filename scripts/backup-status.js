@@ -8,9 +8,33 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load configuration from backup-config.json
+function loadConfig() {
+  try {
+    const configPath = path.join(__dirname, '..', 'backup-config.json');
+    const configData = fs.readFileSync(configPath, 'utf8');
+    return JSON.parse(configData);
+  } catch (error) {
+    console.error('Failed to load backup configuration:', error.message);
+    // Return default configuration
+    return {
+      backup: {
+        enabled: true,
+        interval_minutes: 30,
+        retention_days: 7,
+        max_backups: 50,
+        compress: true,
+        backup_dir: "./backups",
+        log_dir: "./logs"
+      }
+    };
+  }
+}
+
+const CONFIG_DATA = loadConfig();
 const CONFIG = {
-  BACKUP_DIR: path.join(__dirname, '..', 'backups'),
-  LOG_DIR: path.join(__dirname, '..', 'logs')
+  BACKUP_DIR: path.resolve(__dirname, '..', CONFIG_DATA.backup.backup_dir || 'backups'),
+  LOG_DIR: path.resolve(__dirname, '..', CONFIG_DATA.backup.log_dir || 'logs')
 };
 
 // Check if directories exist and create them if needed
@@ -115,9 +139,10 @@ function showBackupStatus() {
   // Cron Job Status
   console.log('\n⏰ AUTOMATED BACKUPS:');
   const cronActive = checkCronStatus();
+  const intervalMinutes = CONFIG_DATA.backup.interval_minutes || 30;
   if (cronActive) {
     console.log('   ✅ Cron job is ACTIVE');
-    console.log('   📅 Schedule: Every 30 minutes');
+    console.log(`   📅 Schedule: Every ${intervalMinutes} minutes`);
   } else {
     console.log('   ❌ Cron job is NOT active');
     console.log('   💡 Run: node scripts/setup-backup-cron.js');

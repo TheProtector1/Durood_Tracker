@@ -292,7 +292,7 @@ export default function RewardsPage() {
                 <span className="text-2xl">🕌</span>
                 <div>
                   <div className="font-semibold">Prayer Completion</div>
-                  <div className="text-sm text-gray-600">25 points per prayer</div>
+                         <div className="text-sm text-gray-600">2 points per prayer</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-white rounded-lg">

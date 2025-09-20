@@ -10,12 +10,35 @@ const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
 
-// Configuration
+// Load configuration from backup-config.json
+function loadConfig() {
+  try {
+    const configPath = path.join(__dirname, '..', 'backup-config.json');
+    const configData = fs.readFileSync(configPath, 'utf8');
+    return JSON.parse(configData);
+  } catch (error) {
+    console.error('Failed to load backup configuration:', error.message);
+    // Return default configuration
+    return {
+      backup: {
+        enabled: true,
+        interval_minutes: 30,
+        retention_days: 7,
+        max_backups: 50,
+        compress: true,
+        backup_dir: "./backups",
+        log_dir: "./logs"
+      }
+    };
+  }
+}
+
+const CONFIG_DATA = loadConfig();
 const CONFIG = {
-  BACKUP_INTERVAL: '*/30 * * * *', // Every 30 minutes
+  BACKUP_INTERVAL: `*/${CONFIG_DATA.backup.interval_minutes || 30} * * * *`, // Every X minutes
   SCRIPT_PATH: path.join(__dirname, 'production-backup.js'),
-  LOG_DIR: path.join(__dirname, '..', 'logs'),
-  CRON_LOG_FILE: path.join(__dirname, '..', 'logs', 'cron.log')
+  LOG_DIR: path.resolve(__dirname, '..', CONFIG_DATA.backup.log_dir || 'logs'),
+  CRON_LOG_FILE: path.resolve(__dirname, '..', CONFIG_DATA.backup.log_dir || 'logs', 'cron.log')
 };
 
 // Ensure directories exist

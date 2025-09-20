@@ -239,11 +239,11 @@ export default function LevelBadges({ compact = false }: LevelBadgesProps) {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-emerald-500">🕌</span>
-              <span>+25 points per prayer completed</span>
+              <span>+2 points per prayer completed</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-emerald-500">🕌</span>
-              <span>+100 points for completing all 5 daily prayers</span>
+              <span>+5 points for completing all 5 daily prayers</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-emerald-500">⚡</span>

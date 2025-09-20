@@ -9,6 +9,7 @@
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
     "seed-duas": "tsx scripts/seed-duas.ts",
+    "populate-duas": "tsx scripts/populate-duas.ts",
     "init-counter": "tsx scripts/init-counter.ts",
     "test-streaks": "tsx scripts/test-streaks.ts",
     "test-streak-break": "tsx scripts/test-streak-break.ts",

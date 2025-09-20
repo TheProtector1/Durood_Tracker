@@ -10,13 +10,36 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Configuration
+// Load configuration from backup-config.json
+function loadConfig() {
+  try {
+    const configPath = path.join(__dirname, '..', 'backup-config.json');
+    const configData = fs.readFileSync(configPath, 'utf8');
+    return JSON.parse(configData);
+  } catch (error) {
+    console.error('Failed to load backup configuration:', error.message);
+    // Return default configuration
+    return {
+      backup: {
+        enabled: true,
+        interval_minutes: 30,
+        retention_days: 7,
+        max_backups: 50,
+        compress: true,
+        backup_dir: "./backups",
+        log_dir: "./logs"
+      }
+    };
+  }
+}
+
+const CONFIG_DATA = loadConfig();
 const CONFIG = {
-  BACKUP_DIR: path.join(__dirname, '..', 'backups'),
-  RETENTION_DAYS: 7, // Keep backups for 7 days
-  COMPRESS: true,
-  MAX_BACKUPS: 50, // Maximum number of backups to keep
-  LOG_FILE: path.join(__dirname, '..', 'logs', 'backup.log')
+  BACKUP_DIR: path.resolve(__dirname, '..', CONFIG_DATA.backup.backup_dir || 'backups'),
+  RETENTION_DAYS: CONFIG_DATA.backup.retention_days || 7,
+  COMPRESS: CONFIG_DATA.backup.compress !== false,
+  MAX_BACKUPS: CONFIG_DATA.backup.max_backups || 50,
+  LOG_FILE: path.resolve(__dirname, '..', CONFIG_DATA.backup.log_dir || 'logs', 'backup.log')
 };
 
 // Ensure directories exist
@@ -110,6 +133,7 @@ async function backupProductionDatabase() {
         email: true,
         username: true,
         displayName: true,
+        avatar: true,
         createdAt: true,
         updatedAt: true,
         emailVerified: true,
@@ -120,9 +144,6 @@ async function backupProductionDatabase() {
 
     log('🙏 Exporting durood entries...');
     const duroodEntries = await prisma.duroodEntry.findMany();
-
-    log('🏆 Exporting daily rankings...');
-    const dailyRankings = await prisma.dailyRanking.findMany();
 
     log('🕌 Exporting prayer completions...');
     const prayerCompletions = await prisma.prayerCompletion.findMany();
@@ -141,31 +162,59 @@ async function backupProductionDatabase() {
     log('📊 Exporting total counters...');
     const totalCounters = await prisma.totalCounter.findMany();
 
+    log('🎰 Exporting daily spins...');
+    const dailySpins = await prisma.dailySpin.findMany();
+
+    log('⭐ Exporting user levels...');
+    const userLevels = await prisma.userLevel.findMany();
+
+    log('⏰ Exporting goal timer sessions...');
+    const goalTimerSessions = await prisma.goalTimerSession.findMany();
+
+    log('📿 Exporting duas...');
+    const duas = await prisma.dua.findMany();
+
+    log('❤️ Exporting dua favorites...');
+    const duaFavorites = await prisma.duaFavorite.findMany();
+
+    log('🕌 Exporting authentic prayer times...');
+    const authenticPrayerTimes = await prisma.authenticPrayerTimes.findMany();
+
     const exportData = {
       metadata: {
         exportedAt: new Date().toISOString(),
-        version: '1.0',
+        version: '2.0',
         source: 'production',
         recordCounts: {
           users: users.length,
           duroodEntries: duroodEntries.length,
-          dailyRankings: dailyRankings.length,
           prayerCompletions: prayerCompletions.length,
           passwordResets: passwordResets.length,
-          totalCounters: totalCounters.length
+          totalCounters: totalCounters.length,
+          dailySpins: dailySpins.length,
+          userLevels: userLevels.length,
+          goalTimerSessions: goalTimerSessions.length,
+          duas: duas.length,
+          duaFavorites: duaFavorites.length,
+          authenticPrayerTimes: authenticPrayerTimes.length
         }
       },
       data: {
         users,
         duroodEntries,
-        dailyRankings,
         prayerCompletions,
         passwordResets,
-        totalCounters
+        totalCounters,
+        dailySpins,
+        userLevels,
+        goalTimerSessions,
+        duas,
+        duaFavorites,
+        authenticPrayerTimes
       }
     };
 
-    log(`📈 Data exported: ${users.length} users, ${duroodEntries.length} durood entries, ${dailyRankings.length} rankings`);
+    log(`📈 Data exported: ${users.length} users, ${duroodEntries.length} durood entries, ${prayerCompletions.length} prayer completions`);
 
     // Save to file
     const filename = getBackupFilename();
@@ -193,16 +242,23 @@ async function backupProductionDatabase() {
     log(`📁 Backup location: ${backupPath}`);
 
     // Summary
-    const totalRecords = users.length + duroodEntries.length + dailyRankings.length +
-                        prayerCompletions.length + passwordResets.length + totalCounters.length;
+    const totalRecords = users.length + duroodEntries.length + prayerCompletions.length +
+                        passwordResets.length + totalCounters.length + dailySpins.length +
+                        userLevels.length + goalTimerSessions.length + duas.length +
+                        duaFavorites.length + authenticPrayerTimes.length;
 
     log(`📊 BACKUP SUMMARY:`);
     log(`   👥 Users: ${users.length}`);
     log(`   🙏 Durood Entries: ${duroodEntries.length}`);
-    log(`   🏆 Daily Rankings: ${dailyRankings.length}`);
     log(`   🕌 Prayer Completions: ${prayerCompletions.length}`);
     log(`   🔑 Password Resets: ${passwordResets.length}`);
     log(`   📊 Total Counters: ${totalCounters.length}`);
+    log(`   🎰 Daily Spins: ${dailySpins.length}`);
+    log(`   ⭐ User Levels: ${userLevels.length}`);
+    log(`   ⏰ Goal Timer Sessions: ${goalTimerSessions.length}`);
+    log(`   📿 Duas: ${duas.length}`);
+    log(`   ❤️ Dua Favorites: ${duaFavorites.length}`);
+    log(`   🕌 Prayer Times: ${authenticPrayerTimes.length}`);
     log(`   📈 Total Records: ${totalRecords}`);
     log(`   💾 File Size: ${fs.existsSync(backupPath) ? (fs.statSync(backupPath).size / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown'}`);
 
