@@ -95,39 +95,10 @@ function getCurrentYear(): number {
 
 // Get email configuration from environment variables
 const getEmailConfig = (): EmailConfig | null => {
-  // Option 1: Resend (most popular for modern apps)
-  if (process.env.RESEND_API_KEY) {
-    return {
-      provider: 'resend',
-      apiKey: process.env.RESEND_API_KEY
-    };
-  }
-
-  // Option 2: SendGrid
-  if (process.env.SENDGRID_API_KEY) {
-    return {
-      provider: 'sendgrid',
-      apiKey: process.env.SENDGRID_API_KEY
-    };
-  }
-
-  // Option 3: Mailgun
-  if (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) {
-    return {
-      provider: 'mailgun',
-      apiKey: process.env.MAILGUN_API_KEY
-    };
-  }
-
-  // Option 4: AWS SES
-  if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_REGION) {
-    return {
-      provider: 'aws-ses'
-    };
-  }
-
-  // Option 5: SMTP (Gmail, Outlook, etc.)
+  // Option 1: SMTP (Gmail, Outlook, etc.) - Most reliable for production
+  // Prioritize SMTP over API services
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    console.log('📧 Using SMTP configuration for email sending');
     return {
       provider: 'nodemailer',
       smtp: {
@@ -139,6 +110,38 @@ const getEmailConfig = (): EmailConfig | null => {
           pass: process.env.SMTP_PASS
         }
       }
+    };
+  }
+
+  // Option 2: Resend (only if SMTP is not configured)
+  if (process.env.RESEND_API_KEY) {
+    console.log('📧 Using Resend API for email sending');
+    return {
+      provider: 'resend',
+      apiKey: process.env.RESEND_API_KEY
+    };
+  }
+
+  // Option 3: SendGrid
+  if (process.env.SENDGRID_API_KEY) {
+    return {
+      provider: 'sendgrid',
+      apiKey: process.env.SENDGRID_API_KEY
+    };
+  }
+
+  // Option 4: Mailgun
+  if (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) {
+    return {
+      provider: 'mailgun',
+      apiKey: process.env.MAILGUN_API_KEY
+    };
+  }
+
+  // Option 5: AWS SES (last resort)
+  if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_REGION) {
+    return {
+      provider: 'aws-ses'
     };
   }
 

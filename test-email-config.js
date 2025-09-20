@@ -51,8 +51,20 @@ try {
 
   let config = null;
 
-  // Check Resend (most popular for modern apps)
-  if (process.env.RESEND_API_KEY) {
+  // Check SMTP first (most reliable for production)
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    console.log('✅ SMTP (Gmail) configuration detected');
+    config = {
+      provider: 'nodemailer',
+      smtp: {
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT || '587'),
+        secure: process.env.SMTP_SECURE === 'true'
+      }
+    };
+  }
+  // Check Resend
+  else if (process.env.RESEND_API_KEY) {
     console.log('✅ Resend configuration detected');
     config = { provider: 'resend', apiKey: '***masked***' };
   }
@@ -70,18 +82,6 @@ try {
   else if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_REGION) {
     console.log('✅ AWS SES configuration detected');
     config = { provider: 'aws-ses' };
-  }
-  // Check SMTP
-  else if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-    console.log('✅ SMTP configuration detected');
-    config = {
-      provider: 'nodemailer',
-      smtp: {
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || '587'),
-        secure: process.env.SMTP_SECURE === 'true'
-      }
-    };
   }
   else {
     console.log('❌ No email service configured');
