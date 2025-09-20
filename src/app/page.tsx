@@ -17,6 +17,7 @@ import DailySpinWheel from '@/components/DailySpinWheel'
 import LevelBadges from '@/components/LevelBadges'
 import GoalTimer from '@/components/GoalTimer'
 import DuaLibrary from '@/components/DuaLibrary'
+import PointsDisplay from '@/components/PointsDisplay'
 
 interface DuroodEntry {
   id: string
@@ -44,6 +45,7 @@ export default function Home() {
   const [prayersLoaded, setPrayersLoaded] = useState(false)
   const [currentDate, setCurrentDate] = useState<string>('')
   const [lastPrayerUpdate, setLastPrayerUpdate] = useState<Date | null>(null)
+  const [userPoints, setUserPoints] = useState<number>(0)
 
   const fetchEntries = useCallback(async () => {
     try {
@@ -132,6 +134,26 @@ export default function Home() {
     // Load user count for both authenticated and unauthenticated users
     loadUserCount()
   }, [])
+
+  // Load user points
+  useEffect(() => {
+    const loadUserPoints = async () => {
+      if (session?.user?.id) {
+        try {
+          const response = await fetch('/api/user/points')
+          if (response.ok) {
+            const data = await response.json()
+            setUserPoints(data.points || 0)
+          }
+        } catch (error) {
+          console.error('Error loading user points:', error)
+        }
+      }
+    }
+
+    loadUserPoints()
+  }, [session])
+
 
   // Initialize Pakistan date immediately and update periodically
   useEffect(() => {
@@ -327,23 +349,56 @@ export default function Home() {
 
     const count = parseInt(inputCount)
     const today = getPakistanDate()
-    
+    const oldCount = todayCount
+    const newCount = todayCount + count
+
     // Update UI instantly
-    setTodayCount(prev => prev + count)
+    setTodayCount(newCount)
     setPendingCount(prev => {
       const newPending = prev + count
       pendingCountRef.current = newPending
       return newPending
     })
-    
+
+    // Award points for durood recitation (1 point per 10 duroods)
+    // Calculate points based on milestones reached in total count
+    if (session?.user?.id) {
+      const oldMilestone = Math.floor(oldCount / 10)
+      const newMilestone = Math.floor(newCount / 10)
+      const pointsToAward = newMilestone - oldMilestone
+
+      if (pointsToAward > 0) {
+        try {
+          const response = await fetch('/api/user/points', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              action: 'award',
+              amount: pointsToAward,
+              description: `${count} duroods added manually (reached ${newCount} total)`
+            }),
+          })
+
+          if (response.ok) {
+            const data = await response.json()
+            setUserPoints(data.points)
+          }
+        } catch (error) {
+          console.error('Error awarding points for manual durood entry:', error)
+        }
+      }
+    }
+
     // Clear input
     setInputCount('')
-    
+
     // Clear any existing timer
     if (debounceTimer) {
       clearTimeout(debounceTimer)
     }
-    
+
     // Set new debounced timer to sync with database
     const timer = setTimeout(() => {
       // Send the total pending count that has accumulated
@@ -352,13 +407,14 @@ export default function Home() {
       pendingCountRef.current = 0
       setPendingCount(0)
     }, 1000) // 1 second debounce
-    
+
     setDebounceTimer(timer)
   }
 
   const incrementCount = useCallback(async (increment: number) => {
+    const oldCount = todayCount
     const newCount = todayCount + increment
-    
+
     // Update UI instantly
     setTodayCount(newCount)
     setPendingCount(prev => {
@@ -366,12 +422,43 @@ export default function Home() {
       pendingCountRef.current = newPending
       return newPending
     })
-    
+
+    // Award points for durood recitation (1 point per 10 duroods)
+    // Calculate points based on milestones reached in total count
+    if (session?.user?.id) {
+      const oldMilestone = Math.floor(oldCount / 10)
+      const newMilestone = Math.floor(newCount / 10)
+      const pointsToAward = newMilestone - oldMilestone
+
+      if (pointsToAward > 0) {
+        try {
+          const response = await fetch('/api/user/points', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              action: 'award',
+              amount: pointsToAward,
+              description: `${increment} duroods recited (reached ${newCount} total)`
+            }),
+          })
+
+          if (response.ok) {
+            const data = await response.json()
+            setUserPoints(data.points)
+          }
+        } catch (error) {
+          console.error('Error awarding points for duroods:', error)
+        }
+      }
+    }
+
     // Clear any existing timer
     if (debounceTimer) {
       clearTimeout(debounceTimer)
     }
-    
+
     // Set new debounced timer
     const timer = setTimeout(() => {
       // Send the total pending count that has accumulated
@@ -380,9 +467,9 @@ export default function Home() {
       pendingCountRef.current = 0
       setPendingCount(0)
     }, 250) // 1 second debounce
-    
+
     setDebounceTimer(timer)
-  }, [todayCount, debounceTimer, syncWithDatabase, getTotalPendingCount])
+  }, [todayCount, debounceTimer, syncWithDatabase, getTotalPendingCount, session])
 
   const deleteEntry = async (dateString: string) => {
     if (typeof window !== 'undefined') {
@@ -512,6 +599,31 @@ export default function Home() {
           }),
         })
         console.log('Prayer completion saved successfully for Pakistan timezone')
+
+        // Award points for prayer completion
+        if (newCompleted) {
+          try {
+            const response = await fetch('/api/user/points', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                action: 'award',
+                amount: 25,
+                description: `Completed ${prayerName} prayer`
+              }),
+            })
+
+            if (response.ok) {
+              const data = await response.json()
+              setUserPoints(data.points)
+            }
+          } catch (error) {
+            console.error('Error awarding points for prayer completion:', error)
+          }
+        }
+
         setLastPrayerUpdate(getPakistanDateTime())
       } catch (error) {
         console.error('Error saving prayer completion:', error)
@@ -743,6 +855,15 @@ export default function Home() {
                     className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
                   >
                     📖 Duas
+                  </Button>
+                </Link>
+                <Link href="/rewards" className="block">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full sm:w-auto min-w-[100px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-700 transition-all duration-200 text-sm font-medium"
+                  >
+                    🎁 Rewards
                   </Button>
                 </Link>
                 <Link href="/profile" className="block">
@@ -1009,7 +1130,7 @@ export default function Home() {
                   <p className="text-emerald-100 text-sm">Earn points by reciting duroods and completing goals</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-3xl font-bold">{Math.floor(todayCount / 10 + completedPrayers.size * 2.5).toLocaleString()}</div>
+                  <div className="text-3xl font-bold">{userPoints.toLocaleString()}</div>
                   <div className="text-sm text-emerald-100">Total Points</div>
                 </div>
               </div>
@@ -1017,23 +1138,23 @@ export default function Home() {
           </Card>
         </div>
 
-        {/* Interactive Features - Compact Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
+        {/* Interactive Features - Consistent Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {/* Daily Goal Progress - Primary Feature */}
-          <div className="md:col-span-1 xl:col-span-1">
+          <div>
             <DailySpinWheel
               currentCount={todayCount}
               onDuroodIncrement={fetchEntries}
             />
           </div>
 
-          {/* Level Badges */}
-          <div className="md:col-span-1 xl:col-span-1">
+          {/* Achievements - Level Badges */}
+          <div>
             <LevelBadges compact={true} />
           </div>
 
-          {/* Goal Timer */}
-          <div className="md:col-span-2 xl:col-span-1">
+          {/* Focused Durood Timer */}
+          <div>
             <GoalTimer />
           </div>
         </div>

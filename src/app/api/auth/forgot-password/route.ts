@@ -43,36 +43,38 @@ export async function POST(request: NextRequest) {
     // Generate reset URL
     const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/reset-password?token=${resetToken}`
 
-    // Try to send email in production, fallback to console in development
-    if (process.env.NODE_ENV === 'production') {
+    // Try to send email if email service is configured
+    const emailConfigured = process.env.SMTP_HOST || process.env.SENDGRID_API_KEY || process.env.MAILGUN_API_KEY || process.env.RESEND_API_KEY
+
+    if (emailConfigured) {
       try {
         await sendPasswordResetEmail(email, resetUrl)
         console.log('Password reset email sent successfully to:', email)
-        
+
         return NextResponse.json(
           { message: 'Password reset instructions have been sent to your email.' },
           { status: 200 }
         )
       } catch (emailError) {
-        console.error('Email sending failed in production:', emailError)
-        
-        // If email fails in production, delete the token and return error
+        console.error('Email sending failed:', emailError)
+
+        // If email fails, delete the token and return error
         await prisma.passwordReset.delete({
           where: { token: resetToken }
         })
-        
+
         return NextResponse.json(
           { error: 'Failed to send password reset email. Please try again later.' },
           { status: 500 }
         )
       }
     } else {
-      // Development mode: log the URL and return it for testing
-      console.log('Password reset URL generated (development):', resetUrl)
-      
+      // Email not configured: return the URL for manual testing
+      console.log('Password reset URL generated (email not configured):', resetUrl)
+
       return NextResponse.json(
-        { 
-          message: 'Password reset instructions have been sent to your email.',
+        {
+          message: 'Password reset link generated (email not configured).',
           resetUrl: resetUrl
         },
         { status: 200 }

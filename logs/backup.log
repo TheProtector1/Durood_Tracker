@@ -1532,3 +1532,213 @@ Validation Error Count: 1
 [2025-09-14T14:02:16.228Z] [INFO] 🔌 Disconnected from production database
 [2025-09-14T14:02:16.228Z] [INFO] ============================================================
 [2025-09-14T14:02:16.228Z] [INFO] 💥 BACKUP FAILED
+[2025-09-19T15:00:01.325Z] [INFO] ============================================================
+[2025-09-19T15:00:01.335Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T15:00:01.335Z] [INFO] ============================================================
+[2025-09-19T15:00:01.336Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T15:00:01.341Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T15:00:01.343Z] [INFO] ✅ Connected to production database
+[2025-09-19T15:00:01.343Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T15:00:01.343Z] [INFO] 👥 Exporting users...
+[2025-09-19T15:00:03.540Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-19T15:00:04.743Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-19T15:00:05.155Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-19T15:00:05.797Z] [INFO] 🔑 Exporting password resets...
+[2025-09-19T15:00:06.227Z] [INFO] 📊 Exporting total counters...
+[2025-09-19T15:00:07.100Z] [INFO] 📈 Data exported: 19 users, 48 durood entries, 48 rankings
+[2025-09-19T15:00:07.105Z] [INFO] 💾 Backup saved: production-backup-2025-09-19T15-00-07.json
+[2025-09-19T15:00:07.134Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-19T15-00-07.json.gz
+[2025-09-19T15:00:07.137Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 5.80s
+[2025-09-19T15:00:07.137Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-19T15-00-07.json.gz
+[2025-09-19T15:00:07.137Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-19T15:00:07.137Z] [INFO]    👥 Users: 19
+[2025-09-19T15:00:07.138Z] [INFO]    🙏 Durood Entries: 48
+[2025-09-19T15:00:07.138Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-19T15:00:07.138Z] [INFO]    🕌 Prayer Completions: 57
+[2025-09-19T15:00:07.138Z] [INFO]    🔑 Password Resets: 3
+[2025-09-19T15:00:07.138Z] [INFO]    📊 Total Counters: 1
+[2025-09-19T15:00:07.138Z] [INFO]    📈 Total Records: 176
+[2025-09-19T15:00:07.138Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-19T15:00:07.139Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T15:00:07.139Z] [INFO] ============================================================
+[2025-09-19T15:00:07.139Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-19T16:00:01.019Z] [INFO] ============================================================
+[2025-09-19T16:00:01.031Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T16:00:01.031Z] [INFO] ============================================================
+[2025-09-19T16:00:01.032Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T16:00:01.037Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T16:00:01.040Z] [INFO] ✅ Connected to production database
+[2025-09-19T16:00:01.040Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T16:00:01.040Z] [INFO] 👥 Exporting users...
+[2025-09-19T16:00:05.968Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-19T16:00:07.094Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-19T16:00:08.208Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-19T16:00:09.358Z] [INFO] 🔑 Exporting password resets...
+[2025-09-19T16:00:10.239Z] [INFO] 📊 Exporting total counters...
+[2025-09-19T16:00:11.138Z] [INFO] 📈 Data exported: 19 users, 48 durood entries, 48 rankings
+[2025-09-19T16:00:11.143Z] [INFO] 💾 Backup saved: production-backup-2025-09-19T16-00-11.json
+[2025-09-19T16:00:11.177Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-19T16-00-11.json.gz
+[2025-09-19T16:00:11.180Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.15s
+[2025-09-19T16:00:11.180Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-19T16-00-11.json.gz
+[2025-09-19T16:00:11.181Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-19T16:00:11.181Z] [INFO]    👥 Users: 19
+[2025-09-19T16:00:11.181Z] [INFO]    🙏 Durood Entries: 48
+[2025-09-19T16:00:11.181Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-19T16:00:11.181Z] [INFO]    🕌 Prayer Completions: 58
+[2025-09-19T16:00:11.181Z] [INFO]    🔑 Password Resets: 3
+[2025-09-19T16:00:11.181Z] [INFO]    📊 Total Counters: 1
+[2025-09-19T16:00:11.181Z] [INFO]    📈 Total Records: 177
+[2025-09-19T16:00:11.182Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-19T16:00:11.182Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T16:00:11.182Z] [INFO] ============================================================
+[2025-09-19T16:00:11.182Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-19T16:30:01.209Z] [INFO] ============================================================
+[2025-09-19T16:30:01.219Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T16:30:01.219Z] [INFO] ============================================================
+[2025-09-19T16:30:01.220Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T16:30:01.224Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T16:30:01.226Z] [INFO] ✅ Connected to production database
+[2025-09-19T16:30:01.226Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T16:30:01.227Z] [INFO] 👥 Exporting users...
+[2025-09-19T16:30:06.527Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-19T16:30:07.669Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-19T16:30:08.843Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-19T16:30:09.977Z] [INFO] 🔑 Exporting password resets...
+[2025-09-19T16:30:10.941Z] [INFO] 📊 Exporting total counters...
+[2025-09-19T16:30:11.964Z] [INFO] 📈 Data exported: 19 users, 48 durood entries, 48 rankings
+[2025-09-19T16:30:11.968Z] [INFO] 💾 Backup saved: production-backup-2025-09-19T16-30-11.json
+[2025-09-19T16:30:11.998Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-19T16-30-11.json.gz
+[2025-09-19T16:30:12.000Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 10.78s
+[2025-09-19T16:30:12.000Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-19T16-30-11.json.gz
+[2025-09-19T16:30:12.000Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-19T16:30:12.001Z] [INFO]    👥 Users: 19
+[2025-09-19T16:30:12.001Z] [INFO]    🙏 Durood Entries: 48
+[2025-09-19T16:30:12.001Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-19T16:30:12.001Z] [INFO]    🕌 Prayer Completions: 58
+[2025-09-19T16:30:12.001Z] [INFO]    🔑 Password Resets: 3
+[2025-09-19T16:30:12.001Z] [INFO]    📊 Total Counters: 1
+[2025-09-19T16:30:12.001Z] [INFO]    📈 Total Records: 177
+[2025-09-19T16:30:12.001Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-19T16:30:12.002Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T16:30:12.002Z] [INFO] ============================================================
+[2025-09-19T16:30:12.002Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-19T17:30:00.716Z] [INFO] ============================================================
+[2025-09-19T17:30:00.724Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-19T17:30:00.724Z] [INFO] ============================================================
+[2025-09-19T17:30:00.725Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-19T17:30:00.728Z] [INFO] 🔌 Connecting to production database...
+[2025-09-19T17:30:00.730Z] [INFO] ✅ Connected to production database
+[2025-09-19T17:30:00.730Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-19T17:30:00.730Z] [INFO] 👥 Exporting users...
+[2025-09-19T17:30:02.892Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-19T17:30:04.033Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-19T17:30:05.344Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-19T17:30:06.558Z] [INFO] 🔑 Exporting password resets...
+[2025-09-19T17:30:07.497Z] [INFO] 📊 Exporting total counters...
+[2025-09-19T17:30:08.403Z] [INFO] 📈 Data exported: 19 users, 49 durood entries, 48 rankings
+[2025-09-19T17:30:08.407Z] [INFO] 💾 Backup saved: production-backup-2025-09-19T17-30-08.json
+[2025-09-19T17:30:08.436Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-19T17-30-08.json.gz
+[2025-09-19T17:30:08.438Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 7.71s
+[2025-09-19T17:30:08.438Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-19T17-30-08.json.gz
+[2025-09-19T17:30:08.438Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-19T17:30:08.438Z] [INFO]    👥 Users: 19
+[2025-09-19T17:30:08.438Z] [INFO]    🙏 Durood Entries: 49
+[2025-09-19T17:30:08.438Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-19T17:30:08.438Z] [INFO]    🕌 Prayer Completions: 58
+[2025-09-19T17:30:08.439Z] [INFO]    🔑 Password Resets: 3
+[2025-09-19T17:30:08.439Z] [INFO]    📊 Total Counters: 1
+[2025-09-19T17:30:08.439Z] [INFO]    📈 Total Records: 178
+[2025-09-19T17:30:08.439Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-19T17:30:08.439Z] [INFO] 🔌 Disconnected from production database
+[2025-09-19T17:30:08.439Z] [INFO] ============================================================
+[2025-09-19T17:30:08.439Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-20T11:30:01.642Z] [INFO] ============================================================
+[2025-09-20T11:30:01.665Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-20T11:30:01.665Z] [INFO] ============================================================
+[2025-09-20T11:30:01.665Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-20T11:30:01.670Z] [INFO] 🔌 Connecting to production database...
+[2025-09-20T11:30:01.673Z] [INFO] ✅ Connected to production database
+[2025-09-20T11:30:01.674Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-20T11:30:01.674Z] [INFO] 👥 Exporting users...
+[2025-09-20T11:30:15.532Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-20T11:30:17.430Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-20T11:30:18.965Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-20T11:30:19.928Z] [INFO] 🔑 Exporting password resets...
+[2025-09-20T11:30:46.915Z] [INFO] 📊 Exporting total counters...
+[2025-09-20T11:30:48.174Z] [INFO] 📈 Data exported: 19 users, 51 durood entries, 48 rankings
+[2025-09-20T11:30:48.180Z] [INFO] 💾 Backup saved: production-backup-2025-09-20T11-30-48.json
+[2025-09-20T11:30:48.216Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-20T11-30-48.json.gz
+[2025-09-20T11:30:48.218Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 46.55s
+[2025-09-20T11:30:48.219Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-20T11-30-48.json.gz
+[2025-09-20T11:30:48.219Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-20T11:30:48.219Z] [INFO]    👥 Users: 19
+[2025-09-20T11:30:48.219Z] [INFO]    🙏 Durood Entries: 51
+[2025-09-20T11:30:48.219Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-20T11:30:48.219Z] [INFO]    🕌 Prayer Completions: 59
+[2025-09-20T11:30:48.219Z] [INFO]    🔑 Password Resets: 3
+[2025-09-20T11:30:48.219Z] [INFO]    📊 Total Counters: 1
+[2025-09-20T11:30:48.219Z] [INFO]    📈 Total Records: 181
+[2025-09-20T11:30:48.220Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-20T11:30:48.220Z] [INFO] 🔌 Disconnected from production database
+[2025-09-20T11:30:48.220Z] [INFO] ============================================================
+[2025-09-20T11:30:48.220Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-20T12:30:00.773Z] [INFO] ============================================================
+[2025-09-20T12:30:00.786Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-20T12:30:00.786Z] [INFO] ============================================================
+[2025-09-20T12:30:00.787Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-20T12:30:00.792Z] [INFO] 🔌 Connecting to production database...
+[2025-09-20T12:30:00.794Z] [INFO] ✅ Connected to production database
+[2025-09-20T12:30:00.795Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-20T12:30:00.795Z] [INFO] 👥 Exporting users...
+[2025-09-20T12:30:16.033Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-20T12:30:19.246Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-20T12:30:22.695Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-20T12:30:23.867Z] [INFO] 🔑 Exporting password resets...
+[2025-09-20T12:30:24.413Z] [INFO] 📊 Exporting total counters...
+[2025-09-20T12:30:24.973Z] [INFO] 📈 Data exported: 19 users, 51 durood entries, 48 rankings
+[2025-09-20T12:30:24.976Z] [INFO] 💾 Backup saved: production-backup-2025-09-20T12-30-24.json
+[2025-09-20T12:30:25.006Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-20T12-30-24.json.gz
+[2025-09-20T12:30:25.008Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 24.22s
+[2025-09-20T12:30:25.008Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-20T12-30-24.json.gz
+[2025-09-20T12:30:25.008Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-20T12:30:25.009Z] [INFO]    👥 Users: 19
+[2025-09-20T12:30:25.009Z] [INFO]    🙏 Durood Entries: 51
+[2025-09-20T12:30:25.009Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-20T12:30:25.009Z] [INFO]    🕌 Prayer Completions: 59
+[2025-09-20T12:30:25.009Z] [INFO]    🔑 Password Resets: 3
+[2025-09-20T12:30:25.009Z] [INFO]    📊 Total Counters: 1
+[2025-09-20T12:30:25.009Z] [INFO]    📈 Total Records: 181
+[2025-09-20T12:30:25.010Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-20T12:30:25.011Z] [INFO] 🔌 Disconnected from production database
+[2025-09-20T12:30:25.012Z] [INFO] ============================================================
+[2025-09-20T12:30:25.012Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-20T13:00:01.326Z] [INFO] ============================================================
+[2025-09-20T13:00:01.339Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-20T13:00:01.340Z] [INFO] ============================================================
+[2025-09-20T13:00:01.340Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+[2025-09-20T13:00:01.345Z] [INFO] 🔌 Connecting to production database...
+[2025-09-20T13:00:01.346Z] [INFO] ✅ Connected to production database
+[2025-09-20T13:00:01.347Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-20T13:00:01.347Z] [INFO] 👥 Exporting users...
+[2025-09-20T13:00:03.648Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-20T13:00:05.395Z] [INFO] 🏆 Exporting daily rankings...
+[2025-09-20T13:00:05.893Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-20T13:00:06.770Z] [INFO] 🔑 Exporting password resets...
+[2025-09-20T13:00:08.047Z] [INFO] 📊 Exporting total counters...
+[2025-09-20T13:00:08.541Z] [INFO] 📈 Data exported: 19 users, 72 durood entries, 48 rankings
+[2025-09-20T13:00:08.544Z] [INFO] 💾 Backup saved: production-backup-2025-09-20T13-00-08.json
+[2025-09-20T13:00:08.571Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-20T13-00-08.json.gz
+[2025-09-20T13:00:08.573Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 7.23s
+[2025-09-20T13:00:08.573Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-20T13-00-08.json.gz
+[2025-09-20T13:00:08.573Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-20T13:00:08.573Z] [INFO]    👥 Users: 19
+[2025-09-20T13:00:08.573Z] [INFO]    🙏 Durood Entries: 72
+[2025-09-20T13:00:08.573Z] [INFO]    🏆 Daily Rankings: 48
+[2025-09-20T13:00:08.574Z] [INFO]    🕌 Prayer Completions: 59
+[2025-09-20T13:00:08.574Z] [INFO]    🔑 Password Resets: 4
+[2025-09-20T13:00:08.574Z] [INFO]    📊 Total Counters: 1
+[2025-09-20T13:00:08.574Z] [INFO]    📈 Total Records: 203
+[2025-09-20T13:00:08.574Z] [INFO]    💾 File Size: 0.01 MB
+[2025-09-20T13:00:08.574Z] [INFO] 🔌 Disconnected from production database
+[2025-09-20T13:00:08.574Z] [INFO] ============================================================
+[2025-09-20T13:00:08.574Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY

@@ -31,7 +31,6 @@ model User {
   duroodEntries DuroodEntry[]
 
   // Daily rankings
-  dailyRankings DailyRanking[]
 
   // Prayer completions
   prayerCompletions PrayerCompletion[]
@@ -61,23 +60,6 @@ model DuroodEntry {
   @@map("durood_entries")
 }
 
-model DailyRanking {
-  id        String   @id @default(cuid())
-  date      String   // Format: YYYY-MM-DD
-  userId    String
-  username  String   // Store username for faster queries
-  displayName String?
-  count     Int
-  rank      Int
-  createdAt DateTime @default(now())
-  
-  // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // Composite unique constraint
-  @@unique([date, userId])
-  @@map("daily_rankings")
-}
 
 model PasswordReset {
   id        String   @id @default(cuid())

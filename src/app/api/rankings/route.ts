@@ -82,51 +82,64 @@ export async function GET(request: NextRequest) {
     // Use Pakistan date for business logic
     const pakistanDate = dateParam || getPakistanDate()
 
-    // Get rankings for the specified Pakistan date
-    const rankings = await prisma.dailyRanking.findMany({
+    // Get all durood entries for the specified date, ordered by count descending
+    const duroodEntries = await prisma.duroodEntry.findMany({
       where: { date: pakistanDate },
-      orderBy: { rank: 'asc' },
-      take: limit
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            displayName: true
+          }
+        }
+      },
+      orderBy: { count: 'desc' }
     })
 
     let finalDate = pakistanDate
-    let finalRankings = rankings
+    let finalEntries = duroodEntries
     let note: string | undefined
 
-    // If no rankings for today, get the most recent available date
-    if (rankings.length === 0) {
-      const mostRecentRanking = await prisma.dailyRanking.findFirst({
+    // If no entries for today, get the most recent available date
+    if (duroodEntries.length === 0) {
+      const mostRecentEntry = await prisma.duroodEntry.findFirst({
         orderBy: { date: 'desc' }
       })
 
-      if (mostRecentRanking) {
-        const recentRankings = await prisma.dailyRanking.findMany({
-          where: { date: mostRecentRanking.date },
-          orderBy: { rank: 'asc' },
+      if (mostRecentEntry) {
+        const recentEntries = await prisma.duroodEntry.findMany({
+          where: { date: mostRecentEntry.date },
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                displayName: true
+              }
+            }
+          },
+          orderBy: { count: 'desc' },
           take: limit
         })
-        finalDate = mostRecentRanking.date
-        finalRankings = recentRankings
+        finalDate = mostRecentEntry.date
+        finalEntries = recentEntries
         note = 'Showing most recent available rankings'
       }
     }
 
-    // Calculate streaks for each user in the rankings
+    // Convert entries to rankings format and calculate streaks
     const rankingsWithStreaks = await Promise.all(
-      finalRankings.map(async (ranking) => {
-        // Get user ID from the ranking (we need to find the user by username)
-        const user = await prisma.user.findFirst({
-          where: { username: ranking.username },
-          select: { id: true }
-        })
-
-        let streak = 0
-        if (user) {
-          streak = await calculateUserStreak(user.id, finalDate)
-        }
+      finalEntries.slice(0, limit).map(async (entry, index) => {
+        const streak = await calculateUserStreak(entry.user.id, finalDate)
 
         return {
-          ...ranking,
+          id: entry.id,
+          date: entry.date,
+          username: entry.user.username,
+          displayName: entry.user.displayName,
+          count: entry.count,
+          rank: index + 1,
           streak
         }
       })
