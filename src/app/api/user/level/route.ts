@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { calculateLevelFromPoints } from '@/lib/points'
 
 export async function GET(request: NextRequest) {
   try {
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     // Calculate new level based on points
     const currentPoints = points !== undefined ? points : userLevel.points
-    const newLevel = Math.min(5, Math.floor(currentPoints / 1000) + 1)
+    const newLevel = calculateLevelFromPoints(currentPoints)
     const newTitle = getLevelTitle(newLevel)
 
     const updatedLevel = await prisma.userLevel.update({

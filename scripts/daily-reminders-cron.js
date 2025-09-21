@@ -5,7 +5,32 @@
  * Runs daily at 8:00 PM (20:00) to send durood reminder emails
  */
 
-const { sendDailyReminders, getReminderStats } = require('../src/lib/daily-reminder');
+// Use API approach instead of direct imports
+const BASE_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+
+async function callReminderAPI(endpoint, options = {}) {
+  const url = `${BASE_URL}/api/${endpoint}`;
+  console.log(`📡 Calling API: ${url}`);
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...options
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`❌ API call failed:`, error.message);
+    throw error;
+  }
+}
 
 // Configuration
 const CONFIG = {
@@ -55,7 +80,11 @@ async function runDailyReminders() {
 
     // Get reminder statistics
     log('📊 Getting reminder statistics...');
-    const stats = await getReminderStats();
+    const statsResponse = await callReminderAPI('daily-reminders', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'stats' })
+    });
+    const stats = statsResponse.stats;
     log(`👥 Total Users: ${stats.totalUsers}`);
     log(`✅ Active Users: ${stats.activeUsers}`);
     log(`📧 Today's Reminders: ${stats.todayReminders}`);
@@ -64,7 +93,11 @@ async function runDailyReminders() {
 
     // Send daily reminders
     log('📧 Sending daily reminders...');
-    const result = await sendDailyReminders();
+    const resultResponse = await callReminderAPI('daily-reminders', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'send' })
+    });
+    const result = resultResponse.result;
 
     // Log results
     const duration = (Date.now() - startTime) / 1000;
@@ -127,14 +160,19 @@ Timezone: System timezone (${Intl.DateTimeFormat().resolvedOptions().timeZone})
   if (args.includes('--stats-only')) {
     // Only show statistics
     log('📊 SHOWING REMINDER STATISTICS ONLY');
-    getReminderStats()
-      .then(stats => {
+    callReminderAPI('daily-reminders', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'stats' })
+    })
+      .then(response => {
+        const stats = response.stats;
         console.log('\n📈 REMINDER STATISTICS:');
         console.log(`👥 Total Users: ${stats.totalUsers}`);
         console.log(`✅ Active Users: ${stats.activeUsers}`);
         console.log(`📧 Today's Reminders: ${stats.todayReminders}`);
         console.log(`📊 Weekly Activity: ${stats.weeklyReminders}`);
         console.log(`📈 Monthly Activity: ${stats.monthlyReminders}`);
+        process.exit(0);
       })
       .catch(error => {
         console.error('❌ Error getting stats:', error.message);

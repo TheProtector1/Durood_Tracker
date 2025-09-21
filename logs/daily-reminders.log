@@ -1,0 +1,47 @@
+[2025-09-21T06:56:55.329Z] [INFO] ============================================================
+[2025-09-21T06:56:55.339Z] [INFO] 🔔 DAILY REMINDERS CRON JOB
+[2025-09-21T06:56:55.339Z] [INFO] ============================================================
+[2025-09-21T06:56:55.383Z] [INFO] 📅 Current time: 9/21/2025, 11:56:55 AM
+[2025-09-21T06:56:55.383Z] [INFO] 🧪 TEST MODE: Simulating reminder process
+[2025-09-21T06:56:55.384Z] [INFO] 🧪 TEST MODE: Getting reminder statistics...
+[2025-09-21T06:57:02.901Z] [INFO] 📊 REMINDER STATISTICS:
+[2025-09-21T06:57:02.901Z] [INFO]    👥 Total Users: 10
+[2025-09-21T06:57:02.902Z] [INFO]    ✅ Active Users: 6
+[2025-09-21T06:57:02.902Z] [INFO]    📧 Today's Reminders: 10
+[2025-09-21T06:57:02.902Z] [INFO]    📊 Weekly Activity: 4
+[2025-09-21T06:57:02.902Z] [INFO]    📈 Monthly Activity: 6
+[2025-09-21T06:57:02.902Z] [INFO] 🧪 This was a statistics check - no emails sent
+[2025-09-21T06:57:02.902Z] [INFO] ⏱️  Process completed in 7.56 seconds
+[2025-09-21T06:57:02.902Z] [INFO] ============================================================
+[2025-09-21T06:57:09.468Z] [INFO] ============================================================
+[2025-09-21T06:57:09.476Z] [INFO] 🔔 DAILY REMINDERS CRON JOB
+[2025-09-21T06:57:09.476Z] [INFO] ============================================================
+[2025-09-21T06:57:09.489Z] [INFO] 📅 Current time: 9/21/2025, 11:57:09 AM
+[2025-09-21T06:57:09.490Z] [INFO] 🚀 FORCE MODE: Sending reminders regardless of time
+[2025-09-21T06:57:29.329Z] [INFO] ✅ Reminders sent successfully: 10
+[2025-09-21T06:57:29.330Z] [INFO] ❌ Failed: 0
+[2025-09-21T06:57:29.330Z] [INFO] 📊 Total: 10
+[2025-09-21T06:57:29.330Z] [INFO] ⏱️  Process completed in 19.85 seconds
+[2025-09-21T06:57:29.331Z] [INFO] ============================================================
+[2025-09-21T06:57:36.476Z] [INFO] 📊 SHOWING REMINDER STATISTICS ONLY
+[2025-09-21T06:57:48.653Z] [INFO] 📊 SHOWING REMINDER STATISTICS ONLY
+[2025-09-21T07:05:08.423Z] [INFO] ============================================================
+[2025-09-21T07:05:08.432Z] [INFO] 🔔 DAILY REMINDERS CRON JOB
+[2025-09-21T07:05:08.432Z] [INFO] ============================================================
+[2025-09-21T07:05:08.446Z] [INFO] 📅 Current time: 9/21/2025, 12:05:08 PM
+[2025-09-21T07:05:08.447Z] [INFO] 🚀 FORCE MODE: Sending reminders regardless of time
+[2025-09-21T07:05:23.535Z] [INFO] ✅ Reminders sent successfully: 10
+[2025-09-21T07:05:23.536Z] [INFO] ❌ Failed: 0
+[2025-09-21T07:05:23.536Z] [INFO] 📊 Total: 10
+[2025-09-21T07:05:23.536Z] [INFO] ⏱️  Process completed in 15.10 seconds
+[2025-09-21T07:05:23.537Z] [INFO] ============================================================
+[2025-09-21T07:07:18.455Z] [INFO] ============================================================
+[2025-09-21T07:07:18.467Z] [INFO] 🔔 DAILY REMINDERS CRON JOB
+[2025-09-21T07:07:18.467Z] [INFO] ============================================================
+[2025-09-21T07:07:18.482Z] [INFO] 📅 Current time: 9/21/2025, 12:07:18 PM
+[2025-09-21T07:07:18.483Z] [INFO] 🚀 FORCE MODE: Sending reminders regardless of time
+[2025-09-21T07:07:32.493Z] [INFO] ✅ Reminders sent successfully: 10
+[2025-09-21T07:07:32.494Z] [INFO] ❌ Failed: 0
+[2025-09-21T07:07:32.494Z] [INFO] 📊 Total: 10
+[2025-09-21T07:07:32.494Z] [INFO] ⏱️  Process completed in 14.03 seconds
+[2025-09-21T07:07:32.494Z] [INFO] ============================================================

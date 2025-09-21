@@ -192,33 +192,47 @@ export default function LevelBadges({ compact = false }: LevelBadgesProps) {
             const isCurrent = level.level === (userLevel?.level || 1)
             const isCompleted = level.level < (userLevel?.level || 1)
             const isLocked = level.level > (userLevel?.level || 1)
+            const isNext = level.level === (userLevel?.level || 1) + 1
 
             return (
               <div
                 key={level.level}
-                className={`relative p-3 rounded-lg border-2 text-center transition-all ${
+                className={`relative p-3 rounded-lg border-2 text-center transition-all hover:scale-105 ${
                   isCurrent
-                    ? 'border-emerald-500 bg-emerald-50 shadow-lg scale-105'
+                    ? 'border-emerald-500 bg-gradient-to-br from-emerald-50 to-emerald-100 shadow-lg ring-2 ring-emerald-200'
                     : isCompleted
-                    ? 'border-green-400 bg-green-50'
+                    ? 'border-green-400 bg-gradient-to-br from-green-50 to-green-100'
+                    : isNext
+                    ? 'border-yellow-400 bg-gradient-to-br from-yellow-50 to-yellow-100 animate-pulse'
                     : isLocked
-                    ? 'border-gray-300 bg-gray-50 opacity-60'
+                    ? 'border-gray-300 bg-gray-50 opacity-60 hover:opacity-80'
                     : 'border-gray-300 bg-white'
                 }`}
               >
-                <div className={`text-2xl mb-1 ${isLocked ? 'grayscale' : ''}`}>
-                  {level.icon}
+                <div className={`text-2xl mb-1 transition-all ${isLocked ? 'grayscale brightness-75' : ''}`}>
+                  {isLocked ? '🔒' : level.icon}
                 </div>
-                <div className={`text-xs font-medium ${
-                  isCurrent ? 'text-emerald-700' : isCompleted ? 'text-green-700' : 'text-gray-600'
+                <div className={`text-xs font-medium transition-colors ${
+                  isCurrent ? 'text-emerald-700' :
+                  isCompleted ? 'text-green-700' :
+                  isNext ? 'text-yellow-700' :
+                  'text-gray-600'
                 }`}>
                   {level.title}
                 </div>
                 <div className="text-xs text-gray-500 mt-1">
-                  {level.points.toLocaleString()}
+                  {level.points.toLocaleString()} pts
                 </div>
                 {isCurrent && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white"></div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white animate-pulse"></div>
+                )}
+                {isNext && (
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-500 rounded-full border-2 border-white">
+                    <div className="w-full h-full bg-yellow-400 rounded-full animate-ping"></div>
+                  </div>
+                )}
+                {isLocked && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-lg"></div>
                 )}
               </div>
             )

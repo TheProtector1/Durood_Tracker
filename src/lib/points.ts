@@ -24,7 +24,7 @@ export async function awardPoints(userId: string, award: PointsAward): Promise<n
     const newPoints = userLevel.points + award.amount
 
     // Calculate new level based on points
-    const newLevel = Math.min(5, Math.floor(newPoints / 1000) + 1)
+    const newLevel = calculateLevelFromPoints(newPoints)
     const newTitle = getLevelTitle(newLevel)
 
     // Update user level
@@ -60,6 +60,15 @@ export async function getUserPoints(userId: string): Promise<number> {
   }
 }
 
+
+// Calculate level from points
+export function calculateLevelFromPoints(points: number): number {
+  if (points >= 2500) return 5; // Platinum
+  if (points >= 1000) return 4; // Diamond
+  if (points >= 500) return 3;  // Gold
+  if (points >= 100) return 2;  // Silver
+  return 1; // Bronze
+}
 
 // Get level title based on level number
 function getLevelTitle(level: number): string {

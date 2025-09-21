@@ -5,7 +5,32 @@
  * Sends daily durood recitation reminders to users at 8 PM daily
  */
 
-const { processDailyReminders, shouldSendDailyReminders } = require('../src/lib/daily-reminder');
+// Simple approach: Use HTTP request to Next.js API instead of direct imports
+const BASE_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+
+async function callReminderAPI(endpoint, options = {}) {
+  const url = `${BASE_URL}/api/${endpoint}`;
+  console.log(`📡 Calling API: ${url}`);
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...options
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`❌ API call failed:`, error.message);
+    throw error;
+  }
+}
 
 // Logging function
 function log(message, level = 'INFO') {
@@ -31,7 +56,7 @@ function log(message, level = 'INFO') {
 }
 
 // Check if we should run reminders
-function checkShouldRunReminders() {
+async function checkShouldRunReminders() {
   if (process.argv.includes('--force')) {
     log('🚀 FORCE MODE: Sending reminders regardless of time');
     return true;
@@ -42,7 +67,13 @@ function checkShouldRunReminders() {
     return true;
   }
 
-  return shouldSendDailyReminders();
+  try {
+    const response = await callReminderAPI('daily-reminders');
+    return response.shouldSend;
+  } catch (error) {
+    log(`❌ Failed to check if should send reminders: ${error.message}`);
+    return false;
+  }
 }
 
 // Main execution
@@ -57,7 +88,7 @@ async function main() {
   log(`📅 Current time: ${currentTime}`);
 
   // Check if we should run reminders
-  const shouldRun = checkShouldRunReminders();
+  const shouldRun = await checkShouldRunReminders();
 
   if (!shouldRun) {
     log('⏰ Not the right time to send reminders (should run at 8 PM daily)');
@@ -81,29 +112,46 @@ async function main() {
 
   // Check for test mode
   if (process.argv.includes('--test')) {
-    log('🧪 TEST MODE: Simulating daily reminder process...');
+    log('🧪 TEST MODE: Getting reminder statistics...');
 
-    // Simulate the process without actually sending emails
-    const simulatedResult = {
-      success: Math.floor(Math.random() * 10) + 5, // Random 5-15
-      failed: Math.floor(Math.random() * 3), // Random 0-2
-      total: 0
-    };
-    simulatedResult.total = simulatedResult.success + simulatedResult.failed;
+    try {
+      const response = await callReminderAPI('daily-reminders', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'stats' })
+      });
 
-    log(`📊 SIMULATION RESULTS:`);
-    log(`   ✅ Successful: ${simulatedResult.success}`);
-    log(`   ❌ Failed: ${simulatedResult.failed}`);
-    log(`   📧 Total: ${simulatedResult.total}`);
-    log('🎭 This was a simulation - no emails were sent');
+      const stats = response.stats;
+      log(`📊 REMINDER STATISTICS:`);
+      log(`   👥 Total Users: ${stats.totalUsers}`);
+      log(`   ✅ Active Users: ${stats.activeUsers}`);
+      log(`   📧 Today's Reminders: ${stats.todayReminders}`);
+      log(`   📊 Weekly Activity: ${stats.weeklyReminders}`);
+      log(`   📈 Monthly Activity: ${stats.monthlyReminders}`);
+      log('🧪 This was a statistics check - no emails sent');
+
+    } catch (error) {
+      log(`❌ Test mode failed: ${error.message}`, 'ERROR');
+    }
 
   } else {
     // Run actual reminder process
     try {
-      await processDailyReminders();
+      const action = process.argv.includes('--force') ? 'force' : 'send';
+      const response = await callReminderAPI('daily-reminders', {
+        method: 'POST',
+        body: JSON.stringify({ action })
+      });
+
+      if (response.success) {
+        const result = response.result;
+        log(`✅ Reminders sent successfully: ${result.success}`);
+        log(`❌ Failed: ${result.failed}`);
+        log(`📊 Total: ${result.total}`);
+      } else {
+        log(`⚠️  ${response.message || 'Reminders not sent'}`);
+      }
     } catch (error) {
       log(`❌ Daily reminders failed: ${error.message}`, 'ERROR');
-      log(`Error details: ${error.stack}`, 'ERROR');
     }
   }
 

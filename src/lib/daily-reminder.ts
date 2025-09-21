@@ -8,15 +8,6 @@ import { sendDailyReminderEmail } from './email';
 
 const prisma = new PrismaClient();
 
-// Prayer times data (can be replaced with API call)
-const DEFAULT_PRAYER_TIMES = {
-  fajr: '5:30 AM',
-  dhuhr: '12:15 PM',
-  asr: '3:45 PM',
-  maghrib: '6:30 PM',
-  isha: '8:00 PM',
-  jummah: '1:30 PM'
-};
 
 // Interface for reminder data
 interface UserReminderData {
@@ -163,13 +154,7 @@ async function sendUserReminder(userData: UserReminderData): Promise<boolean> {
       monthCount: Number(stats.monthCount) || 0,
       totalCount: Number(stats.totalCount) || 0,
       appLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/`,
-      statsLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile`,
-      fajrTime: DEFAULT_PRAYER_TIMES.fajr,
-      dhuhrTime: DEFAULT_PRAYER_TIMES.dhuhr,
-      asrTime: DEFAULT_PRAYER_TIMES.asr,
-      maghribTime: DEFAULT_PRAYER_TIMES.maghrib,
-      ishaTime: DEFAULT_PRAYER_TIMES.isha,
-      jummahTime: DEFAULT_PRAYER_TIMES.jummah
+      statsLink: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile`
     };
 
     await sendDailyReminderEmail(userData.email, reminderData);
@@ -267,6 +252,79 @@ export async function processDailyReminders(): Promise<void> {
     }
   }
   console.log('='.repeat(60));
+}
+
+// Get reminder statistics for monitoring
+export async function getReminderStats(): Promise<{
+  totalUsers: number;
+  activeUsers: number;
+  todayReminders: number;
+  weeklyReminders: number;
+  monthlyReminders: number;
+}> {
+  try {
+    // Get total verified users
+    const totalUsers = await prisma.user.count({
+      where: { emailVerified: true }
+    });
+
+    // Get active users (users with durood entries in the last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const activeUsers = await prisma.user.count({
+      where: {
+        emailVerified: true,
+        duroodEntries: {
+          some: {
+            date: {
+              gte: thirtyDaysAgo.toISOString().split('T')[0]
+            }
+          }
+        }
+      }
+    });
+
+    // Get today's reminders count (users who should receive reminders today)
+    const todayReminders = totalUsers; // All verified users get reminders
+
+    // Get weekly activity (users with entries in last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const weeklyReminders = await prisma.user.count({
+      where: {
+        emailVerified: true,
+        duroodEntries: {
+          some: {
+            date: {
+              gte: sevenDaysAgo.toISOString().split('T')[0]
+            }
+          }
+        }
+      }
+    });
+
+    // Monthly activity (already calculated as activeUsers)
+    const monthlyReminders = activeUsers;
+
+    return {
+      totalUsers,
+      activeUsers,
+      todayReminders,
+      weeklyReminders,
+      monthlyReminders
+    };
+  } catch (error) {
+    console.error('Error getting reminder stats:', error);
+    return {
+      totalUsers: 0,
+      activeUsers: 0,
+      todayReminders: 0,
+      weeklyReminders: 0,
+      monthlyReminders: 0
+    };
+  }
 }
 
 // Export for testing
