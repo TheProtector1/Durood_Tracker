@@ -128,8 +128,8 @@ async function getUserDuroodStats(userId: string, date: Date) {
   }
 }
 
-// Format date in Arabic
-function formatDateArabic(date: Date): string {
+// Format date in English
+function formatDateEnglish(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',
@@ -137,7 +137,7 @@ function formatDateArabic(date: Date): string {
     day: 'numeric'
   };
 
-  return date.toLocaleDateString('ar-SA', options);
+  return date.toLocaleDateString('en-US', options);
 }
 
 // Send reminder to a single user
@@ -148,7 +148,7 @@ async function sendUserReminder(userData: UserReminderData): Promise<boolean> {
 
     const reminderData = {
       userName: userData.displayName || userData.username,
-      currentDate: formatDateArabic(today),
+      currentDate: formatDateEnglish(today),
       todayCount: Number(stats.todayCount) || 0,
       weekCount: Number(stats.weekCount) || 0,
       monthCount: Number(stats.monthCount) || 0,

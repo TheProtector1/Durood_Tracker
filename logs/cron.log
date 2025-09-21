@@ -1851,3 +1851,44 @@ prisma:warn In production, we recommend using `prisma generate --no-engine` (See
 [2025-09-21T07:00:12.778Z] [INFO] 🔌 Disconnected from production database
 [2025-09-21T07:00:12.778Z] [INFO] ============================================================
 [2025-09-21T07:00:12.778Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
+[2025-09-21T07:30:00.569Z] [INFO] ============================================================
+[2025-09-21T07:30:00.580Z] [INFO] 🛡️  PRODUCTION DATABASE BACKUP SYSTEM
+[2025-09-21T07:30:00.580Z] [INFO] ============================================================
+[2025-09-21T07:30:00.581Z] [INFO] 🚀 STARTING PRODUCTION DATABASE BACKUP
+prisma:warn In production, we recommend using `prisma generate --no-engine` (See: `prisma generate --help`)
+[2025-09-21T07:30:00.585Z] [INFO] 🔌 Connecting to production database...
+[2025-09-21T07:30:00.588Z] [INFO] ✅ Connected to production database
+[2025-09-21T07:30:00.588Z] [INFO] 📊 Exporting data from all tables...
+[2025-09-21T07:30:00.588Z] [INFO] 👥 Exporting users...
+[2025-09-21T07:30:02.344Z] [INFO] 🙏 Exporting durood entries...
+[2025-09-21T07:30:03.010Z] [INFO] 🕌 Exporting prayer completions...
+[2025-09-21T07:30:04.347Z] [INFO] 🔑 Exporting password resets...
+[2025-09-21T07:30:04.842Z] [INFO] 📊 Exporting total counters...
+[2025-09-21T07:30:05.379Z] [INFO] 🎰 Exporting daily spins...
+[2025-09-21T07:30:05.967Z] [INFO] ⭐ Exporting user levels...
+[2025-09-21T07:30:07.449Z] [INFO] ⏰ Exporting goal timer sessions...
+[2025-09-21T07:30:07.927Z] [INFO] 📿 Exporting duas...
+[2025-09-21T07:30:08.852Z] [INFO] ❤️ Exporting dua favorites...
+[2025-09-21T07:30:09.279Z] [INFO] 🕌 Exporting authentic prayer times...
+[2025-09-21T07:30:09.734Z] [INFO] 📈 Data exported: 19 users, 64 durood entries, 57 prayer completions
+[2025-09-21T07:30:09.741Z] [INFO] 💾 Backup saved: production-backup-2025-09-21T07-30-09.json
+[2025-09-21T07:30:09.778Z] [INFO] 🗜️  Backup compressed: production-backup-2025-09-21T07-30-09.json.gz
+[2025-09-21T07:30:09.781Z] [INFO] ✅ PRODUCTION BACKUP COMPLETED in 9.20s
+[2025-09-21T07:30:09.782Z] [INFO] 📁 Backup location: /Users/apple/durood_Durood_Tracker/backups/production-backup-2025-09-21T07-30-09.json.gz
+[2025-09-21T07:30:09.782Z] [INFO] 📊 BACKUP SUMMARY:
+[2025-09-21T07:30:09.782Z] [INFO]    👥 Users: 19
+[2025-09-21T07:30:09.782Z] [INFO]    🙏 Durood Entries: 64
+[2025-09-21T07:30:09.782Z] [INFO]    🕌 Prayer Completions: 57
+[2025-09-21T07:30:09.782Z] [INFO]    🔑 Password Resets: 4
+[2025-09-21T07:30:09.782Z] [INFO]    📊 Total Counters: 1
+[2025-09-21T07:30:09.782Z] [INFO]    🎰 Daily Spins: 1
+[2025-09-21T07:30:09.783Z] [INFO]    ⭐ User Levels: 10
+[2025-09-21T07:30:09.783Z] [INFO]    ⏰ Goal Timer Sessions: 6
+[2025-09-21T07:30:09.783Z] [INFO]    📿 Duas: 64
+[2025-09-21T07:30:09.783Z] [INFO]    ❤️ Dua Favorites: 0
+[2025-09-21T07:30:09.783Z] [INFO]    🕌 Prayer Times: 0
+[2025-09-21T07:30:09.783Z] [INFO]    📈 Total Records: 226
+[2025-09-21T07:30:09.783Z] [INFO]    💾 File Size: 0.02 MB
+[2025-09-21T07:30:09.784Z] [INFO] 🔌 Disconnected from production database
+[2025-09-21T07:30:09.784Z] [INFO] ============================================================
+[2025-09-21T07:30:09.784Z] [INFO] 🎉 BACKUP COMPLETED SUCCESSFULLY
